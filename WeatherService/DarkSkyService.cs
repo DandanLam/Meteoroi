@@ -70,7 +70,6 @@ namespace WeatherService
 
         private WeatherData ParseWeatherData(string rawJson)
         {
-            //rawJson = rawJson.Substring(rawJson.IndexOf('{'));
             return new WeatherData(rawJson);
         }
     }

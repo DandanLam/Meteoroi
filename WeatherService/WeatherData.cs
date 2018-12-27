@@ -14,9 +14,6 @@ namespace WeatherService
         public PeriodForecast Minutely { get; set; }
         public PeriodForecast Hourly { get; set; }
         public PeriodForecast Daily { get; set; }
-        //public List<Forecast> Minutely { get; set; }
-        //public List<Forecast> Hourly { get; set; }
-        //public List<Forecast> Daily { get; set; }
         //TODO: Add Alerts
 
         public WeatherData(string rawJson)
@@ -85,7 +82,7 @@ namespace WeatherService
         }
         public static double GetDoubleValueFromJson(JsonObject parsedJson, string key)
         {
-            //Not great
+            //TODO: Not great
             return parsedJson.ContainsKey(key) ? parsedJson.GetNamedNumber(key) : 0;
         }
         public static DateTimeOffset GetDateTime(double secSinceEpoch)
