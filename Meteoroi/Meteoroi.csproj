@@ -119,10 +119,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ForecastIconToImage.cs" />
+    <Compile Include="Converters\ForecastTimeToUpdatedText.cs" />
+    <Compile Include="Converters\TemperatureUnits.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CurrentForecastItem.cs" />
+    <Compile Include="ViewModels\DailyForecastItem.cs" />
+    <Compile Include="ViewModels\ForecastItem.cs" />
+    <Compile Include="ViewModels\NotificationBase.cs" />
+    <Compile Include="Views\CurrentWeather.xaml.cs">
+      <DependentUpon>CurrentWeather.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -131,6 +141,18 @@
     <None Include="Meteoroi_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\WeatherIcons\CLEAR_DAY.png" />
+    <Content Include="Assets\WeatherIcons\CLEAR_NIGHT.png" />
+    <Content Include="Assets\WeatherIcons\CLOUDY.png" />
+    <Content Include="Assets\WeatherIcons\FOG.png" />
+    <Content Include="Assets\WeatherIcons\PARTLY_CLOUDY_DAY.png" />
+    <Content Include="Assets\WeatherIcons\PARTLY_CLOUDY_NIGHT.png" />
+    <Content Include="Assets\WeatherIcons\RAIN.png" />
+    <Content Include="Assets\WeatherIcons\SLEET.png" />
+    <Content Include="Assets\WeatherIcons\SNOW.png" />
+    <Content Include="Assets\WeatherIcons\TEMP_HIGH.png" />
+    <Content Include="Assets\WeatherIcons\TEMP_LOW.png" />
+    <Content Include="Assets\WeatherIcons\WIND.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -148,6 +170,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CurrentWeather.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +196,7 @@
       <Name>WeatherService</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -42,6 +42,8 @@ namespace WeatherService
     public class MomentForecast : Forecast
     {
         public Data Data { get; set; }
+        public MomentForecast()
+        { }
         public MomentForecast(JsonObject parsedJson, TimeSpan offset) : base(parsedJson)
         {
             Data = new Data(parsedJson, offset);
@@ -62,13 +64,15 @@ namespace WeatherService
         }
     }
 
-    public abstract class Forecast
+    public class Forecast
     {
         private const string SUMMARY = "summary";
         private const string ICON = "icon";
 
         public string Summary { get; set; }
         public string Icon { get; set; }
+
+        public Forecast() { }
 
         public Forecast(JsonObject parsedJson)
         {
@@ -180,6 +184,7 @@ namespace WeatherService
         private const string APPARENT_LOW_TIME = "apparentTemperatureLowTime";
 
 
+        public double Current { get; set; }
         public double High { get; set; }
         public DateTimeOffset HighTime { get; set; }
         public double Low { get; set; }
@@ -193,6 +198,7 @@ namespace WeatherService
                 HighTime = Forecast.GetDateTime(Forecast.GetDoubleValueFromJson(parsedJson, APPARENT_HIGH_TIME));
                 Low = Forecast.GetDoubleValueFromJson(parsedJson, APPARENT_LOW);
                 LowTime = Forecast.GetDateTime(Forecast.GetDoubleValueFromJson(parsedJson, APPARENT_LOW_TIME));
+                Current = Forecast.GetDoubleValueFromJson(parsedJson, "apparentTemperature");
             }
             else
             {
@@ -200,6 +206,7 @@ namespace WeatherService
                 HighTime = Forecast.GetDateTime(Forecast.GetDoubleValueFromJson(parsedJson, HIGH_TIME));
                 Low = Forecast.GetDoubleValueFromJson(parsedJson, LOW);
                 LowTime = Forecast.GetDateTime(Forecast.GetDoubleValueFromJson(parsedJson, LOW_TIME));
+                Current = Forecast.GetDoubleValueFromJson(parsedJson, "temperature");
             }
         }
     }
