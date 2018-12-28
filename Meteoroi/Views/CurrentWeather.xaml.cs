@@ -22,7 +22,8 @@ namespace Meteoroi.Views
     public sealed partial class CurrentWeather : Page
     {
         CurrentForecastItem CurrentForecast = new CurrentForecastItem(null);
-
+        ObservableCollection<DailyForecastItem> DailyForecasts = new ObservableCollection<DailyForecastItem>();
+        int CurrentDailyInView = 1;
         public CurrentWeather()
         {
             this.InitializeComponent();
@@ -34,6 +35,7 @@ namespace Meteoroi.Views
             DarkSkyService weatherService = new DarkSkyService();
             var weatherData = await weatherService.GetWeatherData();
             UpdateCurrentForecast(weatherData);
+            UpdateDailyForecast(weatherData);
         }
 
         void UpdateCurrentForecast(WeatherData weatherData)
@@ -46,10 +48,42 @@ namespace Meteoroi.Views
             CurrentForecast.Time = newItem.Time;
         }
 
+        void UpdateDailyForecast(WeatherData weatherData)
+        {
+            DailyForecasts.Clear();
+            foreach (var data in weatherData.Daily.Data)
+            {
+                data.Temp.IsCelcius = CurrentForecast.IsCelcius;
+                data.ApparnetTemp.IsCelcius = CurrentForecast.IsCelcius;
+                DailyForecasts.Add(new DailyForecastItem(data));
+            }
+            DailyGridView.ScrollIntoView(DailyForecasts.Last());
+            DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
+        }
+
         private void ToggleIsCelcius_Click(object sender, RoutedEventArgs e)
         {
             CurrentForecast.IsCelcius = !CurrentForecast.IsCelcius;
-            //CurrentForecast.Temp = CurrentForecast.Temp;
+        }
+
+        private void PrevDay_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentDailyInView > 0)
+            {
+                CurrentDailyInView--;
+                DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
+            }
+        }
+
+        private void NextDay_Click(object sender, RoutedEventArgs e)
+        {
+            var visibleBlocks = DailyGridView.ActualWidth / 135;
+            if (CurrentDailyInView < DailyForecasts.Count - visibleBlocks)
+            {
+                CurrentDailyInView++;
+                DailyGridView.ScrollIntoView(DailyForecasts.Last());
+                DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
+            }
         }
     }
 }

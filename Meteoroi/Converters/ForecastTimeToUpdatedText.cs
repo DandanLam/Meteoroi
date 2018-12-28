@@ -24,4 +24,21 @@ namespace Meteoroi.Converters
             throw new NotImplementedException();
         }
     }
+
+    public class ForecastTimeToShortDateText : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            try
+            {
+                return ((DateTimeOffset)value).ToLocalTime().ToString("ddd  d");
+            }
+            catch { return ""; }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

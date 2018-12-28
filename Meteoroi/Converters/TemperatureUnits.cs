@@ -38,4 +38,17 @@ namespace Meteoroi.Converters
             throw new NotImplementedException();
         }
     }
+
+    public class TempToText : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return string.Concat(Math.Round((double)value, 0), "°");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

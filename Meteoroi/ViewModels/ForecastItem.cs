@@ -28,10 +28,15 @@ namespace Meteoroi.ViewModels
             set { SetProperty(_Time, value, () => _Time = value); }
         }
 
-        public double PrecipIntensity { get; set; }
-        public double PrecipIntensityError { get; set; }
-        public double PrecipProbability { get; set; }
+        public ForecastItem(Data data)
+        {
+            if (data == null)
+                return;
 
+            Time = data.Time;
+            Icon = GetWeatherIcon(data.Icon);
+            Summary = data.Summary;
+        }
         public ForecastItem(Forecast forecast)
         {
             if (forecast == null)

@@ -66,8 +66,8 @@ namespace WeatherService
 
     public class Forecast
     {
-        private const string SUMMARY = "summary";
-        private const string ICON = "icon";
+        internal const string SUMMARY = "summary";
+        internal const string ICON = "icon";
 
         public string Summary { get; set; }
         public string Icon { get; set; }
@@ -106,6 +106,8 @@ namespace WeatherService
         private const string MOON_PHASE = "moonPhase";
 
         public DateTimeOffset Time { get; set; }
+        public string Icon { get; set; }
+        public string Summary { get; set; }
         public DateTimeOffset SunriseTime { get; set; }
         public DateTimeOffset SunsetTime { get; set; }
         public double MoonPhase { get; set; }
@@ -125,6 +127,8 @@ namespace WeatherService
         public Data(JsonObject parsedJson, TimeSpan offset)
         {
             Time =        Forecast.GetDateTime(Forecast.GetDoubleValueFromJson(parsedJson, TIME));
+            Icon =        Forecast.GetStringValueFromJson(parsedJson, Forecast.ICON);
+            Summary =     Forecast.GetStringValueFromJson(parsedJson, Forecast.SUMMARY);
             SunriseTime = Forecast.GetDateTime(Forecast.GetDoubleValueFromJson(parsedJson, SUNRISE));
             SunsetTime =  Forecast.GetDateTime(Forecast.GetDoubleValueFromJson(parsedJson, SUNSET));
             MoonPhase =   Forecast.GetDoubleValueFromJson(parsedJson, MOON_PHASE);
@@ -183,12 +187,20 @@ namespace WeatherService
         private const string APPARENT_LOW = "apparentTemperatureLow";
         private const string APPARENT_LOW_TIME = "apparentTemperatureLowTime";
 
-
-        public double Current { get; set; }
-        public double High { get; set; }
+        public bool IsCelcius { get; set; }
+        private double _Current;
+        public double Current { get { return IsCelcius ? GetCelcius(_Current) : _Current ; } set { _Current = value; } }
+        private double _High;
+        public double High { get { return IsCelcius ? GetCelcius(_High) : _High; } set { _High = value; } }
         public DateTimeOffset HighTime { get; set; }
-        public double Low { get; set; }
+        private double _Low;
+        public double Low { get { return IsCelcius ? GetCelcius(_Low) : _Low; } set { _Low = value; } }
         public DateTimeOffset LowTime { get; set; }
+
+        private double GetCelcius(double n)
+        {
+            return (n - 32) * 5 / 9;
+        }
 
         public Temperature(JsonObject parsedJson, bool isApparent = false)
         {

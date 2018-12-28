@@ -52,11 +52,6 @@ namespace Meteoroi.ViewModels
             Time = forecast.Data.Time;
             Temp = forecast.Data.Temp.Current;
             ApparentTemp = forecast.Data.ApparnetTemp.Current;
-
-            PrecipIntensity = forecast.Data.Percipitation.Intensity;
-            PrecipIntensityError = forecast.Data.Percipitation.IntensityError;
-            PrecipProbability = forecast.Data.Percipitation.Probability;
-
         }
     }
 }

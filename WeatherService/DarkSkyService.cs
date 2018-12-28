@@ -21,7 +21,6 @@ namespace WeatherService
             var location = await GetLocationAsString();
             var rawJson = await GetRemoteWeatherData(location);
             return ParseWeatherData(rawJson);
-            throw new NotImplementedException();
         }
         
         private async Task<string> GetLocationAsString()
