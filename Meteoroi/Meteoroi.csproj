@@ -121,7 +121,9 @@
     </Compile>
     <Compile Include="Converters\ForecastIconToImage.cs" />
     <Compile Include="Converters\ForecastTimeToUpdatedText.cs" />
+    <Compile Include="Converters\Percipitation.cs" />
     <Compile Include="Converters\TemperatureUnits.cs" />
+    <Compile Include="Converters\WindText.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -129,6 +131,7 @@
     <Compile Include="ViewModels\CurrentForecastItem.cs" />
     <Compile Include="ViewModels\DailyForecastItem.cs" />
     <Compile Include="ViewModels\ForecastItem.cs" />
+    <Compile Include="ViewModels\HourlyForecastItem.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="Views\CurrentWeather.xaml.cs">
       <DependentUpon>CurrentWeather.xaml</DependentUpon>

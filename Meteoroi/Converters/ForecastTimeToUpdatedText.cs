@@ -41,4 +41,38 @@ namespace Meteoroi.Converters
             throw new NotImplementedException();
         }
     }
+
+    public class ForecastTimeToHourText : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            try
+            {
+                return ((DateTimeOffset)value).ToLocalTime().ToString("h tt").ToLower();
+            }
+            catch { return ""; }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ForecastTimeText : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            try
+            {
+                return ((DateTimeOffset)value).ToLocalTime().ToString("h:mm tt").ToUpper();
+            }
+            catch { return ""; }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

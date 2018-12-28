@@ -225,10 +225,16 @@ namespace WeatherService
 
     public class Wind
     {
-        public double Speed { get; set; }
-        public double Gust { get; set; }
-        public DateTimeOffset GustTime { get; set; }
-        public double Bearing { get; set; }
+        public bool IsMetric { get; set; }
+        private double _Speed;
+        public double Speed
+        {
+            get { return IsMetric ? _Speed * 1.609 : _Speed; }
+            set { _Speed = value; }
+        }
+        public double Gust { get; private set; }
+        public DateTimeOffset GustTime { get; private set; }
+        public double Bearing { get; private set; }
 
         public Wind(JsonObject parsedJson)
         {

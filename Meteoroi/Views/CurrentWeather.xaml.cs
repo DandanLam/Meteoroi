@@ -24,6 +24,9 @@ namespace Meteoroi.Views
         CurrentForecastItem CurrentForecast = new CurrentForecastItem(null);
         ObservableCollection<DailyForecastItem> DailyForecasts = new ObservableCollection<DailyForecastItem>();
         int CurrentDailyInView = 1;
+        ObservableCollection<HourlyForecastItem> HourlyForecasts = new ObservableCollection<HourlyForecastItem>();
+        int CurrentHourlyInView = 1;
+
         public CurrentWeather()
         {
             this.InitializeComponent();
@@ -36,6 +39,7 @@ namespace Meteoroi.Views
             var weatherData = await weatherService.GetWeatherData();
             UpdateCurrentForecast(weatherData);
             UpdateDailyForecast(weatherData);
+            UpdateHourlyForecast(weatherData);
         }
 
         void UpdateCurrentForecast(WeatherData weatherData)
@@ -46,6 +50,10 @@ namespace Meteoroi.Views
             CurrentForecast.Icon = newItem.Icon;
             CurrentForecast.Summary = newItem.Summary;
             CurrentForecast.Time = newItem.Time;
+            CurrentForecast.Sunrise = newItem.Sunrise;
+            CurrentForecast.Sunset = newItem.Sunset;
+
+            CurrentForecast.ThisHourSummary = weatherData.Minutely.Summary;
         }
 
         void UpdateDailyForecast(WeatherData weatherData)
@@ -59,6 +67,21 @@ namespace Meteoroi.Views
             }
             DailyGridView.ScrollIntoView(DailyForecasts.Last());
             DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
+            CurrentForecast.ThisWeekSummary = weatherData.Daily.Summary;
+        }
+
+        void UpdateHourlyForecast(WeatherData weatherData)
+        {
+            HourlyForecasts.Clear();
+            foreach (var data in weatherData.Hourly.Data)
+            {
+                data.Temp.IsCelcius = CurrentForecast.IsCelcius;
+                data.ApparnetTemp.IsCelcius = CurrentForecast.IsCelcius;
+                HourlyForecasts.Add(new HourlyForecastItem(data));
+            }
+            HourlyGridView.ScrollIntoView(HourlyForecasts.Last());
+            HourlyGridView.ScrollIntoView(HourlyForecasts[CurrentHourlyInView]);
+            CurrentForecast.ThisDaySummary = weatherData.Hourly.Summary;
         }
 
         private void ToggleIsCelcius_Click(object sender, RoutedEventArgs e)
@@ -70,8 +93,7 @@ namespace Meteoroi.Views
         {
             if (CurrentDailyInView > 0)
             {
-                CurrentDailyInView--;
-                DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
+                DailyGridView.ScrollIntoView(DailyForecasts[--CurrentDailyInView]);
             }
         }
 
@@ -80,10 +102,28 @@ namespace Meteoroi.Views
             var visibleBlocks = DailyGridView.ActualWidth / 135;
             if (CurrentDailyInView < DailyForecasts.Count - visibleBlocks)
             {
-                CurrentDailyInView++;
                 DailyGridView.ScrollIntoView(DailyForecasts.Last());
-                DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
+                DailyGridView.ScrollIntoView(DailyForecasts[++CurrentDailyInView]);
             }
         }
+
+        private void PrevHour_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentHourlyInView > 0)
+            {
+                HourlyGridView.ScrollIntoView(HourlyForecasts[--CurrentHourlyInView]);
+            }
+        }
+
+        private void NextHour_Click(object sender, RoutedEventArgs e)
+        {
+            var visibleBlocks = HourlyGridView.ActualWidth / 135;
+            if (CurrentHourlyInView < HourlyForecasts.Count - visibleBlocks)
+            {
+                HourlyGridView.ScrollIntoView(HourlyForecasts.Last());
+                HourlyGridView.ScrollIntoView(HourlyForecasts[++CurrentHourlyInView]);
+            }
+        }
+
     }
 }
