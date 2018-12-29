@@ -22,6 +22,7 @@ namespace Meteoroi.Views
     public sealed partial class CurrentWeather : Page
     {
         CurrentForecastItem CurrentForecast = new CurrentForecastItem(null);
+        CurrentForecastItem TodayForecast = new CurrentForecastItem(null);
         ObservableCollection<DailyForecastItem> DailyForecasts = new ObservableCollection<DailyForecastItem>();
         int CurrentDailyInView = 1;
         ObservableCollection<HourlyForecastItem> HourlyForecasts = new ObservableCollection<HourlyForecastItem>();
@@ -45,7 +46,7 @@ namespace Meteoroi.Views
         void UpdateCurrentForecast(WeatherData weatherData)
         {
             var newItem = new CurrentForecastItem(weatherData.Currently);
-            CurrentForecast.Location = "Seattle, WA";
+            CurrentForecast.Location = "Seattle, WA";//TODO: Get location string from coordinates
             CurrentForecast.Temp = newItem.Temp;
             CurrentForecast.Icon = newItem.Icon;
             CurrentForecast.Summary = newItem.Summary;
@@ -53,7 +54,13 @@ namespace Meteoroi.Views
             CurrentForecast.Sunrise = newItem.Sunrise;
             CurrentForecast.Sunset = newItem.Sunset;
 
-            CurrentForecast.ThisHourSummary = weatherData.Minutely.Summary;
+            CurrentForecast.Humidity = newItem.Humidity;
+            CurrentForecast.Ozone = newItem.Ozone;
+            CurrentForecast.Pressure = newItem.Pressure;
+            CurrentForecast.UvIndex = newItem.UvIndex;
+            CurrentForecast.UvIndexTime = newItem.UvIndexTime;
+            CurrentForecast.Visibility = newItem.Visibility;
+            CurrentForecast.Wind = newItem.Wind;
         }
 
         void UpdateDailyForecast(WeatherData weatherData)
@@ -68,6 +75,16 @@ namespace Meteoroi.Views
             DailyGridView.ScrollIntoView(DailyForecasts.Last());
             DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
             CurrentForecast.ThisWeekSummary = weatherData.Daily.Summary;
+
+            var today = DailyForecasts.First();
+            TodayForecast.Humidity = today.Humidity;
+            TodayForecast.Ozone = today.Ozone;
+            TodayForecast.Pressure = today.Pressure;
+            TodayForecast.UvIndex = today.UvIndex;
+            TodayForecast.UvIndexTime = today.UvIndexTime;
+            TodayForecast.Visibility = today.Visibility;
+            TodayForecast.Wind = today.Wind;
+            TodayForecast.CloudCover = today.CloudCover;
         }
 
         void UpdateHourlyForecast(WeatherData weatherData)
@@ -125,5 +142,17 @@ namespace Meteoroi.Views
             }
         }
 
+        private void WideGridView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            try
+            {
+                var changedGridView = sender as GridView;
+                if (changedGridView == null || Math.Round(changedGridView.ActualWidth, 0) == Math.Round(DetailsStackPanel.ActualWidth, 0))
+                    return;
+                
+                DetailsStackPanel.Width = changedGridView.ActualWidth;
+            }
+            catch { }
+        }
     }
 }

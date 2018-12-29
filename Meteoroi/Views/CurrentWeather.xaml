@@ -18,222 +18,277 @@
         <converters:ForecastTimeText x:Key="ForecastTimeText" />
         <converters:SelectedTempMetricSymbol x:Key="SelectedTempMetricSymbol" />
         <converters:UnselectedTempMetricSymbol x:Key="UnselectedTempMetricSymbol" />
+        <converters:PercipTypeToText x:Key="PercipTypeToText" />
+        <converters:PercipIntensityToText x:Key="PercipIntensityToText" />
+        <converters:PercipErrorToText x:Key="PercipErrorToText" />
         <converters:PercipProbabilityText x:Key="PercipProbabilityText" />
         <converters:WindText x:Key="WindText" />
         <converters:WindSuffix x:Key="WindSuffix" />
         <converters:TempToText x:Key="TempToText" />
     </Page.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Margin="20">
-            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" Text="{x:Bind CurrentForecast.Location, Mode=OneWay}"/>
-            <Grid HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Image Margin="15,0" Height="85" Width="85" Source="{x:Bind CurrentForecast.Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}" />
-                <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.Temp, Mode=OneWay}"/>
-                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
-                </StackPanel>
-                <Grid Grid.Column="2" VerticalAlignment="Center">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel>
-                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="25" Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource SelectedTempMetricSymbol}}"/>
-                        <Button Background="Transparent" Height="40" Width="40" Padding="0" Margin="0" Click="ToggleIsCelcius_Click">
-                            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="25" Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource UnselectedTempMetricSymbol}}" Foreground="DarkGray"/>
-                        </Button>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Margin="20">
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" Text="{x:Bind CurrentForecast.Location, Mode=OneWay}"/>
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Margin="15,0" Height="85" Width="85" Source="{x:Bind CurrentForecast.Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}" />
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.Temp, Mode=OneWay}"/>
+                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
                     </StackPanel>
-                </Grid>
-            </Grid>
-            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Thin" Text="{x:Bind CurrentForecast.Summary, Mode=OneWay}"/>
-            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Text="{x:Bind CurrentForecast.Time, Mode=OneWay, Converter={StaticResource ForecastTimeToUpdatedText}}" />
-        </StackPanel>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="PrevDay_Click">
-                    <Grid>
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE973;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Grid Grid.Column="2" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel>
+                            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="25" Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource SelectedTempMetricSymbol}}"/>
+                            <Button Background="Transparent" Height="40" Width="40" Padding="0" Margin="0" Click="ToggleIsCelcius_Click">
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="25" Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource UnselectedTempMetricSymbol}}" Foreground="DarkGray"/>
+                            </Button>
+                        </StackPanel>
                     </Grid>
-                </Button>
-                <StackPanel Grid.Column="1" Height="auto">
-                    <StackPanel Margin="0,10" Orientation="Horizontal">
-                        <TextBlock FontSize="30" FontWeight="Thin" Text="Daily" />
-                        <TextBlock Margin="10,0,0,4" Foreground="DarkGray" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind CurrentForecast.ThisWeekSummary, Mode=OneWay}"/>
-                    </StackPanel>
-                    <GridView MaxWidth="935" Height="210" Name="DailyGridView"
+                </Grid>
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Thin" Text="{x:Bind CurrentForecast.Summary, Mode=OneWay}"/>
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Text="{x:Bind CurrentForecast.Time, Mode=OneWay, Converter={StaticResource ForecastTimeToUpdatedText}}" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="PrevDay_Click">
+                        <Grid>
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE973;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+                    </Button>
+                    <StackPanel Grid.Column="1" Height="auto">
+                        <StackPanel Margin="0,10" Orientation="Horizontal">
+                            <TextBlock FontSize="30" FontWeight="Thin" Text="Daily" />
+                            <TextBlock Margin="10,0,0,4" Foreground="DarkGray" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind CurrentForecast.ThisWeekSummary, Mode=OneWay}"/>
+                        </StackPanel>
+                        <GridView MaxWidth="935" Height="210" Name="DailyGridView" SizeChanged="WideGridView_SizeChanged"
                         IsItemClickEnabled="False"
                         SelectionMode="None" 
                         ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
                         ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                         ItemsSource="{x:Bind DailyForecasts, Mode=OneWay}">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="viewModels:DailyForecastItem">
-                                <Grid Height="165" Width="110" Margin="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition />
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock  Grid.Row="0" FontSize="16" Text="{x:Bind Time, Mode=OneWay, Converter={StaticResource ForecastTimeToShortDateText}}"/>
-                                    <Image      Grid.Row="1" HorizontalAlignment="Center" Height="50" Width="50" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip>
-                                                <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary, Mode=OneWay}"/>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </Image>
-                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock FontSize="22" VerticalAlignment="Bottom" Text="{x:Bind Temp.High, Mode=OneWay, Converter={StaticResource TempToText}}"/>
-                                        <TextBlock FontSize="14" VerticalAlignment="Bottom" Margin="5,0,0,1" Text="{x:Bind Temp.Low, Mode=OneWay, Converter={StaticResource TempToText}}"/>
-                                    </StackPanel>
-                                    <TextBlock Grid.Row="3" FontSize="12" VerticalAlignment="Top" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Text="{x:Bind Summary, Mode=OneWay}">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="viewModels:DailyForecastItem">
+                                    <Grid Height="165" Width="110" Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock  Grid.Row="0" FontSize="16" Text="{x:Bind Time, Mode=OneWay, Converter={StaticResource ForecastTimeToShortDateText}}"/>
+                                        <Image      Grid.Row="1" HorizontalAlignment="Center" Height="50" Width="50" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip>
+                                                    <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary, Mode=OneWay}"/>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Image>
+                                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock FontSize="22" VerticalAlignment="Bottom" Text="{x:Bind Temp.High, Mode=OneWay, Converter={StaticResource TempToText}}"/>
+                                            <TextBlock FontSize="14" VerticalAlignment="Bottom" Margin="5,0,0,1" Text="{x:Bind Temp.Low, Mode=OneWay, Converter={StaticResource TempToText}}"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="3" FontSize="12" VerticalAlignment="Top" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Text="{x:Bind Summary, Mode=OneWay}">
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
                                                 <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary, Mode=OneWay}"/>
                                             </ToolTip>  
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
-                                </Grid>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </StackPanel>
-                <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="NextDay_Click">
-                    <Grid >
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE974;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </Button>
-            </Grid>
-        </StackPanel>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="PrevHour_Click">
-                    <Grid>
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE973;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </Button>
-                <StackPanel Grid.Column="1" Height="auto">
-                    <StackPanel Margin="0,10" Orientation="Horizontal">
-                        <TextBlock FontSize="30" FontWeight="Thin" Text="Hourly"/>
-                        <TextBlock Margin="10,0,0,4" Foreground="DarkGray" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind CurrentForecast.ThisDaySummary, Mode=OneWay}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
                     </StackPanel>
-                    <GridView MaxWidth="935" Height="210" Name="HourlyGridView"
+                    <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="NextDay_Click">
+                        <Grid >
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE974;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+                    </Button>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="PrevHour_Click">
+                        <Grid>
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE973;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+                    </Button>
+                    <StackPanel Grid.Column="1" Height="auto">
+                        <StackPanel Margin="0,10" Orientation="Horizontal">
+                            <TextBlock FontSize="30" FontWeight="Thin" Text="Hourly"/>
+                            <TextBlock Margin="10,0,0,4" Foreground="DarkGray" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind CurrentForecast.ThisDaySummary, Mode=OneWay}"/>
+                        </StackPanel>
+                        <GridView MaxWidth="935" Height="210" Name="HourlyGridView" SizeChanged="WideGridView_SizeChanged"
                         IsItemClickEnabled="False"
                         SelectionMode="None" 
                         ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
                         ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                         ItemsSource="{x:Bind HourlyForecasts, Mode=OneWay}">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="viewModels:HourlyForecastItem">
-                                <Grid Height="165" Width="110" Margin="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition />
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock  Grid.Row="0" FontSize="16" Text="{x:Bind Time, Mode=OneWay, Converter={StaticResource ForecastTimeToHourText}}"/>
-                                    <Image      Grid.Row="1" HorizontalAlignment="Center" Margin="0,5" Height="50" Width="50" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip>
-                                                <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary, Mode=OneWay}"/>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </Image>
-                                    <TextBlock Grid.Row="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Top" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Text="{x:Bind Summary, Mode=OneWay}"/>
-                                    <TextBlock Grid.Row="4" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Temp.Current, Mode=OneWay, Converter={StaticResource TempToText}}"/>
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="viewModels:HourlyForecastItem">
+                                    <Grid Height="165" Width="110" Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock  Grid.Row="0" FontSize="16" Text="{x:Bind Time, Mode=OneWay, Converter={StaticResource ForecastTimeToHourText}}"/>
+                                        <Image      Grid.Row="1" HorizontalAlignment="Center" Margin="0,5" Height="50" Width="50" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}"/>
+                                        <TextBlock Grid.Row="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Top" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Text="{x:Bind Summary, Mode=OneWay}"/>
+                                        <TextBlock Grid.Row="4" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Temp.Current, Mode=OneWay, Converter={StaticResource TempToText}}"/>
 
-                                    <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="25,0,0,0">
-                                        <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Margin="0,0,0,2" FontFamily="Segoe MDL2 Assets" Text="&#xEB42;"/>
-                                        <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Margin="5,0,0,0" Text="{x:Bind Percipitation.Probability, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="25,0,0,0">
-                                        <TextBlock Margin="0,0,0,2" VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" FontFamily="Segoe MDL2 Assets" Text="&#xEBE6;"/>
-                                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                                            <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Text="{x:Bind Wind.Speed, Mode=OneWay, Converter={StaticResource WindText}}"/>
-                                            <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Text="{x:Bind Wind.IsMetric, Mode=OneWay, Converter={StaticResource WindSuffix}}"/>
+                                        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="25,0,0,0">
+                                            <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Margin="0,0,0,2" FontFamily="Segoe MDL2 Assets" Text="&#xEB42;"/>
+                                            <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Margin="5,0,0,0" Text="{x:Bind Percipitation.Probability, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
                                         </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </StackPanel>
-                <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="NextHour_Click">
-                    <Grid >
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE974;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </Button>
-            </Grid>
-        </StackPanel>
-        <StackPanel Grid.Row="3" HorizontalAlignment="Center">
-            <TextBlock FontSize="30" FontWeight="Thin" Text="Details" Margin="0,10"/>
-            <controls:WrapPanel>
-                <Grid Margin="10" Height="300" Width="200">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" FontWeight="Bold" Text="Sunrise"/>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Grid>
-                            <TextBlock FontSize="50" Margin="2,0,0,0" HorizontalAlignment="Center" Text="&#xED39;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
-                            <TextBlock FontSize="10" Margin="0,0,0,16" HorizontalAlignment="Center" Text="&#xE935;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
-                        </Grid>
-                        <TextBlock Margin="10,0" VerticalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.Sunrise, Mode=OneWay, Converter={StaticResource ForecastTimeText}}"/>
+                                        <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="25,0,0,0">
+                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" FontFamily="Segoe MDL2 Assets" Text="&#xEBE6;"/>
+                                            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                                                <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Text="{x:Bind Wind.Speed, Mode=OneWay, Converter={StaticResource WindText}}"/>
+                                                <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Text="{x:Bind Wind.IsMetric, Mode=OneWay, Converter={StaticResource WindSuffix}}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
                     </StackPanel>
-                    <TextBlock Grid.Row="2" FontWeight="Bold" Text="Sunset"/>
-                    <StackPanel Grid.Row="3" Orientation="Horizontal">
-                        <Grid>
-                            <TextBlock FontSize="50" Margin="2,0,0,0" HorizontalAlignment="Center" Text="&#xED3A;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
-                            <TextBlock FontSize="10" Margin="0,0,0,11" HorizontalAlignment="Center" Text="&#xE936;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                    <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="NextHour_Click">
+                        <Grid >
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE974;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Grid>
-                        <TextBlock Margin="10,0" VerticalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.Sunset, Mode=OneWay, Converter={StaticResource ForecastTimeText}}"/>
-                    </StackPanel>
+                    </Button>
                 </Grid>
-            </controls:WrapPanel>
-        </StackPanel>
-    </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="4" HorizontalAlignment="Center" Name="DetailsStackPanel">
+                <TextBlock FontSize="30" FontWeight="Thin" Text="Details" Margin="0,10"/>
+                <controls:WrapPanel>
+                    <Grid Margin="10" Height="200" Width="200">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" FontWeight="Bold" Text="Sunrise"/>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <Grid>
+                                <TextBlock FontSize="50" Margin="2,0,0,0" HorizontalAlignment="Center" Text="&#xED39;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                                <TextBlock FontSize="10" Margin="0,0,0,16" HorizontalAlignment="Center" Text="&#xE935;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                            </Grid>
+                            <TextBlock Margin="10,0" VerticalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.Sunrise, Mode=OneWay, Converter={StaticResource ForecastTimeText}}"/>
+                        </StackPanel>
+                        <TextBlock Grid.Row="2" FontWeight="Bold" Text="Sunset"/>
+                        <StackPanel Grid.Row="3" Orientation="Horizontal">
+                            <Grid>
+                                <TextBlock FontSize="50" Margin="2,0,0,0" HorizontalAlignment="Center" Text="&#xED3A;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                                <TextBlock FontSize="10" Margin="0,0,0,11" HorizontalAlignment="Center" Text="&#xE936;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                            </Grid>
+                            <TextBlock Margin="10,0" VerticalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.Sunset, Mode=OneWay, Converter={StaticResource ForecastTimeText}}"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="10"  Height="200" Width="200">
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold" Text="UV Index" />
+                            <Grid>
+                                <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                        Value="{x:Bind TodayForecast.UvIndex, Mode=OneWay}"
+                                                        Minimum="0"
+                                                        Maximum="10"
+                                                        Thickness="6"
+                                                        Outline="Gray"/>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.UvIndex, Mode=OneWay}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="10"  Height="200" Width="200">
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold" Text="Humidity" />
+                            <Grid>
+                                <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                        Value="{x:Bind TodayForecast.Humidity, Mode=OneWay}"
+                                                        Minimum="0"
+                                                        Maximum="1"
+                                                        Thickness="6"
+                                                        Outline="Gray"/>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.Humidity, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="10"  Height="200" Width="200">
+                        <StackPanel Grid.Row="1">
+                            <TextBlock FontWeight="Bold" Text="Cloud Cover" />
+                            <Grid>
+                                <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                        Value="{x:Bind TodayForecast.CloudCover, Mode=OneWay}"
+                                                        Minimum="0"
+                                                        Maximum="1"
+                                                        Thickness="6"
+                                                        Outline="Gray"/>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.CloudCover, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        
+                    </Grid>
+                </controls:WrapPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

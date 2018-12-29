@@ -28,9 +28,6 @@ namespace WeatherService
 
             Currently = new MomentForecast(parsedJson.GetNamedObject("currently"), Offset);
 
-            var minutelyJson = parsedJson.GetNamedObject("minutely");
-            Minutely = new PeriodForecast(minutelyJson, Offset);
-
             var hourlyJson = parsedJson.GetNamedObject("hourly");
             Hourly = new PeriodForecast(hourlyJson, Offset);
 

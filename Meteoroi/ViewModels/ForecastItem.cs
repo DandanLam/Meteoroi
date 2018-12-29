@@ -34,7 +34,10 @@ namespace Meteoroi.ViewModels
                 return;
 
             Time = data.Time;
-            Icon = GetWeatherIcon(data.Icon);
+            if (data.Icon == null)
+                Icon = GetWeatherIcon(data.Percipitation.Type);
+            else
+                Icon = GetWeatherIcon(data.Icon);
             Summary = data.Summary;
         }
         public ForecastItem(Forecast forecast)
@@ -74,5 +77,5 @@ namespace Meteoroi.ViewModels
         }
     }
 
-    public enum WeatherIcon { CLEAR_DAY, CLEAR_NIGHT, CLOUDY, PARTLY_CLOUDY_DAY, PARTLY_CLOUDY_NIGHT, FOG, RAIN, SLEET, SNOW, WIND, }
+    public enum WeatherIcon { CLEAR_DAY, CLEAR_NIGHT, CLOUDY, PARTLY_CLOUDY_DAY, PARTLY_CLOUDY_NIGHT, FOG, RAIN, SLEET, SNOW, WIND }
 }

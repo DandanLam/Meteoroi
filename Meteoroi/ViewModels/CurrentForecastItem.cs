@@ -62,6 +62,64 @@ namespace Meteoroi.ViewModels
             set { SetProperty(_ThisWeekSummary, value, () => _ThisWeekSummary = value); }
         }
 
+        private Wind _Wind;
+        public Wind Wind
+        {
+            get { return _Wind; }
+            set { SetProperty(_Wind, value, () => _Wind = value); }
+        }
+
+        private DateTimeOffset _UvIndexTime;
+        public DateTimeOffset UvIndexTime
+        {
+            get { return _UvIndexTime; }
+            set { SetProperty(_UvIndexTime, value, () => _UvIndexTime = value); }
+        }
+
+        private double _DewPoint;
+        public double DewPoint
+        {
+            get { return _DewPoint; }
+            set { SetProperty(_DewPoint, value, () => _DewPoint = value); }
+        }
+        private double _Humidity;
+        public double Humidity
+        {
+            get { return _Humidity; }
+            set { SetProperty(_Humidity, value, () => _Humidity = value); }
+        }
+        private double _Pressure;
+        public double Pressure
+        {
+            get { return _Pressure; }
+            set { SetProperty(_Pressure, value, () => _Pressure = value); }
+        }
+        private double _CloudCover;
+        public double CloudCover
+        {
+            get { return _CloudCover; }
+            set { SetProperty(_CloudCover, value, () => _CloudCover = value); }
+        }
+        private double _UvIndex;
+        public double UvIndex
+        {
+            get { return _UvIndex; }
+            set { SetProperty(_UvIndex, value, () => _UvIndex = value); }
+        }
+        private double _Visibility;
+        public double Visibility
+        {
+            get { return _Visibility; }
+            set { SetProperty(_Visibility, value, () => _Visibility = value); }
+        }
+        private double _Ozone;
+        public double Ozone
+        {
+            get { return _Ozone; }
+            set { SetProperty(_Ozone, value, () => _Ozone = value); }
+        }
+
+
         private DateTimeOffset _Sunrise;
         public DateTimeOffset Sunrise
         {
