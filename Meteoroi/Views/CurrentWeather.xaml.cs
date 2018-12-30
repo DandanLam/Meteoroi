@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WeatherService;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,6 +22,7 @@ namespace Meteoroi.Views
 {
     public sealed partial class CurrentWeather : Page
     {
+        WeatherData weatherData = null;
         CurrentForecastItem CurrentForecast = new CurrentForecastItem(null);
         CurrentForecastItem TodayForecast = new CurrentForecastItem(null);
         ObservableCollection<DailyForecastItem> DailyForecasts = new ObservableCollection<DailyForecastItem>();
@@ -34,11 +36,14 @@ namespace Meteoroi.Views
             UpdateForecastItems();
         }
 
-        async Task UpdateForecastItems()
+        async Task UpdateForecastItems(bool forceDownload = false)
         {
-            DarkSkyService weatherService = new DarkSkyService();
-            var weatherData = await weatherService.GetWeatherData();
-            UpdateCurrentForecast(weatherData);
+            if (forceDownload || weatherData == null)
+            {
+                DarkSkyService weatherService = new DarkSkyService();
+                weatherData = await weatherService.GetWeatherData();
+                UpdateCurrentForecast(weatherData);
+            }
             UpdateDailyForecast(weatherData);
             UpdateHourlyForecast(weatherData);
         }
@@ -104,6 +109,14 @@ namespace Meteoroi.Views
         private void ToggleIsCelcius_Click(object sender, RoutedEventArgs e)
         {
             CurrentForecast.IsCelcius = !CurrentForecast.IsCelcius;
+            CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                try
+                {
+                    UpdateForecastItems();
+                }
+                catch { }
+            });
         }
 
         private void PrevDay_Click(object sender, RoutedEventArgs e)
