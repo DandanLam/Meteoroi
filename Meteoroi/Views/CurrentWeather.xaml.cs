@@ -121,38 +121,53 @@ namespace Meteoroi.Views
 
         private void PrevDay_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentDailyInView > 0)
-            {
-                DailyGridView.ScrollIntoView(DailyForecasts[--CurrentDailyInView]);
-            }
+            int visibleBlocks = -(int)DailyGridView.ActualWidth / 133;
+            CurrentDailyInView = CalcNext(DailyForecasts.Count, CurrentDailyInView, visibleBlocks);
+            DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
         }
 
         private void NextDay_Click(object sender, RoutedEventArgs e)
         {
-            var visibleBlocks = DailyGridView.ActualWidth / 135;
-            if (CurrentDailyInView < DailyForecasts.Count - visibleBlocks)
-            {
-                DailyGridView.ScrollIntoView(DailyForecasts.Last());
-                DailyGridView.ScrollIntoView(DailyForecasts[++CurrentDailyInView]);
-            }
+            int visibleBlocks = (int)DailyGridView.ActualWidth / 133;
+            DailyGridView.ScrollIntoView(DailyForecasts.Last());
+            CurrentDailyInView = CalcNext(DailyForecasts.Count, CurrentDailyInView, visibleBlocks);
+            DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
         }
 
         private void PrevHour_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentHourlyInView > 0)
-            {
-                HourlyGridView.ScrollIntoView(HourlyForecasts[--CurrentHourlyInView]);
-            }
+            int visibleBlocks = -(int)HourlyGridView.ActualWidth / 133;
+            CurrentHourlyInView = CalcNext(HourlyForecasts.Count, CurrentHourlyInView, visibleBlocks);
+            HourlyGridView.ScrollIntoView(HourlyForecasts[CurrentHourlyInView]);
         }
 
         private void NextHour_Click(object sender, RoutedEventArgs e)
         {
-            var visibleBlocks = HourlyGridView.ActualWidth / 135;
-            if (CurrentHourlyInView < HourlyForecasts.Count - visibleBlocks)
+            int visibleBlocks = (int)HourlyGridView.ActualWidth / 133;
+            CurrentHourlyInView = CalcNext(HourlyForecasts.Count, CurrentHourlyInView, visibleBlocks);
+            HourlyGridView.ScrollIntoView(HourlyForecasts.Last());
+            HourlyGridView.ScrollIntoView(HourlyForecasts[CurrentHourlyInView]);
+        }
+
+        private int CalcNext(int CollectionTotal, int currentVisible, int adjustCurrentVisible )
+        {
+            int visibleBlocks = (int)HourlyGridView.ActualWidth / 133;
+            currentVisible += adjustCurrentVisible;
+            if (adjustCurrentVisible > 0) //next
             {
-                HourlyGridView.ScrollIntoView(HourlyForecasts.Last());
-                HourlyGridView.ScrollIntoView(HourlyForecasts[++CurrentHourlyInView]);
+                if (currentVisible > CollectionTotal)
+                {
+                    currentVisible = CollectionTotal - visibleBlocks - 1;
+                }
             }
+            else //prev
+            {
+                if (currentVisible < 0)
+                {
+                    currentVisible = 0;
+                }
+            }
+            return currentVisible;
         }
 
         private void WideGridView_SizeChanged(object sender, SizeChangedEventArgs e)
