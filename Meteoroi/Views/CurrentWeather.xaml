@@ -11,6 +11,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <converters:LocationToString x:Key="LocationToString" />
         <converters:ForecastIconToImage x:Key="ForecastIconToImage" />
         <converters:ForecastTimeToUpdatedText x:Key="ForecastTimeToUpdatedText" />
         <converters:ForecastTimeToShortDateText x:Key="ForecastTimeToShortDateText" />
@@ -40,7 +41,7 @@
                 <TextBlock FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE115;"/>
             </Button>
             <StackPanel Grid.Row="0" Margin="20">
-                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" Text="{x:Bind CurrentForecast.Location, Mode=OneWay}"/>
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" Text="{x:Bind CurrentForecast.Location, Mode=OneWay, Converter={StaticResource LocationToString}}"/>
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>

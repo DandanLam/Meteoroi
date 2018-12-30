@@ -51,7 +51,7 @@ namespace Meteoroi.Views
         void UpdateCurrentForecast(WeatherData weatherData)
         {
             var newItem = new CurrentForecastItem(weatherData.Currently);
-            CurrentForecast.Location = "Seattle, WA";//TODO: Get location string from coordinates
+            CurrentForecast.Location = weatherData.Location;
             CurrentForecast.Temp = newItem.Temp;
             CurrentForecast.Icon = newItem.Icon;
             CurrentForecast.Summary = newItem.Summary;

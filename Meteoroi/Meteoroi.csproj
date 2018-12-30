@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Converters\ForecastIconToImage.cs" />
     <Compile Include="Converters\ForecastTimeToUpdatedText.cs" />
+    <Compile Include="Converters\Location.cs" />
     <Compile Include="Converters\Percipitation.cs" />
     <Compile Include="Converters\TemperatureUnits.cs" />
     <Compile Include="Converters\WindText.cs" />

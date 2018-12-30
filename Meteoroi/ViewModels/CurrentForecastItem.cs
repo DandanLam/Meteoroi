@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherService;
+using Windows.Services.Maps;
 
 namespace Meteoroi.ViewModels
 {
     public class CurrentForecastItem : ForecastItem
     {
-        private string _Location;
-        public string Location
+        private MapLocation _Location;
+        public MapLocation Location
         {
             get { return _Location; }
             set { SetProperty(_Location, value, () => _Location = value); }

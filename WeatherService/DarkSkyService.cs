@@ -1,14 +1,6 @@
-﻿using StorageService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
-using Windows.Devices.Geolocation;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Xaml.Controls;
+using Windows.Services.Maps;
 using Windows.Web.Http;
 
 namespace WeatherService
@@ -16,63 +8,13 @@ namespace WeatherService
     public class DarkSkyService
     {
         private const string UriBase = "https://api.forecast.io/forecast/";
-        public const string GEOLOCATION_STRING = "GeolocationString";
 
         public async Task<WeatherData>GetWeatherData()
         {
-            var location = await GetLocationAsString();
-            var rawJson = await GetRemoteWeatherData(location);
-            return ParseWeatherData(rawJson);
-        }
-        
-        private async Task<string> GetLocationAsString()
-        {
-            if (Settings.IsKeyPresent(GEOLOCATION_STRING))
-                return Settings.GetStringValue(GEOLOCATION_STRING);
-
-            var locationData = await GetCurrentLocation();
-            return locationData.Coordinate.Point.Position.Latitude + "," + locationData.Coordinate.Point.Position.Longitude;
-        }
-
-        public async Task<Geoposition> GetCurrentLocation()
-        {
-            try
-            {
-                var accessStatus = await Geolocator.RequestAccessAsync();
-                var geolocator = new Geolocator { DesiredAccuracy = PositionAccuracy.Default };
-                switch (accessStatus)
-                {
-                    case GeolocationAccessStatus.Allowed:
-                        CancellationTokenSource _cts = new CancellationTokenSource();
-                        CancellationToken token = _cts.Token;
-
-                        return await geolocator.GetGeopositionAsync().AsTask(token);
-                    case GeolocationAccessStatus.Denied:
-                        geolocator.AllowFallbackToConsentlessPositions();
-                        goto case GeolocationAccessStatus.Allowed;
-                    //case GeolocationAccessStatus.Unspecified:
-                    //    return null;
-                    default:
-                        return null;
-                }
-            }
-            catch (Exception e){
-                ContentDialog errorDialog = new ContentDialog()
-                {
-                    Title = e.Message,
-                    SecondaryButtonText = "Dismiss",
-                    Content = "Please ensure that Windows Location Services are enabled and you've grated access to Weather Notify for either your precise or general location.",
-                    PrimaryButtonText = "Windows Location Settings",
-                };
-                errorDialog.PrimaryButtonClick += LaunchLocationSettings;
-
-                return await GetCurrentLocation();
-            }
-        }
-
-        private async void LaunchLocationSettings(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            try { await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location")); } catch { }
+            var locationService = new GeoLocationService();
+            var location = await locationService.GetCurrentMapLocation();
+            var rawJson = await GetRemoteWeatherData(locationService.MapLocationToString(location));
+            return ParseWeatherData(location, rawJson);
         }
         
         private async Task<string> GetRemoteWeatherData(string locationString)
@@ -85,9 +27,9 @@ namespace WeatherService
             return await resp.Content.ReadAsStringAsync();
         }
 
-        private WeatherData ParseWeatherData(string rawJson)
+        private WeatherData ParseWeatherData(MapLocation location, string rawJson)
         {
-            return new WeatherData(rawJson);
+            return new WeatherData(location, rawJson);
         }
     }
 }

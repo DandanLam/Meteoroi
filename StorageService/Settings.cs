@@ -37,5 +37,17 @@ namespace StorageService
                 throw new Exception();
             }
         }
+
+        public static void RemoveValue(string key)
+        {
+            try
+            {
+                ApplicationData.Current.LocalSettings.Values.Remove(key);
+            }
+            catch
+            {
+                throw new Exception();
+            }
+        }
     }
 }
