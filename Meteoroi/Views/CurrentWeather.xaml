@@ -36,6 +36,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Button Margin="5,10" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <TextBlock FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE115;"/>
+            </Button>
             <StackPanel Grid.Row="0" Margin="20">
                 <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" Text="{x:Bind CurrentForecast.Location, Mode=OneWay}"/>
                 <Grid HorizontalAlignment="Center">
@@ -87,7 +90,7 @@
                         IsItemClickEnabled="False"
                         SelectionMode="None" 
                         ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                        ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                        ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                         ItemsSource="{x:Bind DailyForecasts, Mode=OneWay}">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -157,7 +160,7 @@
                         IsItemClickEnabled="False"
                         SelectionMode="None" 
                         ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                        ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                        ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                         ItemsSource="{x:Bind HourlyForecasts, Mode=OneWay}">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
