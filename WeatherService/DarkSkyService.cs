@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
+using Windows.System;
+using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 
 namespace WeatherService
@@ -54,9 +56,25 @@ namespace WeatherService
                         return null;
                 }
             }
-            catch { throw new Exception(); }
+            catch (Exception e){
+                ContentDialog errorDialog = new ContentDialog()
+                {
+                    Title = e.Message,
+                    SecondaryButtonText = "Dismiss",
+                    Content = "Please ensure that Windows Location Services are enabled and you've grated access to Weather Notify for either your precise or general location.",
+                    PrimaryButtonText = "Windows Location Settings",
+                };
+                errorDialog.PrimaryButtonClick += LaunchLocationSettings;
+
+                return await GetCurrentLocation();
+            }
         }
 
+        private async void LaunchLocationSettings(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            try { await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location")); } catch { }
+        }
+        
         private async Task<string> GetRemoteWeatherData(string locationString)
         {
             var http = new HttpClient();
