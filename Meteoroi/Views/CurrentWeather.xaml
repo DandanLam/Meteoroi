@@ -2,6 +2,7 @@
     x:Class="Meteoroi.Views.CurrentWeather"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
     xmlns:local="using:Meteoroi.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -9,8 +10,10 @@
     xmlns:viewModels="using:Meteoroi.ViewModels"
     xmlns:converters="using:Meteoroi.Converters"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <converters:DistanceUnit x:Key="DistanceUnit" />
         <converters:LocationToString x:Key="LocationToString" />
         <converters:ForecastIconToImage x:Key="ForecastIconToImage" />
         <converters:ForecastTimeToUpdatedText x:Key="ForecastTimeToUpdatedText" />
@@ -23,9 +26,11 @@
         <converters:PercipIntensityToText x:Key="PercipIntensityToText" />
         <converters:PercipErrorToText x:Key="PercipErrorToText" />
         <converters:PercipProbabilityText x:Key="PercipProbabilityText" />
-        <converters:WindText x:Key="WindText" />
+        <converters:NumberToZeroDecimals x:Key="NumberToZeroDecimals" />
+        <converters:NumberToTwoDecimals x:Key="NumberToTwoDecimals" />
         <converters:WindSuffix x:Key="WindSuffix" />
         <converters:TempToText x:Key="TempToText" />
+        <converters:BarometerUnit x:Key="BarometerUnit" />
     </Page.Resources>
     <ScrollViewer>
         <Grid>
@@ -67,7 +72,63 @@
                     </Grid>
                 </Grid>
                 <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Thin" Text="{x:Bind CurrentForecast.Summary, Mode=OneWay}"/>
-                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Text="{x:Bind CurrentForecast.Time, Mode=OneWay, Converter={StaticResource ForecastTimeToUpdatedText}}" />
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Margin="0,5,0,10" Text="{x:Bind CurrentForecast.Time, Mode=OneWay, Converter={StaticResource ForecastTimeToUpdatedText}}" />
+                <Grid HorizontalAlignment="Center" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontSize="12" Text="Feels Like"/>
+                        <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay, Converter={StaticResource TempToText}}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontSize="12" Text="Wind"/>
+                        <TextBlock FontSize="11" Margin="5,0,0,0"  Text="&#xEBE6;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center">
+                            <interactivity:Interaction.Behaviors>
+                                <behaviors:Rotate
+                                            Value="{x:Bind CurrentForecast.WindBearing, Mode=OneWay}"
+                                            CenterX="5.5" 
+                                            CenterY="5.5" 
+                                            Duration="0"
+                                            Delay="0" 
+                                            AutomaticallyStart="True"/>
+                            </interactivity:Interaction.Behaviors>
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                            <TextBlock FontSize="12" Text="{x:Bind CurrentForecast.WindSpeed, Mode=OneWay, Converter={StaticResource NumberToZeroDecimals}}"/>
+                            <TextBlock FontSize="12" Text="{x:Bind CurrentForecast.IsMetric, Mode=OneWay, Converter={StaticResource WindSuffix}}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontSize="12" Text="Visibility"/>
+                        <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.Visibility, Mode=OneWay, Converter={StaticResource NumberToZeroDecimals}}"/>
+                        <TextBlock FontSize="12" Margin="0,0,0,0" Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource DistanceUnit}}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid HorizontalAlignment="Center" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontSize="12" Text="Barometer"/>
+                        <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.Pressure, Mode=OneWay, Converter={StaticResource NumberToTwoDecimals}}"/>
+                        <TextBlock FontSize="12" Margin="0,0,0,0" Text="{x:Bind CurrentForecast.IsMetric, Mode=OneWay, Converter={StaticResource BarometerUnit}}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontSize="12" Text="Humidity"/>
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                            <TextBlock FontSize="12" Text="{x:Bind CurrentForecast.Humidity, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock FontSize="12" Text="Dew Point"/>
+                        <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.DewPoint, Mode=OneWay, Converter={StaticResource TempToText}}"/>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
             <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                 <Grid>
@@ -192,7 +253,7 @@
                                         <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="25,0,0,0">
                                             <TextBlock Margin="0,0,0,2" VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" FontFamily="Segoe MDL2 Assets" Text="&#xEBE6;"/>
                                             <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                                                <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Text="{x:Bind Wind.Speed, Mode=OneWay, Converter={StaticResource WindText}}"/>
+                                                <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Text="{x:Bind Wind.Speed, Mode=OneWay, Converter={StaticResource NumberToZeroDecimals}}"/>
                                                 <TextBlock VerticalAlignment="Bottom" Foreground="DarkGray" FontSize="12" Text="{x:Bind Wind.IsMetric, Mode=OneWay, Converter={StaticResource WindSuffix}}"/>
                                             </StackPanel>
                                         </StackPanel>

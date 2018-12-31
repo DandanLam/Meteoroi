@@ -31,7 +31,13 @@ namespace Meteoroi.ViewModels
         private double _ApparentTemp;
         public double ApparentTemp
         {
-            get { return Math.Round(_ApparentTemp, 0); }
+            get
+            {
+                if (IsCelcius)
+                    return Math.Round((_ApparentTemp - 32) * 5 / 9, 0);
+                else
+                    return Math.Round(_ApparentTemp, 0);
+            }
             set { SetProperty(_ApparentTemp, value, () => _ApparentTemp = value); }
         }
         private bool _IsCelcius;
@@ -42,6 +48,21 @@ namespace Meteoroi.ViewModels
                 SetProperty(_IsCelcius, value, () => _IsCelcius = value);
                 Temp = _Temp + .0000001;
                 ApparentTemp = _ApparentTemp + .0000001;
+                DewPoint = _DewPoint + .0000001;
+            }
+        }
+        private bool _IsMetric;
+        public bool IsMetric
+        {
+            get { return _IsMetric; }
+            set
+            {
+                SetProperty(_IsMetric, value, () => _IsMetric = value);
+                Pressure = _Pressure + .0000001;
+                Visibility = _Visibility + .0000001;
+                WindSpeed = _WindSpeed + .0000001;
+                Gust = _Gust + .0000001;
+                WindBearing = _WindBearing + .0000001;
             }
         }
         private string _ThisDaySummary;
@@ -63,11 +84,41 @@ namespace Meteoroi.ViewModels
             set { SetProperty(_ThisWeekSummary, value, () => _ThisWeekSummary = value); }
         }
 
-        private Wind _Wind;
-        public Wind Wind
+        private double _WindSpeed;
+        public double WindSpeed
         {
-            get { return _Wind; }
-            set { SetProperty(_Wind, value, () => _Wind = value); }
+            get
+            {
+                if (IsMetric)
+                    return Math.Round(_WindSpeed * 1.609344, 0);
+                else
+                    return Math.Round(_WindSpeed, 0);
+            }
+            set { SetProperty(_WindSpeed, value, () => _WindSpeed = value); }
+        }
+        private double _Gust;
+        public double Gust
+        {
+            get
+            {
+                if (IsMetric)
+                    return Math.Round(_Gust * 1.609344, 0);
+                else
+                    return Math.Round(_Gust, 0);
+            }
+            set { SetProperty(_Gust, value, () => _Gust = value); }
+        }
+        private double _WindBearing;
+        public double WindBearing
+        {
+            get { return _WindBearing; }
+            set { SetProperty(_WindBearing, value, () => _WindBearing = value); }
+        }
+        private DateTimeOffset _GustTime;
+        public DateTimeOffset GustTime
+        {
+            get { return _GustTime; }
+            set { SetProperty(_GustTime, value, () => _GustTime = value); }
         }
 
         private DateTimeOffset _UvIndexTime;
@@ -80,7 +131,13 @@ namespace Meteoroi.ViewModels
         private double _DewPoint;
         public double DewPoint
         {
-            get { return _DewPoint; }
+            get
+            {
+                if (IsCelcius)
+                    return Math.Round((_DewPoint - 32) * 5 / 9, 0);
+                else
+                    return Math.Round(_DewPoint, 0);
+            }
             set { SetProperty(_DewPoint, value, () => _DewPoint = value); }
         }
         private double _Humidity;
@@ -92,7 +149,13 @@ namespace Meteoroi.ViewModels
         private double _Pressure;
         public double Pressure
         {
-            get { return _Pressure; }
+            get
+            {
+                if (IsMetric)
+                    return Math.Round(_Pressure * 29.92 / 1013.25, 2);
+                else
+                    return Math.Round(_Pressure, 2);
+            }
             set { SetProperty(_Pressure, value, () => _Pressure = value); }
         }
         private double _CloudCover;
@@ -110,7 +173,13 @@ namespace Meteoroi.ViewModels
         private double _Visibility;
         public double Visibility
         {
-            get { return _Visibility; }
+            get
+            {
+                if (IsMetric)
+                    return Math.Round(_Visibility * 1.609344, 0);
+                else
+                    return Math.Round(_Visibility, 0);
+            }
             set { SetProperty(_Visibility, value, () => _Visibility = value); }
         }
         private double _Ozone;
@@ -144,6 +213,19 @@ namespace Meteoroi.ViewModels
             ApparentTemp = forecast.Data.ApparnetTemp.Current;
             Sunrise = forecast.Data.SunriseTime;
             Sunset = forecast.Data.SunsetTime;
+            //Wind = forecast.Data.Wind;
+            WindSpeed = forecast.Data.Wind.Speed;
+            Gust = forecast.Data.Wind.Gust;
+            WindBearing = forecast.Data.Wind.Bearing;
+            GustTime = forecast.Data.Wind.GustTime;
+            DewPoint = forecast.Data.DewPoint;
+            Humidity = forecast.Data.Humidity;
+            Pressure = forecast.Data.Pressure;
+            CloudCover = forecast.Data.CloudCover;
+            UvIndex = forecast.Data.UvIndex;
+            UvIndexTime = forecast.Data.UvIndexTime;
+            Visibility = forecast.Data.Visibility;
+            Ozone = forecast.Data.Ozone;
         }
     }
 }

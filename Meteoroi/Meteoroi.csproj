@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\DistanceMeasurements.cs" />
     <Compile Include="Converters\ForecastIconToImage.cs" />
     <Compile Include="Converters\ForecastTimeToUpdatedText.cs" />
     <Compile Include="Converters\Location.cs" />

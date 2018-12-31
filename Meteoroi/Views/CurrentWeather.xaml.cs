@@ -50,9 +50,10 @@ namespace Meteoroi.Views
 
         void UpdateCurrentForecast(WeatherData weatherData)
         {
-            var newItem = new CurrentForecastItem(weatherData.Currently);
+            var newItem = new CurrentForecastItem(weatherData.Currently) { IsMetric = false, IsCelcius = false };
             CurrentForecast.Location = weatherData.Location;
             CurrentForecast.Temp = newItem.Temp;
+            CurrentForecast.ApparentTemp = newItem.ApparentTemp;
             CurrentForecast.Icon = newItem.Icon;
             CurrentForecast.Summary = newItem.Summary;
             CurrentForecast.Time = newItem.Time;
@@ -61,11 +62,15 @@ namespace Meteoroi.Views
 
             CurrentForecast.Humidity = newItem.Humidity;
             CurrentForecast.Ozone = newItem.Ozone;
+            CurrentForecast.DewPoint = newItem.DewPoint;
             CurrentForecast.Pressure = newItem.Pressure;
             CurrentForecast.UvIndex = newItem.UvIndex;
             CurrentForecast.UvIndexTime = newItem.UvIndexTime;
             CurrentForecast.Visibility = newItem.Visibility;
-            CurrentForecast.Wind = newItem.Wind;
+            CurrentForecast.WindSpeed = newItem.WindSpeed;
+            CurrentForecast.Gust = newItem.Gust;
+            CurrentForecast.WindBearing = newItem.WindBearing;
+            CurrentForecast.GustTime = newItem.GustTime;
         }
 
         void UpdateDailyForecast(WeatherData weatherData)
@@ -88,8 +93,11 @@ namespace Meteoroi.Views
             TodayForecast.UvIndex = today.UvIndex;
             TodayForecast.UvIndexTime = today.UvIndexTime;
             TodayForecast.Visibility = today.Visibility;
-            TodayForecast.Wind = today.Wind;
             TodayForecast.CloudCover = today.CloudCover;
+            TodayForecast.WindSpeed = today.Wind.Speed;
+            TodayForecast.Gust = today.Wind.Gust;
+            TodayForecast.WindBearing = today.Wind.Bearing;
+            TodayForecast.GustTime = today.Wind.GustTime;
         }
 
         void UpdateHourlyForecast(WeatherData weatherData)
@@ -109,6 +117,7 @@ namespace Meteoroi.Views
         private void ToggleIsCelcius_Click(object sender, RoutedEventArgs e)
         {
             CurrentForecast.IsCelcius = !CurrentForecast.IsCelcius;
+            CurrentForecast.IsMetric = !CurrentForecast.IsMetric;
             CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 try
