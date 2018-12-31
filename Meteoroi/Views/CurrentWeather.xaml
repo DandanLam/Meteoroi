@@ -33,7 +33,7 @@
         <converters:BarometerUnit x:Key="BarometerUnit" />
     </Page.Resources>
     <ScrollViewer>
-        <Grid>
+        <Grid Background="{StaticResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
