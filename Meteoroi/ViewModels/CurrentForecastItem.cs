@@ -188,6 +188,12 @@ namespace Meteoroi.ViewModels
             get { return _Ozone; }
             set { SetProperty(_Ozone, value, () => _Ozone = value); }
         }
+        private double _PercipPercent;
+        public double PercipProbability
+        {
+            get { return _PercipPercent; }
+            set { SetProperty(_PercipPercent, value, () => _PercipPercent = value); }
+        }
 
 
         private DateTimeOffset _Sunrise;

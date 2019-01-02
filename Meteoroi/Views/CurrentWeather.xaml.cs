@@ -1,4 +1,5 @@
 ﻿using Meteoroi.ViewModels;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,7 @@ namespace Meteoroi.Views
 {
     public sealed partial class CurrentWeather : Page
     {
+        const int TutorialFontSize = 10;
         WeatherData weatherData = null;
         CurrentForecastItem CurrentForecast = new CurrentForecastItem(null);
         CurrentForecastItem TodayForecast = new CurrentForecastItem(null);
@@ -50,6 +52,8 @@ namespace Meteoroi.Views
 
         void UpdateCurrentForecast(WeatherData weatherData)
         {
+            if (weatherData == null)
+                return;
             var newItem = new CurrentForecastItem(weatherData.Currently) { IsMetric = false, IsCelcius = false };
             CurrentForecast.Location = weatherData.Location;
             CurrentForecast.Temp = newItem.Temp;
@@ -75,6 +79,8 @@ namespace Meteoroi.Views
 
         void UpdateDailyForecast(WeatherData weatherData)
         {
+            if (weatherData == null)
+                return;
             DailyForecasts.Clear();
             foreach (var data in weatherData.Daily.Data)
             {
@@ -98,10 +104,13 @@ namespace Meteoroi.Views
             TodayForecast.Gust = today.Wind.Gust;
             TodayForecast.WindBearing = today.Wind.Bearing;
             TodayForecast.GustTime = today.Wind.GustTime;
+            TodayForecast.PercipProbability = today.Percipitation.Probability;
         }
 
         void UpdateHourlyForecast(WeatherData weatherData)
         {
+            if (weatherData == null)
+                return;
             HourlyForecasts.Clear();
             foreach (var data in weatherData.Hourly.Data)
             {
@@ -131,6 +140,7 @@ namespace Meteoroi.Views
         private void PrevDay_Click(object sender, RoutedEventArgs e)
         {
             int visibleBlocks = -(int)DailyGridView.ActualWidth / 133;
+            DailyGridView.ScrollIntoView(DailyForecasts.First());
             CurrentDailyInView = CalcNext(DailyForecasts.Count, CurrentDailyInView, visibleBlocks);
             DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
         }
@@ -146,6 +156,7 @@ namespace Meteoroi.Views
         private void PrevHour_Click(object sender, RoutedEventArgs e)
         {
             int visibleBlocks = -(int)HourlyGridView.ActualWidth / 133;
+            HourlyGridView.ScrollIntoView(HourlyForecasts.First());
             CurrentHourlyInView = CalcNext(HourlyForecasts.Count, CurrentHourlyInView, visibleBlocks);
             HourlyGridView.ScrollIntoView(HourlyForecasts[CurrentHourlyInView]);
         }
@@ -153,8 +164,8 @@ namespace Meteoroi.Views
         private void NextHour_Click(object sender, RoutedEventArgs e)
         {
             int visibleBlocks = (int)HourlyGridView.ActualWidth / 133;
-            CurrentHourlyInView = CalcNext(HourlyForecasts.Count, CurrentHourlyInView, visibleBlocks);
             HourlyGridView.ScrollIntoView(HourlyForecasts.Last());
+            CurrentHourlyInView = CalcNext(HourlyForecasts.Count, CurrentHourlyInView, visibleBlocks);
             HourlyGridView.ScrollIntoView(HourlyForecasts[CurrentHourlyInView]);
         }
 
@@ -164,9 +175,9 @@ namespace Meteoroi.Views
             currentVisible += adjustCurrentVisible;
             if (adjustCurrentVisible > 0) //next
             {
-                if (currentVisible > CollectionTotal)
+                if (currentVisible >= CollectionTotal)
                 {
-                    currentVisible = CollectionTotal - visibleBlocks - 1;
+                    currentVisible = CollectionTotal - 1;
                 }
             }
             else //prev
@@ -188,6 +199,145 @@ namespace Meteoroi.Views
                     return;
                 
                 DetailsStackPanel.Width = changedGridView.ActualWidth;
+                DailyHeaderGrid.Width = changedGridView.ActualWidth - 20;
+            }
+            catch { }
+        }
+
+        private void DailyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+            try
+            {
+                List<ComboBox> DailyComboBoxes = new List<ComboBox> { DailyLine1Box, DailyLine2Box };
+                var oldItem = e.RemovedItems.First() as ComboBoxItem;
+                //check for conflict
+                foreach (var combobox in DailyComboBoxes)
+                {
+                    if (combobox != changedComboBox && combobox.SelectedIndex == changedComboBox.SelectedIndex)
+                    {
+                        for (int i = 0; i < combobox.Items.Count; i++)
+                        {
+                            if (changedComboBox.Items[i] == oldItem)
+                            {
+                                combobox.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+                UpdateDailyForecastItemLine(changedComboBox.Name, changedComboBox.SelectedIndex);
+                UpdateDailyForecast(weatherData);
+            }
+            catch { }
+        }
+
+        private void UpdateDailyForecastItemLine(string comboBoxItemName, int idx)
+        {
+            if (comboBoxItemName == "DailyLine1Box")
+            {
+                DailyForecastItem.Line1 = idx;
+            }
+            else
+            {
+                DailyForecastItem.Line2 = idx;
+            }
+        }
+
+        private async void ShowGrid(Grid grid)
+        {
+            if (grid == null)
+                return;
+            grid.Opacity = 0.1f;
+            grid.Visibility = Visibility.Visible;
+            await grid.Fade(value: 1f, duration: 500, delay: 0).StartAsync();
+        }
+
+        private async void HideGrid(Grid grid)
+        {
+            if (grid == null)
+                return;
+            await grid.Fade(value: 0f, duration: 500, delay: 0).StartAsync();
+            grid.Visibility = Visibility.Collapsed;
+        }
+
+        private void DailyEdit_Click(object sender, RoutedEventArgs e)
+        {
+            ShowGrid(DailyEditGrid);
+        }
+
+        private void DailyEditDone_Click(object sender, RoutedEventArgs e)
+        {
+            HideGrid(DailyEditGrid);
+        }
+
+        private void DailyDateBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+            switch (changedComboBox.SelectedIndex)
+            {
+                case 0:
+                    DailyForecastItem.DateForemat = "ddd d";
+                    break;
+                case 1:
+                    DailyForecastItem.DateForemat = "d ddd";
+                    break;
+                case 2:
+                    DailyForecastItem.DateForemat = "dddd d";
+                    break;
+                case 3:
+                    DailyForecastItem.DateForemat = "d dddd";
+                    break;
+                case 4:
+                    DailyForecastItem.DateForemat = "MMM d";
+                    break;
+                case 5:
+                    DailyForecastItem.DateForemat = "d MMM";
+                    break;
+                case 6:
+                    DailyForecastItem.DateForemat = "MMMM d";
+                    break;
+                case 7:
+                    DailyForecastItem.DateForemat = "d MMMM";
+                    break;
+            }
+            UpdateDailyForecast(weatherData);
+        }
+
+        private void DailyIconBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+            DailyForecastItem.ShowIcon = changedComboBox.SelectedIndex == 0 ? true : false;
+            UpdateDailyForecast(weatherData);
+        }
+
+        private void WeeklyDescVisibility_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null || WeeklySummaryTextBlock == null)
+                return;
+            try
+            {
+                WeeklySummaryTextBlock.Visibility = changedComboBox.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+            catch { }
+        }
+
+        private void DailyTempType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null || WeeklySummaryTextBlock == null)
+                return;
+            try
+            {
+                DailyForecastItem.RealTemp = changedComboBox.SelectedIndex == 0 ? true : false;
+                UpdateDailyForecast(weatherData);
             }
             catch { }
         }

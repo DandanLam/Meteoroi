@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Meteoroi.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,24 @@ namespace Meteoroi.Converters
             {
                 var ts = ((DateTimeOffset)value).ToLocalTime().ToString("t");
                 return string.Concat("Updated as of ", ((DateTimeOffset)value).ToLocalTime().ToString("t"));
+            }
+            catch { return ""; }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class DailyForecastDateText : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            try
+            {
+                var forecast = value as DailyForecastItem;
+                return forecast.Time.ToLocalTime().ToString(DailyForecastItem.DateForemat);
             }
             catch { return ""; }
         }

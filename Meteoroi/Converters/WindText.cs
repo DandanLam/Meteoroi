@@ -8,24 +8,7 @@ using Windows.UI.Xaml.Data;
 
 namespace Meteoroi.Converters
 {
-    public class NumberToZeroDecimals : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            try
-            {
-                return Math.Round((double)value, 0).ToString();
-            }
-            catch { return ""; }
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class WindSuffix : IValueConverter
+    public class WindSpeedUnit : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
