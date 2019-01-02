@@ -200,6 +200,7 @@ namespace Meteoroi.Views
                 
                 DetailsStackPanel.Width = changedGridView.ActualWidth;
                 DailyHeaderGrid.Width = changedGridView.ActualWidth - 20;
+                HourlyHeaderGrid.Width = changedGridView.ActualWidth - 20;
             }
             catch { }
         }
@@ -216,9 +217,17 @@ namespace Meteoroi.Views
                 //check for conflict
                 foreach (var combobox in DailyComboBoxes)
                 {
-                    if (combobox != changedComboBox && combobox.SelectedIndex == changedComboBox.SelectedIndex)
+                    var selectedOne = combobox.SelectedItem as ComboBoxItem;
+                    var selectedTwo = changedComboBox.SelectedItem as ComboBoxItem;
+                    if (combobox != changedComboBox && 
+                        selectedOne != null &&
+                        selectedTwo != null &&
+                        selectedOne.Content as string != "Hide" &&
+                        selectedTwo.Content as string != "Hide" &&
+                        selectedOne.Content as string != "Temperature" &&
+                        combobox.SelectedIndex == changedComboBox.SelectedIndex)
                     {
-                        for (int i = 0; i < combobox.Items.Count; i++)
+                        for (int i = 0; i < DailyLine2Box.Items.Count; i++)
                         {
                             if (changedComboBox.Items[i] == oldItem)
                             {
@@ -228,21 +237,28 @@ namespace Meteoroi.Views
                         }
                     }
                 }
-                UpdateDailyForecastItemLine(changedComboBox.Name, changedComboBox.SelectedIndex);
+                UpdateForecastItemLine(changedComboBox.Name, changedComboBox.SelectedIndex);
                 UpdateDailyForecast(weatherData);
             }
             catch { }
         }
 
-        private void UpdateDailyForecastItemLine(string comboBoxItemName, int idx)
+        private void UpdateForecastItemLine(string comboBoxItemName, int idx)
         {
-            if (comboBoxItemName == "DailyLine1Box")
+            switch (comboBoxItemName)
             {
-                DailyForecastItem.Line1 = idx;
-            }
-            else
-            {
-                DailyForecastItem.Line2 = idx;
+                case "DailyLine1Box":
+                    DailyForecastItem.Line1 = idx;
+                    break;
+                case "DailyLine2Box":
+                    DailyForecastItem.Line2 = idx;
+                    break;
+                case "HourlyLine1Box":
+                    HourlyForecastItem.Line1 = idx;
+                    break;
+                case "HourlyLine2Box":
+                    HourlyForecastItem.Line2 = idx;
+                    break;
             }
         }
 
@@ -338,6 +354,131 @@ namespace Meteoroi.Views
             {
                 DailyForecastItem.RealTemp = changedComboBox.SelectedIndex == 0 ? true : false;
                 UpdateDailyForecast(weatherData);
+            }
+            catch { }
+        }
+
+        private void HourlyDescVisibility_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null || WeeklySummaryTextBlock == null)
+                return;
+            try
+            {
+                HourlySummaryTextBlock.Visibility = changedComboBox.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+            catch { }
+        }
+
+        private void HourlyTempType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null || WeeklySummaryTextBlock == null)
+                return;
+            try
+            {
+                HourlyForecastItem.RealTemp = changedComboBox.SelectedIndex == 0 ? true : false;
+                UpdateHourlyForecast(weatherData);
+            }
+            catch { }
+        }
+
+        private void HourlyEditDone_Click(object sender, RoutedEventArgs e)
+        {
+            HideGrid(HourlyEditGrid);
+        }
+
+        private void HourlyEdit_Click(object sender, RoutedEventArgs e)
+        {
+            ShowGrid(HourlyEditGrid);
+        }
+
+        private void HourlyIconBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+            HourlyForecastItem.ShowIcon = changedComboBox.SelectedIndex == 0 ? true : false;
+            UpdateHourlyForecast(weatherData);
+        }
+
+        private void HourlyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+            try
+            {
+                List<ComboBox> DailyComboBoxes = new List<ComboBox> { HourlyLine1Box, HourlyLine2Box };
+                var oldItem = e.RemovedItems.First() as ComboBoxItem;
+                //check for conflict
+                foreach (var combobox in DailyComboBoxes)
+                {
+                    var selectedOne = combobox.SelectedItem as ComboBoxItem;
+                    var selectedTwo = changedComboBox.SelectedItem as ComboBoxItem;
+                    if (combobox != changedComboBox && 
+                        selectedOne != null &&
+                        selectedTwo != null &&
+                        selectedOne.Content as string != "Hide" &&
+                        selectedTwo.Content as string != "Hide" &&
+                        selectedOne.Content as string != "Temperature" &&
+                        combobox.SelectedIndex == changedComboBox.SelectedIndex)
+                    {
+                        for (int i = 0; i < HourlyLine2Box.Items.Count; i++)
+                        {
+                            if (changedComboBox.Items[i] == oldItem)
+                            {
+                                combobox.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+                UpdateForecastItemLine(changedComboBox.Name, changedComboBox.SelectedIndex);
+                UpdateHourlyForecast(weatherData);
+            }
+            catch { }
+        }
+
+        private void HourlyTimeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+            try
+            {
+                switch (changedComboBox.SelectedIndex)
+                {
+                    case 0:
+                        HourlyForecastItem.TimeForemat = "H";
+                        break;
+                    case 1:
+                        HourlyForecastItem.TimeForemat = "HH";
+                        break;
+                    case 2:
+                        HourlyForecastItem.TimeForemat = "h tt";
+                        HourlyForecastItem.TimeForematToLower = true;
+                        break;
+                    case 3:
+                        HourlyForecastItem.TimeForemat = "h tt";
+                        HourlyForecastItem.TimeForematToLower = false;
+                        break;
+                    case 4:
+                        HourlyForecastItem.TimeForemat = "h:00 tt";
+                        HourlyForecastItem.TimeForematToLower = true;
+                        break;
+                    case 5:
+                        HourlyForecastItem.TimeForemat = "h:00 tt";
+                        HourlyForecastItem.TimeForematToLower = false;
+                        break;
+                    case 6:
+                        HourlyForecastItem.TimeForemat = "H:00";
+                        break;
+                    case 7:
+                        HourlyForecastItem.TimeForemat = "HH:00";
+                        break;
+                }
+                UpdateHourlyForecast(weatherData);
             }
             catch { }
         }

@@ -20,6 +20,33 @@ namespace Meteoroi.ViewModels
         public double Visibility { get; set; }
         public Wind Wind { get; set; }
 
+        public static string TimeForemat { get; set; }
+        public static bool TimeForematToLower { get; set; }
+        private static bool _RealTemp = true;
+        public static bool RealTemp
+        {
+            get { return _RealTemp; }
+            set { _RealTemp = value; }
+        }
+        private static bool _ShowIcon = true;
+        public static bool ShowIcon
+        {
+            get { return _ShowIcon; }
+            set { _ShowIcon = value; }
+        }
+        private static int _Line1 = 5;
+        public static int Line1
+        {
+            get { return _Line1; }
+            set { _Line1 = value; }
+        }
+        private static int _Line2 = 0;
+        public static int Line2
+        {
+            get { return _Line2; }
+            set { _Line2 = value; }
+        }
+
         public HourlyForecastItem(Data forecast) : base(forecast)
         {
             if (forecast == null)
