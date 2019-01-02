@@ -74,7 +74,7 @@ namespace Meteoroi.Converters
                 int lines = 3;
                 if (!HourlyForecastItem.ShowIcon)
                     lines += 3;
-                if (HourlyForecastItem.Line1 == 5)
+                if (HourlyForecastItem.Line1 == 7)
                     lines += 1;
                 return lines;
             }
@@ -96,7 +96,7 @@ namespace Meteoroi.Converters
                 int lines = 3;
                 if (!HourlyForecastItem.ShowIcon)
                     lines += 3;
-                if (HourlyForecastItem.Line1 != 5)
+                if (HourlyForecastItem.Line1 != 7)
                     lines += 1;
                 return lines;
             }
@@ -122,7 +122,9 @@ namespace Meteoroi.Converters
                     case 1: return string.Concat("Humidity: ", Math.Round((double)forecast.Humidity * 100, 0), "%");
                     case 2: return string.Concat("Percipitation: ", Math.Round((double)forecast.Percipitation.Probability * 100, 0), "%");
                     case 3: return string.Concat("UV Index: ", forecast.UvIndex);
-                    case 4: return string.Concat("Wind: ", forecast.Wind.Speed, "mph");
+                    case 4: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
+                    case 5: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
+                    case 6: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), forecast.Wind.IsMetric ? "km" : "mi");
                     default: return "";
                 }
             }
@@ -147,7 +149,9 @@ namespace Meteoroi.Converters
                     case 1: return string.Concat("Humidity: ", Math.Round((double)forecast.Humidity * 100, 0), "%");
                     case 2: return string.Concat("Percipitation: ", Math.Round((double)forecast.Percipitation.Probability * 100, 0), "%");
                     case 3: return string.Concat("UV Index: ", forecast.UvIndex);
-                    case 4: return string.Concat("Wind: ", forecast.Wind.Speed, "mph");
+                    case 4: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
+                    case 5: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
+                    case 6: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), forecast.Wind.IsMetric ? "km" : "mi");
                     default: return "";
                 }
             }
@@ -159,18 +163,16 @@ namespace Meteoroi.Converters
             throw new NotImplementedException();
         }
     }
-    public class HourlyForecastLineAlignment : IValueConverter
+
+    public class HourlyForecastTempVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             try
             {
-                if (HourlyForecastItem.Line1 == 0)
-                    return HorizontalAlignment.Stretch;
-                else
-                    return HorizontalAlignment.Center;
+                return HourlyForecastItem.Line1 == 7 ? Visibility.Visible : Visibility.Collapsed;
             }
-            catch { return ""; }
+            catch { return Visibility.Collapsed; }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -178,14 +180,13 @@ namespace Meteoroi.Converters
             throw new NotImplementedException();
         }
     }
-
     public class HourlyForecastLine1Visibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             try
             {
-                return HourlyForecastItem.Line1 == 5 ? Visibility.Collapsed : Visibility.Visible;
+                return HourlyForecastItem.Line1 == 7 ? Visibility.Collapsed : Visibility.Visible;
             }
             catch { return Visibility.Collapsed; }
         }

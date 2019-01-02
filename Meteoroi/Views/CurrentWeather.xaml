@@ -39,14 +39,14 @@
         <converters:Line2Text x:Key="Line2Text" />
         <converters:Line1MaxLines x:Key="Line1MaxLines" />
         <converters:Line2MaxLines x:Key="Line2MaxLines" />
-        <converters:HourlyForecastIconVisibility  x:Key="HourlyForecastIconVisibility" />
         <converters:HourlyForecastTimeText        x:Key="HourlyForecastTimeText" />
         <converters:HourlyCurrentTemp             x:Key="HourlyCurrentTemp" />
         <converters:HourlyLine1MaxLines           x:Key="HourlyLine1MaxLines" />
         <converters:HourlyLine2MaxLines           x:Key="HourlyLine2MaxLines" />
-        <converters:HourlyForecastLineAlignment   x:Key="HourlyForecastLineAlignment" />
         <converters:HourlyLine1Text               x:Key="HourlyLine1Text" />
         <converters:HourlyLine2Text               x:Key="HourlyLine2Text" />
+        <converters:HourlyForecastIconVisibility  x:Key="HourlyForecastIconVisibility" />
+        <converters:HourlyForecastTempVisibility  x:Key="HourlyForecastTempVisibility" />
         <converters:HourlyForecastLine1Visibility x:Key="HourlyForecastLine1Visibility" />
     </Page.Resources>
     <ScrollViewer Background="{StaticResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}">
@@ -188,12 +188,15 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                     <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 1</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="5" Name="DailyLine1Box" SelectionChanged="DailyComboBox_SelectionChanged">
+                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="8" Name="DailyLine1Box" SelectionChanged="DailyComboBox_SelectionChanged">
                                         <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">CloudCover</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Temperature</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
                                     </ComboBox>
@@ -206,6 +209,9 @@
                                         <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">CloudCover</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
                                     </ComboBox>
                                 </StackPanel>
@@ -351,12 +357,14 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                 <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 1</TextBlock>
-                                <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="5" Name="HourlyLine1Box" SelectionChanged="HourlyComboBox_SelectionChanged">
+                                <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="7" Name="HourlyLine1Box" SelectionChanged="HourlyComboBox_SelectionChanged">
                                     <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">Temperature</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
                                 </ComboBox>
@@ -369,6 +377,8 @@
                                     <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
                                     <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
@@ -445,16 +455,17 @@
                                                     Visibility="{x:Bind Converter={StaticResource HourlyForecastIconVisibility}}" 
                                                     Source="{x:Bind Icon, Converter={StaticResource ForecastIconToImage}}"/>
                                         <TextBlock Grid.Row="2" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                   Text="{x:Bind Converter={StaticResource HourlyCurrentTemp}}"/>
+                                                   Text="{x:Bind Converter={StaticResource HourlyCurrentTemp}}"
+                                                   Visibility="{x:Bind Converter={StaticResource HourlyForecastTempVisibility}}"/>
                                         <TextBlock Grid.Row="3" FontSize="12" VerticalAlignment="Top" FontWeight="Bold" Margin="0,5"
                                                    MaxLines="{x:Bind Converter={StaticResource HourlyLine1MaxLines}}" 
-                                                   HorizontalAlignment="{x:Bind Converter={StaticResource HourlyForecastLineAlignment}}" 
+                                                   HorizontalAlignment="Center"
                                                    TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
                                                    Text="{x:Bind Converter={StaticResource HourlyLine1Text}}" 
                                                    Visibility="{x:Bind Converter={StaticResource HourlyForecastLine1Visibility}}"/>
                                         <TextBlock Grid.Row="4" FontSize="12" VerticalAlignment="Top" Foreground="DarkGray" 
                                                    MaxLines="{x:Bind Converter={StaticResource HourlyLine2MaxLines}}" 
-                                                   HorizontalAlignment="{x:Bind Converter={StaticResource HourlyForecastLineAlignment}}" 
+                                                   HorizontalAlignment="Center" 
                                                    TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
                                                    Text="{x:Bind Converter={StaticResource HourlyLine2Text}}"/>
                                         <ToolTipService.ToolTip>

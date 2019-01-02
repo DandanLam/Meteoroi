@@ -54,7 +54,7 @@ namespace Meteoroi.Converters
         {
             try
             {
-                return DailyForecastItem.Line1 == 5 ? Visibility.Collapsed : Visibility.Visible;
+                return DailyForecastItem.Line1 == 8 ? Visibility.Collapsed : Visibility.Visible;
             }
             catch { return Visibility.Collapsed; }
         }
@@ -71,7 +71,7 @@ namespace Meteoroi.Converters
         {
             try
             {
-                return DailyForecastItem.Line1 == 5 ? Visibility.Visible : Visibility.Collapsed;
+                return DailyForecastItem.Line1 == 8 ? Visibility.Visible : Visibility.Collapsed;
             }
             catch { return Visibility.Collapsed; }
         }
@@ -151,7 +151,7 @@ namespace Meteoroi.Converters
                 int lines = 3;
                 if (!DailyForecastItem.ShowIcon)
                     lines += 3;
-                if (DailyForecastItem.Line1 == 5)
+                if (DailyForecastItem.Line1 == 8)
                     lines += 1;
                 return lines;
             }
@@ -173,8 +173,8 @@ namespace Meteoroi.Converters
                 int lines = 3;
                 if (!DailyForecastItem.ShowIcon)
                     lines += 3;
-                if (DailyForecastItem.Line1 != 5)
-                    lines += 1;
+                //if (DailyForecastItem.Line1 != 8)
+                //    lines += 1;
                 return lines;
             }
             catch { return 3; }
@@ -200,7 +200,9 @@ namespace Meteoroi.Converters
                     case 2: return string.Concat("Percipitation: ", Math.Round((double)forecast.Percipitation.Probability * 100, 0), "%");
                     case 3: return string.Concat("Cloud Cover: ", Math.Round((double)forecast.CloudCover * 100, 0), "%");
                     case 4: return string.Concat("UV Index: ", forecast.UvIndex);
-                    //case 7: return string.Concat("Wind: ", forecast.Wind.Speed);
+                    case 5: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
+                    case 6: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
+                    case 7: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), forecast.Wind.IsMetric ? "km" : "mi");
                     default: return "";
                 }
             }
@@ -225,8 +227,10 @@ namespace Meteoroi.Converters
                     case 1: return string.Concat("Humidity: ", Math.Round((double)forecast.Humidity * 100, 0), "%"); 
                     case 2: return string.Concat("Percipitation: ", Math.Round((double)forecast.Percipitation.Probability * 100, 0), "%"); 
                     case 3: return string.Concat("Cloud Cover: ", Math.Round((double)forecast.CloudCover * 100, 0), "%"); 
-                    case 4: return string.Concat("UV Index: ", forecast.UvIndex); 
-                    //case 6: return string.Concat("Wind: ", forecast.Wind.Speed); 
+                    case 4: return string.Concat("UV Index: ", forecast.UvIndex);
+                    case 5: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
+                    case 6: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
+                    case 7: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), forecast.Wind.IsMetric ? "km" : "mi");
                     default: return "";
                 }
             }

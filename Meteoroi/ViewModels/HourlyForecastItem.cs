@@ -34,7 +34,7 @@ namespace Meteoroi.ViewModels
             get { return _ShowIcon; }
             set { _ShowIcon = value; }
         }
-        private static int _Line1 = 5;
+        private static int _Line1 = 7;
         public static int Line1
         {
             get { return _Line1; }

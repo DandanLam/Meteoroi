@@ -86,7 +86,9 @@ namespace Meteoroi.Views
             {
                 data.Temp.IsCelcius = CurrentForecast.IsCelcius;
                 data.ApparnetTemp.IsCelcius = CurrentForecast.IsCelcius;
-                DailyForecasts.Add(new DailyForecastItem(data));
+                var dfi = new DailyForecastItem(data);
+                dfi.Wind.IsMetric = CurrentForecast.IsMetric;
+                DailyForecasts.Add(dfi);
             }
             DailyGridView.ScrollIntoView(DailyForecasts.Last());
             DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
@@ -116,7 +118,9 @@ namespace Meteoroi.Views
             {
                 data.Temp.IsCelcius = CurrentForecast.IsCelcius;
                 data.ApparnetTemp.IsCelcius = CurrentForecast.IsCelcius;
-                HourlyForecasts.Add(new HourlyForecastItem(data));
+                var hfi = new HourlyForecastItem(data);
+                hfi.Wind.IsMetric = CurrentForecast.IsMetric;
+                HourlyForecasts.Add(hfi);
             }
             HourlyGridView.ScrollIntoView(HourlyForecasts.Last());
             HourlyGridView.ScrollIntoView(HourlyForecasts[CurrentHourlyInView]);
