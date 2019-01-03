@@ -77,6 +77,7 @@ namespace Meteoroi.ViewModels
             get { return _IsCelcius; }
             set {
                 SetProperty(_IsCelcius, value, () => _IsCelcius = value);
+                Settings.IsCelcius = value;
                 Temp = _Temp + .0000001;
                 ApparentTemp = _ApparentTemp + .0000001;
                 DewPoint = _DewPoint + .0000001;
@@ -97,7 +98,7 @@ namespace Meteoroi.ViewModels
                 WindBearing = _WindBearing + .0000001;
             }
         }
-        private bool _IsMainRealTemp;
+        private bool _IsMainRealTemp = Settings.ShowCurrentRealTemp;
         public bool IsMainRealTemp
         {
             get { return Settings.ShowCurrentRealTemp; }
@@ -124,15 +125,6 @@ namespace Meteoroi.ViewModels
             set { SetProperty(_ThisWeekSummary, value, () => _ThisWeekSummary = value); }
         }
 
-        private bool _MainTempIsReal = Settings.ShowCurrentRealTemp;
-        public bool MainTempIsReal
-        {
-            get { return _MainTempIsReal; }
-            set {
-                SetProperty(_MainTempIsReal, value, () => _MainTempIsReal = value);
-                Settings.ShowCurrentRealTemp = value;
-            }
-        }
         private bool _ShowTempAlt = Settings.ShowCurrentAltTemp;
         public bool ShowTempAlt
         {

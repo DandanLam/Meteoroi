@@ -59,10 +59,14 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(IS_CELCIUS_KEY) || !GetBoolValue(IS_CELCIUS_KEY))
-                    return false;
-                else
-                    return true;
+                try
+                {
+                    if (IsKeyPresent(IS_CELCIUS_KEY) && GetBoolValue(IS_CELCIUS_KEY))
+                        return true;
+                    else
+                        return false;
+                }
+                catch { return false; }
             }
             set
             {

@@ -56,7 +56,7 @@ namespace Meteoroi.Views
         {
             if (weatherData == null)
                 return;
-            var newItem = new CurrentForecastItem(weatherData.Currently) { IsMetric = false, IsCelcius = false };
+            var newItem = new CurrentForecastItem(weatherData.Currently);
             CurrentForecast.Location = weatherData.Location;
             CurrentForecast.Temp = newItem.Temp;
             CurrentForecast.ApparentTemp = newItem.ApparentTemp;
@@ -78,6 +78,8 @@ namespace Meteoroi.Views
             CurrentForecast.WindBearing = newItem.WindBearing;
             CurrentForecast.GustTime = newItem.GustTime;
 
+            CurrentForecast.IsMetric = Settings.IsMetric;
+            CurrentForecast.IsCelcius = Settings.IsCelcius;
         }
 
         void UpdateDailyForecast(WeatherData weatherData)
