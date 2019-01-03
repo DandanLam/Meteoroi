@@ -1,5 +1,6 @@
 ﻿using Meteoroi.ViewModels;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using NotificationService;
 using StorageService;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace Meteoroi.Views
             }
             UpdateDailyForecast(weatherData);
             UpdateHourlyForecast(weatherData);
+            LiveTiles.SetLiveTile(weatherData);
         }
 
         void UpdateCurrentForecast(WeatherData weatherData)
