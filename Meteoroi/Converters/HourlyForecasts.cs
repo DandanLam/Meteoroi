@@ -33,7 +33,7 @@ namespace Meteoroi.Converters
         {
             try
             {
-                var timeString = ((HourlyForecastItem)value).Time.ToString(HourlyForecastItem.TimeForemat);
+                var timeString = ((HourlyForecastItem)value).Time.ToLocalTime().ToString(HourlyForecastItem.TimeForemat);
                 return HourlyForecastItem.TimeForematToLower ? timeString.ToLower() : timeString;
             }
             catch { return Visibility.Collapsed; }
