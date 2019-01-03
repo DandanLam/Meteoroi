@@ -11,7 +11,8 @@
     xmlns:converters="using:Meteoroi.Converters"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
     <Page.Resources>
         <converters:DistanceUnit x:Key="DistanceUnit" />
         <converters:LocationToString x:Key="LocationToString" />
@@ -48,6 +49,14 @@
         <converters:HourlyForecastIconVisibility  x:Key="HourlyForecastIconVisibility" />
         <converters:HourlyForecastTempVisibility  x:Key="HourlyForecastTempVisibility" />
         <converters:HourlyForecastLine1Visibility x:Key="HourlyForecastLine1Visibility" />
+        <converters:CurrentForecastDewPointText   x:Key="CurrentForecastDewPointText" />
+        <converters:CurrentForecastHumidityText   x:Key="CurrentForecastHumidityText" />
+        <converters:CurrentForecastBarometerText  x:Key="CurrentForecastBarometerText" />
+        <converters:CurrentForecastVisibilityText x:Key="CurrentForecastVisibilityText" />
+        <converters:CurrentForecastWindSpeedText  x:Key="CurrentForecastWindSpeedText" />
+        <converters:CurrentForecastAltTempText    x:Key="CurrentForecastAltTempText" />
+        <converters:CurrentForecastAltTempVisibility x:Key="CurrentForecastAltTempVisibility" />
+        <converters:CurrentForecastRegTempVisibility x:Key="CurrentForecastRegTempVisibility" />
     </Page.Resources>
     <ScrollViewer Background="{StaticResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}">
         <Grid>
@@ -59,95 +68,148 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Margin="20">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Grid.Row="0" FontSize="30" Text="{x:Bind CurrentForecast.Location, Mode=OneWay, Converter={StaticResource LocationToString}}"/>
-                    <Button Height="38" Width="38" BorderThickness="0" Background="Transparent" VerticalAlignment="Center">
-                        <TextBlock FontSize="20" FontFamily="Segoe MDL2 Assets" Text="&#xE115;"/>
-                    </Button>
-                </StackPanel>
-                <Grid HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Grid.Column="1" Margin="15,0" Height="85" Width="85" Source="{x:Bind CurrentForecast.Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}" />
-                    <StackPanel Grid.Column="2" Orientation="Horizontal">
-                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.Temp, Mode=OneWay}"/>
-                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
-                    </StackPanel>
-                    <Grid Grid.Column="3" VerticalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel>
-                            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="25" Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource SelectedTempMetricSymbol}}"/>
-                            <Button Background="Transparent" Height="38" Width="38" BorderThickness="0" Padding="0" Margin="0" Click="ToggleIsCelcius_Click">
-                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource UnselectedTempMetricSymbol}}" Foreground="DarkGray"/>
-                            </Button>
-                        </StackPanel>
+            <StackPanel Grid.Row="0" Margin="0,32,0,0" HorizontalAlignment="Center" Name="CurrentStackPanel">
+                <Grid>
+                    <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="CurrentEditGrid">
+                        <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                        <Grid Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                    <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Location Format</TextBlock>
+                                    <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="LocationFormatComboBox_SelectionChanged" Loaded="LocationFormatComboBox_Loaded">
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Seattle</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, USA</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, United States</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                    <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
+                                    <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentIconComboBox_SelectionChanged" Loaded="CurrentIconComboBox_Loaded">
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>-->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                    <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
+                                    <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentTempIsRealComboBox_SelectionChanged" Loaded="CurrentTempIsRealComboBox_Loaded">
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                <CheckBox Content="Alternate Temp" Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="AltTempCheckbox_Loaded"/>
+                                <CheckBox Content="Wind Speed"     Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="WindSpeedCheckbox_Loaded"/>
+                                <CheckBox Content="Visibility"     Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="VisibilityCheckbox_Loaded"/>
+                                <CheckBox Content="Barometer"      Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="BarometerCheckbox_Loaded"/>
+                                <CheckBox Content="Humidity"       Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="HumidityCheckbox_Loaded"/>
+                                <CheckBox Content="Dew Point"      Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="DewPointCheckbox_Loaded"/>
+                            </StackPanel>
+                        </Grid>
+                        <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="CurrentEditDone_Click"/>
                     </Grid>
-                    
-                </Grid>
-                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Thin" Text="{x:Bind CurrentForecast.Summary, Mode=OneWay}"/>
-                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Margin="0,5,0,10" Text="{x:Bind CurrentForecast.Time, Mode=OneWay, Converter={StaticResource ForecastTimeToUpdatedText}}" />
-                <Grid HorizontalAlignment="Center" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock FontSize="12" Text="Feels Like"/>
-                        <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay, Converter={StaticResource TempToText}}"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock FontSize="12" Text="Wind"/>
-                        <TextBlock FontSize="11" Margin="5,0,0,0"  Text="&#xEBE6;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center">
-                            <interactivity:Interaction.Behaviors>
-                                <behaviors:Rotate
-                                            Value="{x:Bind CurrentForecast.WindBearing, Mode=OneWay}"
-                                            CenterX="5.5" 
-                                            CenterY="5.5" 
-                                            Duration="0"
-                                            Delay="0" 
-                                            AutomaticallyStart="True"/>
-                            </interactivity:Interaction.Behaviors>
-                        </TextBlock>
-                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                            <TextBlock FontSize="12" Text="{x:Bind CurrentForecast.WindSpeed, Mode=OneWay, Converter={StaticResource NumberToZeroDecimals}}"/>
-                            <TextBlock FontSize="12" Text="{x:Bind CurrentForecast.IsMetric, Mode=OneWay, Converter={StaticResource WindSpeedUnit}}"/>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock FontSize="12" Text="Visibility"/>
-                        <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.Visibility, Mode=OneWay, Converter={StaticResource NumberToZeroDecimals}}"/>
-                        <TextBlock FontSize="12" Margin="0,0,0,0" Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource DistanceUnit}}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid HorizontalAlignment="Center" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock FontSize="12" Text="Barometer"/>
-                        <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.Pressure, Mode=OneWay, Converter={StaticResource NumberToTwoDecimals}}"/>
-                        <TextBlock FontSize="12" Margin="0,0,0,0" Text="{x:Bind CurrentForecast.IsMetric, Mode=OneWay, Converter={StaticResource BarometerUnit}}"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock FontSize="12" Text="Humidity"/>
-                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                            <TextBlock FontSize="12" Text="{x:Bind CurrentForecast.Humidity, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock FontSize="12" Text="Dew Point"/>
-                        <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.DewPoint, Mode=OneWay, Converter={StaticResource TempToText}}"/>
+                    <StackPanel Margin="20">
+                        <Grid HorizontalAlignment="Center" Name="CurrentHeaderGrid">
+                            <Button BorderThickness="0" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="CurrentEdit_Click">
+                                <TextBlock Grid.Row="0" FontSize="30" Text="{x:Bind CurrentForecast.LocationString, Mode=OneWay}"/>
+                            </Button>
+                        </Grid>
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="1" Margin="15,0" Height="85" Width="85" Source="{x:Bind CurrentForecast.Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}" />
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempVisibility}}">
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.Temp, Mode=OneWay}"/>
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay}"/>
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
+                            </StackPanel>
+                            <Grid Grid.Column="3" VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel>
+                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="25" 
+                                               Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource SelectedTempMetricSymbol}}"/>
+                                    <Button Background="Transparent" Height="38" Width="38" BorderThickness="0" Padding="0" Margin="0" Click="ToggleIsCelcius_Click">
+                                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="20" 
+                                                   Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource UnselectedTempMetricSymbol}}" Foreground="DarkGray"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Thin" Text="{x:Bind CurrentForecast.Summary, Mode=OneWay}"/>
+                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Margin="0,5,0,10" 
+                                   Text="{x:Bind CurrentForecast.Time, Mode=OneWay, Converter={StaticResource ForecastTimeToUpdatedText}}" />
+                        <Grid HorizontalAlignment="Center" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" Margin="15,0" Visibility="{x:Bind CurrentForecast.ShowTempAlt, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                            Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}" >
+                                    <TextBlock Grid.Column="0" FontSize="12" Text="Feels Like:"/>
+                                    <TextBlock Grid.Column="0" FontSize="12" Margin="5,0,0,0" 
+                                               Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempText}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                            Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempVisibility}}" >
+                                    <TextBlock Grid.Column="0" FontSize="12" Text="Real Temp:"/>
+                                    <TextBlock Grid.Column="0" FontSize="12" Margin="5,0,0,0"                                            
+                                               Text="{x:Bind CurrentForecast.Temp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempText}}"/>
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel Grid.Column="1" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center" 
+                                        Visibility="{x:Bind CurrentForecast.ShowWindSpeed, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
+                                <TextBlock FontSize="12" Text="Wind:"/>
+                                <TextBlock FontSize="11" Margin="5,0,0,0"  Text="&#xEBE6;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center">
+                                    <interactivity:Interaction.Behaviors>
+                                        <behaviors:Rotate
+                                                    Value="{x:Bind CurrentForecast.WindBearing, Mode=OneWay}"
+                                                    CenterX="5.5" 
+                                                    CenterY="5.5" 
+                                                    Duration="0"
+                                                    Delay="0" 
+                                                    AutomaticallyStart="True"/>
+                                    </interactivity:Interaction.Behaviors>
+                                </TextBlock>
+                                <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.WindSpeed, Mode=OneWay, Converter={StaticResource CurrentForecastWindSpeedText}}"/>
+                            </StackPanel>
+                            <TextBlock Grid.Column="2" FontSize="12" Margin="15,0" 
+                                       Visibility="{x:Bind CurrentForecast.ShowVisibility, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
+                                       Text="{x:Bind CurrentForecast.Visibility, Mode=OneWay, Converter={StaticResource CurrentForecastVisibilityText}}"/>
+                        </Grid>
+                        <Grid HorizontalAlignment="Center" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontSize="12" Margin="15,0" 
+                                       Visibility="{x:Bind CurrentForecast.ShowPressure, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
+                                       Text="{x:Bind CurrentForecast.Pressure, Mode=OneWay, Converter={StaticResource CurrentForecastBarometerText}}"/>
+                            <TextBlock Grid.Column="1" FontSize="12" Margin="15,0" 
+                                       Visibility="{x:Bind CurrentForecast.ShowHumidity, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
+                                       Text="{x:Bind CurrentForecast.Humidity, Mode=OneWay, Converter={StaticResource CurrentForecastHumidityText}}"/>
+                            <TextBlock Grid.Column="2" FontSize="12" Margin="15,0" 
+                                       Visibility="{x:Bind CurrentForecast.ShowDewPoint, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
+                                       Text="{x:Bind CurrentForecast.DewPoint, Mode=OneWay, Converter={StaticResource CurrentForecastDewPointText}}"/>
+                        </Grid>
                     </StackPanel>
                 </Grid>
             </StackPanel>

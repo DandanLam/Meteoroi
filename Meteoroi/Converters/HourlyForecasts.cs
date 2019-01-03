@@ -1,4 +1,5 @@
 ﻿using Meteoroi.ViewModels;
+using StorageService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,9 +123,9 @@ namespace Meteoroi.Converters
                     case 1: return string.Concat("Humidity: ", Math.Round((double)forecast.Humidity * 100, 0), "%");
                     case 2: return string.Concat("Percipitation: ", Math.Round((double)forecast.Percipitation.Probability * 100, 0), "%");
                     case 3: return string.Concat("UV Index: ", forecast.UvIndex);
-                    case 4: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
-                    case 5: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
-                    case 6: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), forecast.Wind.IsMetric ? "km" : "mi");
+                    case 4: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), Settings.IsMetric ? "km/h" : "mph");
+                    case 5: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), Settings.IsMetric ? "km/h" : "mph");
+                    case 6: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), Settings.IsMetric ? "km" : "mi");
                     default: return "";
                 }
             }
@@ -149,9 +150,9 @@ namespace Meteoroi.Converters
                     case 1: return string.Concat("Humidity: ", Math.Round((double)forecast.Humidity * 100, 0), "%");
                     case 2: return string.Concat("Percipitation: ", Math.Round((double)forecast.Percipitation.Probability * 100, 0), "%");
                     case 3: return string.Concat("UV Index: ", forecast.UvIndex);
-                    case 4: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
-                    case 5: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), forecast.Wind.IsMetric ? "km/h" : "mph");
-                    case 6: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), forecast.Wind.IsMetric ? "km" : "mi");
+                    case 4: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), Settings.IsMetric ? "km/h" : "mph");
+                    case 5: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), Settings.IsMetric ? "km/h" : "mph");
+                    case 6: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), Settings.IsMetric ? "km" : "mi");
                     default: return "";
                 }
             }

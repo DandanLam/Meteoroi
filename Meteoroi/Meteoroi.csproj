@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\CurrentForecast.cs" />
     <Compile Include="Converters\DistanceMeasurements.cs" />
     <Compile Include="Converters\ForecastIconToImage.cs" />
     <Compile Include="Converters\ForecastTimeToUpdatedText.cs" />
@@ -197,6 +198,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StorageService\StorageService.csproj">
+      <Project>{f1bdc917-3a47-4e7b-a361-5b7219b6d156}</Project>
+      <Name>StorageService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WeatherService\WeatherService.csproj">
       <Project>{caa7b18f-1f1e-449e-8e41-9a57c7914177}</Project>
       <Name>WeatherService</Name>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StorageService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,37 @@ namespace Meteoroi.ViewModels
         public MapLocation Location
         {
             get { return _Location; }
-            set { SetProperty(_Location, value, () => _Location = value); }
+            set { SetProperty(_Location, value, () => _Location = value);
+                LocationString = Guid.NewGuid().ToString();
+            }
+        }
+        private string _LocationString;
+        public string LocationString
+        {
+            get
+            {
+                if (Location == null)
+                    return "";
+                var sb = new StringBuilder();
+                sb.Append(Location.Address.Town);
+                if (Settings.ShowCurrentRegion != Settings.LocationDisplayType.HIDDEN)
+                {
+                    sb.Append(", ");
+                    sb.Append(Location.Address.Region);
+                }
+                if (Settings.ShowCurrentCountry == Settings.LocationDisplayType.FULL)
+                {
+                    sb.Append(", ");
+                    sb.Append(Location.Address.Country);
+                }
+                else if (Settings.ShowCurrentCountry == Settings.LocationDisplayType.ABBREV)
+                {
+                    sb.Append(", ");
+                    sb.Append(Location.Address.CountryCode);
+                }
+                return sb.ToString();
+            }
+            set { SetProperty(_LocationString, value, () => _LocationString = value); }
         }
         private double _Temp;
         public double Temp
@@ -58,11 +89,20 @@ namespace Meteoroi.ViewModels
             set
             {
                 SetProperty(_IsMetric, value, () => _IsMetric = value);
+                Settings.IsMetric = value;
                 Pressure = _Pressure + .0000001;
                 Visibility = _Visibility + .0000001;
                 WindSpeed = _WindSpeed + .0000001;
                 Gust = _Gust + .0000001;
                 WindBearing = _WindBearing + .0000001;
+            }
+        }
+        private bool _IsMainRealTemp;
+        public bool IsMainRealTemp
+        {
+            get { return Settings.ShowCurrentRealTemp; }
+            set { SetProperty(_IsMainRealTemp, value, () => _IsMainRealTemp = value);
+                Settings.ShowCurrentRealTemp = value;
             }
         }
         private string _ThisDaySummary;
@@ -82,6 +122,70 @@ namespace Meteoroi.ViewModels
         {
             get { return _ThisWeekSummary; }
             set { SetProperty(_ThisWeekSummary, value, () => _ThisWeekSummary = value); }
+        }
+
+        private bool _MainTempIsReal = Settings.ShowCurrentRealTemp;
+        public bool MainTempIsReal
+        {
+            get { return _MainTempIsReal; }
+            set {
+                SetProperty(_MainTempIsReal, value, () => _MainTempIsReal = value);
+                Settings.ShowCurrentRealTemp = value;
+            }
+        }
+        private bool _ShowTempAlt = Settings.ShowCurrentAltTemp;
+        public bool ShowTempAlt
+        {
+            get { return _ShowTempAlt; }
+            set {
+                SetProperty(_ShowTempAlt, value, () => _ShowTempAlt = value);
+                Settings.ShowCurrentAltTemp = value;
+            }
+        }
+        private bool _ShowWindSpeed = Settings.ShowCurrentWindSpeed;
+        public bool ShowWindSpeed
+        {
+            get { return _ShowWindSpeed; }
+            set {
+                SetProperty(_ShowWindSpeed, value, () => _ShowWindSpeed = value);
+                Settings.ShowCurrentWindSpeed = value;
+            }
+        }
+        private bool _ShowVisibility = Settings.ShowCurrentVisibility;
+        public bool ShowVisibility
+        {
+            get { return _ShowVisibility; }
+            set {
+                SetProperty(_ShowVisibility, value, () => _ShowVisibility = value);
+                Settings.ShowCurrentVisibility = value;
+            }
+        }
+        private bool _ShowPressure = Settings.ShowCurrentPressure;
+        public bool ShowPressure
+        {
+            get { return _ShowPressure; }
+            set {
+                SetProperty(_ShowPressure, value, () => _ShowPressure = value);
+                Settings.ShowCurrentPressure = value;
+            }
+        }
+        private bool _ShowHumidity = Settings.ShowCurrentHumidity;
+        public bool ShowHumidity
+        {
+            get { return _ShowHumidity; }
+            set {
+                SetProperty(_ShowHumidity, value, () => _ShowHumidity = value);
+                Settings.ShowCurrentHumidity = value;
+            }
+        }
+        private bool _ShowDewPoint = Settings.ShowCurrentDewPoint;
+        public bool ShowDewPoint
+        {
+            get { return _ShowDewPoint; }
+            set {
+                SetProperty(_ShowDewPoint, value, () => _ShowDewPoint = value);
+                Settings.ShowCurrentDewPoint = value;
+            }
         }
 
         private double _WindSpeed;

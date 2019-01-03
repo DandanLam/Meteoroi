@@ -1,5 +1,6 @@
 ﻿using Meteoroi.ViewModels;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using StorageService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +24,7 @@ namespace Meteoroi.Views
 {
     public sealed partial class CurrentWeather : Page
     {
+        bool PageIsLoading = true;
         const int TutorialFontSize = 10;
         WeatherData weatherData = null;
         CurrentForecastItem CurrentForecast = new CurrentForecastItem(null);
@@ -75,6 +77,7 @@ namespace Meteoroi.Views
             CurrentForecast.Gust = newItem.Gust;
             CurrentForecast.WindBearing = newItem.WindBearing;
             CurrentForecast.GustTime = newItem.GustTime;
+
         }
 
         void UpdateDailyForecast(WeatherData weatherData)
@@ -205,6 +208,8 @@ namespace Meteoroi.Views
                 DetailsStackPanel.Width = changedGridView.ActualWidth;
                 DailyHeaderGrid.Width = changedGridView.ActualWidth - 20;
                 HourlyHeaderGrid.Width = changedGridView.ActualWidth - 20;
+                CurrentHeaderGrid.Width = changedGridView.ActualWidth - 20;
+                CurrentStackPanel.Width = changedGridView.ActualWidth + 90;
             }
             catch { }
         }
@@ -485,6 +490,189 @@ namespace Meteoroi.Views
                 UpdateHourlyForecast(weatherData);
             }
             catch { }
+        }
+
+        private void CurrentEditDone_Click(object sender, RoutedEventArgs e)
+        {
+            HideGrid(CurrentEditGrid);
+        }
+
+        private void CurrentEdit_Click(object sender, RoutedEventArgs e)
+        {
+            ShowGrid(CurrentEditGrid);
+        }
+
+        private void CurrnetCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var cb = sender as CheckBox;
+            if (cb == null)
+                return;
+            try
+            {
+                switch(cb.Content as string)
+                {
+                    case "Alternate Temp":
+                        CurrentForecast.ShowTempAlt = (bool)cb.IsChecked;
+                        Settings.ShowCurrentAltTemp = (bool)cb.IsChecked;
+                        break;
+                    case "Wind Speed":
+                        CurrentForecast.ShowWindSpeed = (bool)cb.IsChecked;
+                        Settings.ShowCurrentWindSpeed = (bool)cb.IsChecked;
+                        break;
+                    case "Visibility":
+                        CurrentForecast.ShowVisibility = (bool)cb.IsChecked;
+                        Settings.ShowCurrentVisibility = (bool)cb.IsChecked;
+                        break;
+                    case "Barometer":
+                        CurrentForecast.ShowPressure = (bool)cb.IsChecked;
+                        Settings.ShowCurrentPressure = (bool)cb.IsChecked;
+                        break;
+                    case "Humidity":
+                        CurrentForecast.ShowHumidity = (bool)cb.IsChecked;
+                        Settings.ShowCurrentHumidity = (bool)cb.IsChecked;
+                        break;
+                    case "Dew Point":
+                        CurrentForecast.ShowDewPoint = (bool)cb.IsChecked;
+                        Settings.ShowCurrentDewPoint = (bool)cb.IsChecked;
+                        break;
+                }
+            }
+            catch { }
+        }
+
+        private void LocationFormatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PageIsLoading)
+                return;
+            switch ((sender as ComboBox).SelectedIndex)
+            {
+                case 0:
+                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.HIDDEN;
+                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.HIDDEN;
+                    break;
+                case 1:
+                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.ABBREV;
+                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.HIDDEN;
+                    break;
+                case 2:
+                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.ABBREV;
+                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.ABBREV;
+                    break;
+                case 3:
+                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.ABBREV;
+                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.FULL;
+                    break;
+                case 4:
+                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.FULL;
+                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.ABBREV;
+                    break;
+            }
+            CurrentForecast.LocationString = Guid.NewGuid().ToString();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            PageIsLoading = false;
+        }
+
+        private void LocationFormatComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+            if (Settings.ShowCurrentRegion == Settings.LocationDisplayType.HIDDEN &&
+                Settings.ShowCurrentCountry == Settings.LocationDisplayType.HIDDEN)
+                combobox.SelectedIndex = 0;
+            else if (Settings.ShowCurrentRegion == Settings.LocationDisplayType.FULL &&
+                Settings.ShowCurrentCountry == Settings.LocationDisplayType.HIDDEN)
+                combobox.SelectedIndex = 1;
+            else if (Settings.ShowCurrentRegion == Settings.LocationDisplayType.FULL &&
+                Settings.ShowCurrentCountry == Settings.LocationDisplayType.ABBREV)
+                combobox.SelectedIndex = 2;
+            else if (Settings.ShowCurrentRegion == Settings.LocationDisplayType.FULL &&
+                Settings.ShowCurrentCountry == Settings.LocationDisplayType.FULL)
+                combobox.SelectedIndex = 3;
+        }
+
+        private void CurrentIconComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+            Settings.ShowCurrentIcon = combobox.SelectedIndex == 0 ? true : false;
+        }
+
+        private void CurrentIconComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+            combobox.SelectedIndex = Settings.ShowCurrentIcon ? 0 : 1;
+        }
+
+        private void CurrentTempIsRealComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+            Settings.ShowCurrentRealTemp = combobox.SelectedIndex == 0 ? true : false;
+            CurrentForecast.IsMainRealTemp = Settings.ShowCurrentRealTemp;
+        }
+
+        private void CurrentTempIsRealComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+            combobox.SelectedIndex = Settings.ShowCurrentRealTemp ? 0 : 1;
+        }
+
+        private void AltTempCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+            checkbox.IsChecked = Settings.ShowCurrentAltTemp ? true : false;
+        }
+
+        private void WindSpeedCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+            checkbox.IsChecked = Settings.ShowCurrentWindSpeed ? true : false;
+        }
+
+        private void VisibilityCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+            checkbox.IsChecked = Settings.ShowCurrentVisibility ? true : false;
+        }
+
+        private void BarometerCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+            checkbox.IsChecked = Settings.ShowCurrentPressure ? true : false;
+        }
+
+        private void HumidityCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+            checkbox.IsChecked = Settings.ShowCurrentHumidity ? true : false;
+        }
+
+        private void DewPointCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+            checkbox.IsChecked = Settings.ShowCurrentDewPoint ? true : false;
         }
     }
 }
