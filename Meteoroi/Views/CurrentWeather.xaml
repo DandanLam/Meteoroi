@@ -44,8 +44,10 @@
         <converters:HourlyCurrentTemp             x:Key="HourlyCurrentTemp" />
         <converters:HourlyLine1MaxLines           x:Key="HourlyLine1MaxLines" />
         <converters:HourlyLine2MaxLines           x:Key="HourlyLine2MaxLines" />
+        <converters:HourlyLine3MaxLines           x:Key="HourlyLine3MaxLines" />
         <converters:HourlyLine1Text               x:Key="HourlyLine1Text" />
         <converters:HourlyLine2Text               x:Key="HourlyLine2Text" />
+        <converters:HourlyLine3Text               x:Key="HourlyLine3Text" />
         <converters:HourlyForecastIconVisibility  x:Key="HourlyForecastIconVisibility" />
         <converters:HourlyForecastTempVisibility  x:Key="HourlyForecastTempVisibility" />
         <converters:HourlyForecastLine1Visibility x:Key="HourlyForecastLine1Visibility" />
@@ -419,7 +421,8 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                     <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 1</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="7" Name="HourlyLine1Box" SelectionChanged="HourlyComboBox_SelectionChanged">
+                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine1Box" 
+                                              Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
                                         <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
@@ -433,7 +436,22 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                     <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 2</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="4" Name="HourlyLine2Box" SelectionChanged="HourlyComboBox_SelectionChanged">
+                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine2Box" 
+                                              Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 3</TextBlock>
+                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine3Box" 
+                                              Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
                                         <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
                                         <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
@@ -508,6 +526,7 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
                                             <RowDefinition />
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
@@ -530,6 +549,11 @@
                                                    HorizontalAlignment="Center" 
                                                    TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
                                                    Text="{x:Bind Converter={StaticResource HourlyLine2Text}}"/>
+                                        <TextBlock Grid.Row="5" FontSize="12" VerticalAlignment="Top" Foreground="DarkGray" FontWeight="Bold"
+                                                   MaxLines="{x:Bind Converter={StaticResource HourlyLine3MaxLines}}" 
+                                                   HorizontalAlignment="Center" 
+                                                   TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
+                                                   Text="{x:Bind Converter={StaticResource HourlyLine3Text}}"/>
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
                                                 <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary}"/>

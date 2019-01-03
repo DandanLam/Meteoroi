@@ -110,6 +110,28 @@ namespace Meteoroi.Converters
         }
     }
 
+    public class HourlyLine3MaxLines : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            try
+            {
+                int lines = 3;
+                if (!HourlyForecastItem.ShowIcon)
+                    lines += 3;
+                if (HourlyForecastItem.Line1 != 7)
+                    lines += 1;
+                return lines;
+            }
+            catch { return 3; }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class HourlyLine1Text : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
@@ -164,7 +186,33 @@ namespace Meteoroi.Converters
             throw new NotImplementedException();
         }
     }
+    public class HourlyLine3Text : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            try
+            {
+                var forecast = value as HourlyForecastItem;
+                switch (HourlyForecastItem.Line3)
+                {
+                    case 0: return forecast.Summary;
+                    case 1: return string.Concat("Humidity: ", Math.Round((double)forecast.Humidity * 100, 0), "%");
+                    case 2: return string.Concat("Percipitation: ", Math.Round((double)forecast.Percipitation.Probability * 100, 0), "%");
+                    case 3: return string.Concat("UV Index: ", forecast.UvIndex);
+                    case 4: return string.Concat("Wind: ", Math.Round((double)forecast.Wind.Speed, 0), Settings.IsMetric ? "km/h" : "mph");
+                    case 5: return string.Concat("Max Wind: ", Math.Round((double)forecast.Wind.Gust, 0), Settings.IsMetric ? "km/h" : "mph");
+                    case 6: return string.Concat("Visibility: ", Math.Round((double)forecast.Visibility, 0), Settings.IsMetric ? "km" : "mi");
+                    default: return "";
+                }
+            }
+            catch { return ""; }
+        }
 
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
     public class HourlyForecastTempVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

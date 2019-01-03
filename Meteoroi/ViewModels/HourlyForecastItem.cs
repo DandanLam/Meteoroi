@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StorageService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,17 +35,20 @@ namespace Meteoroi.ViewModels
             get { return _ShowIcon; }
             set { _ShowIcon = value; }
         }
-        private static int _Line1 = 7;
         public static int Line1
         {
-            get { return _Line1; }
-            set { _Line1 = value; }
+            get { return Settings.HourlyLine1; }
+            set { Settings.HourlyLine1 = value; }
         }
-        private static int _Line2 = 0;
         public static int Line2
         {
-            get { return _Line2; }
-            set { _Line2 = value; }
+            get { return Settings.HourlyLine2; }
+            set { Settings.HourlyLine2 = value; }
+        }
+        public static int Line3
+        {
+            get { return Settings.HourlyLine3; }
+            set { Settings.HourlyLine3 = value; }
         }
 
         public HourlyForecastItem(Data forecast) : base(forecast)

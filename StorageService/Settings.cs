@@ -16,6 +16,7 @@ namespace StorageService
         private const string HOURLY_ICON_KEY = "HOURLY_ICON";
         private const string DAILY_LINE_1_KEY = "DAILY_LINE_1";
         private const string DAILY_LINE_2_KEY = "DAILY_LINE_2";
+        private const string DAILY_LINE_3_KEY = "DAILY_LINE_3";
         private const string DAILY_SUMMARY_KEY = "DAILY_SUMMARY";
         private const string DAILY_SHOW_REAL_TEMP_KEY = "DAILY_SHOW_REAL_TEMP";
         private const string TIME_FORMAT_KEY = "TIME_FORMAT";
@@ -390,10 +391,13 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(HOURLY_LINE_1_KEY))
-                    return GetIntValue(HOURLY_LINE_1_KEY);
-                else
-                    return 8;
+                try
+                {
+                    if (IsKeyPresent(HOURLY_LINE_1_KEY))
+                        return GetIntValue(HOURLY_LINE_1_KEY);
+                }
+                catch { }
+                return 7;
             }
             set
             {
@@ -404,14 +408,34 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(HOURLY_LINE_2_KEY))
-                    return GetIntValue(HOURLY_LINE_2_KEY);
-                else
-                    return 0;
+                try
+                {
+                    if (IsKeyPresent(HOURLY_LINE_2_KEY))
+                        return GetIntValue(HOURLY_LINE_2_KEY);
+                }
+                catch { }
+                return 4;
             }
             set
             {
                 SetIntValue(HOURLY_LINE_2_KEY, value);
+            }
+        }
+        public static int HourlyLine3
+        {
+            get
+            {
+                try
+                {
+                    if (IsKeyPresent(DAILY_LINE_3_KEY))
+                        return GetIntValue(DAILY_LINE_3_KEY);
+                }
+                catch { }
+                return 0;
+            }
+            set
+            {
+                SetIntValue(DAILY_LINE_3_KEY, value);
             }
         }
         public static bool HourlyShowSummary

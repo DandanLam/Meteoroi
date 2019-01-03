@@ -270,6 +270,9 @@ namespace Meteoroi.Views
                 case "HourlyLine2Box":
                     HourlyForecastItem.Line2 = idx;
                     break;
+                case "HourlyLine3Box":
+                    HourlyForecastItem.Line3 = idx;
+                    break;
             }
         }
 
@@ -420,7 +423,7 @@ namespace Meteoroi.Views
                 return;
             try
             {
-                List<ComboBox> DailyComboBoxes = new List<ComboBox> { HourlyLine1Box, HourlyLine2Box };
+                List<ComboBox> DailyComboBoxes = new List<ComboBox> { HourlyLine1Box, HourlyLine2Box, HourlyLine3Box };
                 var oldItem = e.RemovedItems.First() as ComboBoxItem;
                 //check for conflict
                 foreach (var combobox in DailyComboBoxes)
@@ -675,6 +678,25 @@ namespace Meteoroi.Views
             if (checkbox == null)
                 return;
             checkbox.IsChecked = Settings.ShowCurrentDewPoint ? true : false;
+        }
+
+        private void HourlyLineBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+            switch (combobox.Name)
+            {
+                case "HourlyLine1Box":
+                    combobox.SelectedIndex = Settings.HourlyLine1;
+                    break;
+                case "HourlyLine2Box":
+                    combobox.SelectedIndex = Settings.HourlyLine2;
+                    break;
+                case "HourlyLine3Box":
+                    combobox.SelectedIndex = Settings.HourlyLine3;
+                    break;
+            }
         }
     }
 }
