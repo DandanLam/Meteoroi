@@ -191,6 +191,11 @@
                             <Grid HorizontalAlignment="Center" Name="CurrentHeaderGrid">
                                 <Button BorderThickness="0" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="CurrentEdit_Click">
                                     <TextBlock Grid.Row="0" FontSize="30" Text="{x:Bind CurrentForecast.LocationString, Mode=OneWay}"/>
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip>
+                                            <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
                                 </Button>
                             </Grid>
                             <Grid HorizontalAlignment="Center">
