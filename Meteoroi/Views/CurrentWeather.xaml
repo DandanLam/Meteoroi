@@ -70,6 +70,66 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Button Grid.Row="0" Width="45" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Margin="20,0" BorderThickness="0" Click="LiveTileEdit_Click">
+                <TextBlock Text="&#xECA5;" FontFamily="Segoe MDL2 Assets" FontSize="25"/>
+                <ToolTipService.ToolTip>
+                    <ToolTip>
+                        <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
+                    </ToolTip>
+                </ToolTipService.ToolTip>
+            </Button>
+            <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="LiveTileEditGrid">
+                <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <StackPanel Margin="0,10,0,0">
+                    <TextBlock HorizontalAlignment="Center" FontSize="25" Text="LiveTile Settings" />
+                    <Grid Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Medium Tile Item Count</TextBlock>
+                                <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="MedTileItemCountComboBox_Loaded" SelectionChanged="MedTileItemCountComboBox_SelectionChanged">
+                                    <ComboBoxItem HorizontalAlignment="Stretch">2</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">3</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Wide Tile Item Count</TextBlock>
+                                <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="WideTileItemCountComboBox_Loaded" SelectionChanged="WideTileItemCountComboBox_SelectionChanged">
+                                    <ComboBoxItem HorizontalAlignment="Stretch">5</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">6</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">7</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Hour Interval</TextBlock>
+                                <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="LiveTileHourIntervalComboBox_Loaded" SelectionChanged="LiveTileHourIntervalComboBox_SelectionChanged">
+                                    <ComboBoxItem HorizontalAlignment="Stretch">1</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">2</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">3</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">4</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">5</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">6</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
+                                <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="LiveTileTempComboBox_Loaded" SelectionChanged="LiveTileTempComboBox_SelectionChanged">
+                                    <ComboBoxItem HorizontalAlignment="Stretch">Real</ComboBoxItem>
+                                    <ComboBoxItem HorizontalAlignment="Stretch">Feels Like</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                            <CheckBox Content="Show Hourly Forecast" Loaded="ShowHourlyLiveTile_Loaded" Checked="ShowHourlyLiveTile_Checked" Unchecked="ShowHourlyLiveTile_Checked"/>
+                            <CheckBox Content="Show Daily Forecast"  Loaded="ShowDailyLiveTile_Loaded" Checked="ShowDailyLiveTile_Checked" Unchecked="ShowDailyLiveTile_Checked"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="LiveTileEditDone_Click"/>
+            </Grid>
             <StackPanel Grid.Row="0" Margin="0,32,0,0" HorizontalAlignment="Center" Name="CurrentStackPanel">
                 <Grid>
                     <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="CurrentEditGrid">
@@ -572,15 +632,8 @@
                     </Button>
                 </Grid>
             </StackPanel>
-            <StackPanel Grid.Row="4" HorizontalAlignment="Center" Name="DetailsStackPanel">
-                <Button BorderThickness="0" Background="Transparent" Margin="0,10">
-                    <TextBlock FontSize="30" FontWeight="Thin" Text="Details" />
-                    <ToolTipService.ToolTip>
-                        <ToolTip>
-                            <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
-                </Button>
+            <StackPanel Grid.Row="3" HorizontalAlignment="Center" Name="DetailsStackPanel">
+                <TextBlock FontSize="30" FontWeight="Thin" Text="Details" Margin="0,10"/>
                 <controls:WrapPanel>
                     <Grid Margin="10" Height="200" Width="200">
                         <Grid.RowDefinitions>

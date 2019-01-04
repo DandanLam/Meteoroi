@@ -700,5 +700,145 @@ namespace Meteoroi.Views
                     break;
             }
         }
+
+        private void MedTileItemCountComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+
+            try { combobox.SelectedIndex = Settings.MedTileItemCount - 2;
+                LiveTiles.SetLiveTile(weatherData);
+            }
+            catch { }
+        }
+
+        private void WideTileItemCountComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+
+            try { combobox.SelectedIndex = Settings.WideTileItemCount - 5;
+                LiveTiles.SetLiveTile(weatherData);
+            }
+            catch { }
+        }
+
+        private void LiveTileHourIntervalComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+
+            try { combobox.SelectedIndex = Settings.TileInterval - 1;
+                LiveTiles.SetLiveTile(weatherData);
+            }
+            catch { }
+        }
+
+        private void MedTileItemCountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null || PageIsLoading)
+                return;
+
+            try { Settings.MedTileItemCount = int.Parse((combobox.SelectedItem as ComboBoxItem).Content as string);
+                LiveTiles.SetLiveTile(weatherData);
+            }
+            catch { }
+        }
+
+        private void WideTileItemCountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null || PageIsLoading)
+                return;
+
+            try { Settings.WideTileItemCount = int.Parse((combobox.SelectedItem as ComboBoxItem).Content as string);
+                LiveTiles.SetLiveTile(weatherData);
+            }
+            catch { }
+        }
+
+        private void LiveTileHourIntervalComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null || PageIsLoading)
+                return;
+
+            try { Settings.TileInterval = int.Parse((combobox.SelectedItem as ComboBoxItem).Content as string);
+                LiveTiles.SetLiveTile(weatherData);
+            }
+            catch { }
+        }
+
+        private void ShowHourlyLiveTile_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+            try { checkbox.IsChecked = Settings.ShowHourTile ? true : false; }
+            catch { }
+        }
+
+        private void ShowHourlyLiveTile_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+            try { Settings.ShowHourTile = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void ShowDailyLiveTile_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+            try { checkbox.IsChecked = Settings.ShowDayTile ? true : false; }
+            catch { }
+        }
+
+        private void ShowDailyLiveTile_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+            try { Settings.ShowDayTile = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void LiveTileEdit_Click(object sender, RoutedEventArgs e)
+        {
+            ShowGrid(LiveTileEditGrid);
+        }
+
+        private void LiveTileEditDone_Click(object sender, RoutedEventArgs e)
+        {
+            HideGrid(LiveTileEditGrid);
+        }
+
+        private void LiveTileTempComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+
+            try { combobox.SelectedIndex = Settings.LiveTileTempIsReal ? 0 : 1; }
+            catch { }
+        }
+
+        private void LiveTileTempComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null || PageIsLoading)
+                return;
+
+            try { Settings.LiveTileTempIsReal = combobox.SelectedIndex == 0 ? true : false;
+                LiveTiles.SetLiveTile(weatherData);
+            }
+            catch { }
+        }
     }
 }
