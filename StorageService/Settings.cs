@@ -38,6 +38,18 @@ namespace StorageService
         private const string SHOW_CURRENT_HUMIDITY_KEY = "SHOW_CURRENT_HUMIDITY";
         private const string SHOW_CURRENT_DEWPOINT_KEY = "SHOW_CURRENT_DEWPOINT";
 
+        private const string LIVETILE_MED_SHOWDAY_KEY       = "LIVETILE_MED_SHOWDAY";
+        private const string LIVETILE_MED_SHOWHOUR_KEY      = "LIVETILE_MED_SHOWHOUR";
+        private const string LIVETILE_MED_ITEM_COUNT_KEY    = "LIVETILE_MED_ITEM_COUNT";
+        private const string LIVETILE_MED_DAY_INTERVAL_KEY  = "LIVETILE_MED_DAY_INTERVAL";
+        private const string LIVETILE_MED_HOUR_INTERVAL_KEY = "LIVETILE_MED_HOUR_INTERVAL";
+
+        private const string LIVETILE_WIDE_SHOWDAY_KEY       = "LIVETILE_WIDE_SHOWDAY";
+        private const string LIVETILE_WIDE_SHOWHOUR_KEY      = "LIVETILE_WIDE_SHOWHOUR";
+        private const string LIVETILE_WIDE_ITEM_COUNT_KEY    = "LIVETILE_WIDE_ITEM_COUNT";
+        private const string LIVETILE_WIDE_DAY_INTERVAL_KEY  = "LIVETILE_WIDE_DAY_INTERVAL";
+        private const string LIVETILE_WIDE_HOUR_INTERVAL_KEY = "LIVETILE_WIDE_HOUR_INTERVAL";
+
         public static bool IsMetric
         {
             get
@@ -174,7 +186,6 @@ namespace StorageService
                 SetBoolValue(SHOW_CURRENT_REAL_TEMP_KEY, value);
             }
         }
-
         public static bool ShowCurrentAltTemp
         {
             get
@@ -464,6 +475,120 @@ namespace StorageService
             set
             {
                 GetBoolValue(HOURLY_SHOW_REAL_TEMP_KEY, value);
+            }
+        }
+
+        public static int MedTileItemCount
+        {
+            get
+            {
+                if (IsKeyPresent(LIVETILE_MED_ITEM_COUNT_KEY))
+                    return GetIntValue(LIVETILE_MED_ITEM_COUNT_KEY);
+                else
+                    return 2;
+            }
+            set
+            {
+                SetIntValue(LIVETILE_MED_ITEM_COUNT_KEY, value);
+            }
+        }
+        public static bool ShowDayMedTile
+        {
+            get
+            {
+                if (IsKeyPresent(LIVETILE_MED_SHOWDAY_KEY))
+                    return GetBoolValue(LIVETILE_MED_SHOWDAY_KEY);
+                else
+                    return true;
+            }
+            set
+            {
+                SetBoolValue(LIVETILE_MED_SHOWDAY_KEY, value);
+            }
+        }
+        public static bool ShowHourMedTile
+        {
+            get
+            {
+                if (IsKeyPresent(LIVETILE_MED_SHOWHOUR_KEY))
+                    return GetBoolValue(LIVETILE_MED_SHOWHOUR_KEY);
+                else
+                    return true;
+            }
+            set
+            {
+                SetBoolValue(LIVETILE_MED_SHOWHOUR_KEY, value);
+            }
+        }
+        public static int MedTileHourInterval
+        {
+            get
+            {
+                if (IsKeyPresent(LIVETILE_MED_HOUR_INTERVAL_KEY))
+                    return GetIntValue(LIVETILE_MED_HOUR_INTERVAL_KEY);
+                else
+                    return 1;
+            }
+            set
+            {
+                SetIntValue(LIVETILE_MED_HOUR_INTERVAL_KEY, value);
+            }
+        }
+
+        public static int WideTileItemCount
+        {
+            get
+            {
+                if (IsKeyPresent(LIVETILE_WIDE_ITEM_COUNT_KEY))
+                    return GetIntValue(LIVETILE_WIDE_ITEM_COUNT_KEY);
+                else
+                    return 5;
+            }
+            set
+            {
+                SetIntValue(LIVETILE_WIDE_ITEM_COUNT_KEY, value);
+            }
+        }
+        public static bool ShowDayWideTile
+        {
+            get
+            {
+                if (IsKeyPresent(LIVETILE_WIDE_SHOWDAY_KEY))
+                    return GetBoolValue(LIVETILE_WIDE_SHOWDAY_KEY);
+                else
+                    return true;
+            }
+            set
+            {
+                SetBoolValue(LIVETILE_WIDE_SHOWDAY_KEY, value);
+            }
+        }
+        public static bool ShowHourWideTile
+        {
+            get
+            {
+                if (IsKeyPresent(LIVETILE_WIDE_SHOWHOUR_KEY))
+                    return GetBoolValue(LIVETILE_WIDE_SHOWHOUR_KEY);
+                else
+                    return true;
+            }
+            set
+            {
+                SetBoolValue(LIVETILE_WIDE_SHOWHOUR_KEY, value);
+            }
+        }
+        public static int WideTileHourInterval
+        {
+            get
+            {
+                if (IsKeyPresent(LIVETILE_WIDE_HOUR_INTERVAL_KEY))
+                    return GetIntValue(LIVETILE_WIDE_HOUR_INTERVAL_KEY);
+                else
+                    return 1;
+            }
+            set
+            {
+                SetIntValue(LIVETILE_WIDE_HOUR_INTERVAL_KEY, value);
             }
         }
 
