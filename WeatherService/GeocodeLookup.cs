@@ -101,7 +101,7 @@ namespace WeatherService
             try { await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location")); } catch { }
         }
 
-        private async Task<MapLocation> GetAddressFromGeoLocation(BasicGeoposition geoposition)
+        public async Task<MapLocation> GetAddressFromGeoLocation(BasicGeoposition geoposition)
         {
             MapService.ServiceToken = Keys.BingMapsApi;
             Geopoint pointToReverseGeocode = new Geopoint(geoposition);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Windows.Data.Json;
+using Windows.Devices.Geolocation;
 using Windows.Services.Maps;
 
 namespace WeatherService
@@ -18,9 +19,8 @@ namespace WeatherService
         public PeriodForecast Daily { get; set; }
         //TODO: Add Alerts
 
-        public WeatherData(MapLocation location, string rawJson)
+        public WeatherData(string rawJson)
         {
-            Location = location;
             if (string.IsNullOrEmpty(rawJson))
                 return;
             var parsedJson = JsonObject.Parse(rawJson);

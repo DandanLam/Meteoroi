@@ -38,8 +38,8 @@ namespace Meteoroi.Views
         public CurrentWeather()
         {
             this.InitializeComponent();
-            UpdateForecastItems();
             SplashImage();
+            RefreshInForeground();
         }
         async void SplashImage()
         {
@@ -51,17 +51,26 @@ namespace Meteoroi.Views
             SplashImg.Visibility = Visibility.Collapsed;
             ShowGrid(MainGrid);
         }
-        async Task UpdateForecastItems(bool forceDownload = false)
+        async Task UpdateForecastItems(int minFreshness = 10)
         {
-            if (forceDownload || weatherData == null)
+            if (DateTime.Now.Subtract(new TimeSpan(0, minFreshness, 0)) < weatherData.Currently.Data.Time || weatherData == null)
             {
                 DarkSkyService weatherService = new DarkSkyService();
-                weatherData = await weatherService.GetWeatherData();
+                weatherData = await weatherService.GetWeatherData(minFreshness);
                 UpdateCurrentForecast(weatherData);
             }
             UpdateDailyForecast(weatherData);
             UpdateHourlyForecast(weatherData);
             LiveTiles.SetLiveTile(weatherData);
+        }
+
+        async void RefreshInForeground()
+        {
+            while (true)
+            {
+                await Task.Delay(new TimeSpan(0, 1, 0));
+                await UpdateForecastItems();
+            }
         }
 
         void UpdateCurrentForecast(WeatherData weatherData)
