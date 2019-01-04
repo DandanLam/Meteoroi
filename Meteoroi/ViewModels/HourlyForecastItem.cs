@@ -21,8 +21,8 @@ namespace Meteoroi.ViewModels
         public double Visibility { get; set; }
         public Wind Wind { get; set; }
 
-        public static string TimeForemat { get; set; }
-        public static bool TimeForematToLower { get; set; }
+        public static string TimeFormat { get; set; }
+        public static bool TimeFormatToLower { get; set; }
         private static bool _RealTemp = true;
         public static bool RealTemp
         {

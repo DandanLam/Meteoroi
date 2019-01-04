@@ -466,32 +466,32 @@ namespace Meteoroi.Views
                 switch (changedComboBox.SelectedIndex)
                 {
                     case 0:
-                        HourlyForecastItem.TimeForemat = "H";
+                        HourlyForecastItem.TimeFormat = "H";
                         break;
                     case 1:
-                        HourlyForecastItem.TimeForemat = "HH";
+                        HourlyForecastItem.TimeFormat = "HH";
                         break;
                     case 2:
-                        HourlyForecastItem.TimeForemat = "h tt";
-                        HourlyForecastItem.TimeForematToLower = true;
+                        HourlyForecastItem.TimeFormat = "h tt";
+                        HourlyForecastItem.TimeFormatToLower = true;
                         break;
                     case 3:
-                        HourlyForecastItem.TimeForemat = "h tt";
-                        HourlyForecastItem.TimeForematToLower = false;
+                        HourlyForecastItem.TimeFormat = "h tt";
+                        HourlyForecastItem.TimeFormatToLower = false;
                         break;
                     case 4:
-                        HourlyForecastItem.TimeForemat = "h:00 tt";
-                        HourlyForecastItem.TimeForematToLower = true;
+                        HourlyForecastItem.TimeFormat = "h:00 tt";
+                        HourlyForecastItem.TimeFormatToLower = true;
                         break;
                     case 5:
-                        HourlyForecastItem.TimeForemat = "h:00 tt";
-                        HourlyForecastItem.TimeForematToLower = false;
+                        HourlyForecastItem.TimeFormat = "h:00 tt";
+                        HourlyForecastItem.TimeFormatToLower = false;
                         break;
                     case 6:
-                        HourlyForecastItem.TimeForemat = "H:00";
+                        HourlyForecastItem.TimeFormat = "H:00";
                         break;
                     case 7:
-                        HourlyForecastItem.TimeForemat = "HH:00";
+                        HourlyForecastItem.TimeFormat = "HH:00";
                         break;
                 }
                 UpdateHourlyForecast(weatherData);
