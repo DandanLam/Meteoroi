@@ -39,8 +39,18 @@ namespace Meteoroi.Views
         {
             this.InitializeComponent();
             UpdateForecastItems();
+            SplashImage();
         }
-
+        async void SplashImage()
+        {
+            while(HourlyForecasts.Count == 0)
+            {
+                await Task.Delay(100);
+            }
+            await SplashImg.Fade(value: 0f, duration: 500, delay: 0).StartAsync();
+            SplashImg.Visibility = Visibility.Collapsed;
+            ShowGrid(MainGrid);
+        }
         async Task UpdateForecastItems(bool forceDownload = false)
         {
             if (forceDownload || weatherData == null)

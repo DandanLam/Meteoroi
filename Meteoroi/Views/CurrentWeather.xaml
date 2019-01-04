@@ -62,673 +62,686 @@
     </Page.Resources>
     <ScrollViewer Background="{StaticResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Button Grid.Row="0" Width="45" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Margin="20,0" BorderThickness="0" Click="LiveTileEdit_Click">
-                <TextBlock Text="&#xECA5;" FontFamily="Segoe MDL2 Assets" FontSize="25"/>
-                <ToolTipService.ToolTip>
-                    <ToolTip>
-                        <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
-                    </ToolTip>
-                </ToolTipService.ToolTip>
-            </Button>
-            <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="LiveTileEditGrid">
-                <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                <StackPanel Margin="0,10,0,0">
-                    <TextBlock HorizontalAlignment="Center" FontSize="25" Text="LiveTile Settings" />
-                    <Grid Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Medium Tile Item Count</TextBlock>
-                                <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="MedTileItemCountComboBox_Loaded" SelectionChanged="MedTileItemCountComboBox_SelectionChanged">
-                                    <ComboBoxItem HorizontalAlignment="Stretch">2</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">3</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Wide Tile Item Count</TextBlock>
-                                <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="WideTileItemCountComboBox_Loaded" SelectionChanged="WideTileItemCountComboBox_SelectionChanged">
-                                    <ComboBoxItem HorizontalAlignment="Stretch">5</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">6</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">7</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Hour Interval</TextBlock>
-                                <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="LiveTileHourIntervalComboBox_Loaded" SelectionChanged="LiveTileHourIntervalComboBox_SelectionChanged">
-                                    <ComboBoxItem HorizontalAlignment="Stretch">1</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">2</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">3</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">4</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">5</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">6</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
-                                <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="LiveTileTempComboBox_Loaded" SelectionChanged="LiveTileTempComboBox_SelectionChanged">
-                                    <ComboBoxItem HorizontalAlignment="Stretch">Real</ComboBoxItem>
-                                    <ComboBoxItem HorizontalAlignment="Stretch">Feels Like</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Margin="15,0,0,0">
-                            <CheckBox Content="Show Hourly Forecast" Loaded="ShowHourlyLiveTile_Loaded" Checked="ShowHourlyLiveTile_Checked" Unchecked="ShowHourlyLiveTile_Checked"/>
-                            <CheckBox Content="Show Daily Forecast"  Loaded="ShowDailyLiveTile_Loaded" Checked="ShowDailyLiveTile_Checked" Unchecked="ShowDailyLiveTile_Checked"/>
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-                <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="LiveTileEditDone_Click"/>
-            </Grid>
-            <StackPanel Grid.Row="0" Margin="0,32,0,0" HorizontalAlignment="Center" Name="CurrentStackPanel">
-                <Grid>
-                    <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="CurrentEditGrid">
-                        <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                        <Grid Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Name="SplashImg" Source="ms-appx:///Assets/Logo.png" Stretch="Uniform" Width="500" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:Rotate
+                        Value="359"
+                        CenterX="250" 
+                        CenterY="250" 
+                        Duration="3000"
+                        Delay="500" 
+                        AutomaticallyStart="True"/>
+                </interactivity:Interaction.Behaviors>
+            </Image>
+            <Grid Name="MainGrid" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Width="45" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Margin="20,0" BorderThickness="0" Click="LiveTileEdit_Click">
+                    <TextBlock Text="&#xECA5;" FontFamily="Segoe MDL2 Assets" FontSize="25"/>
+                    <ToolTipService.ToolTip>
+                        <ToolTip>
+                            <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
+                        </ToolTip>
+                    </ToolTipService.ToolTip>
+                </Button>
+                <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="LiveTileEditGrid">
+                    <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock HorizontalAlignment="Center" FontSize="25" Text="LiveTile Settings" />
+                        <Grid Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Location Format</TextBlock>
-                                    <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="LocationFormatComboBox_SelectionChanged" Loaded="LocationFormatComboBox_Loaded">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Seattle</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, USA</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, United States</ComboBoxItem>
+                                    <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Medium Tile Item Count</TextBlock>
+                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="MedTileItemCountComboBox_Loaded" SelectionChanged="MedTileItemCountComboBox_SelectionChanged">
+                                        <ComboBoxItem HorizontalAlignment="Stretch">2</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">3</ComboBoxItem>
                                     </ComboBox>
                                 </StackPanel>
-                                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
-                                    <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentIconComboBox_SelectionChanged" Loaded="CurrentIconComboBox_Loaded">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>-->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
-                                    <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentTempIsRealComboBox_SelectionChanged" Loaded="CurrentTempIsRealComboBox_Loaded">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
+                                    <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Wide Tile Item Count</TextBlock>
+                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="WideTileItemCountComboBox_Loaded" SelectionChanged="WideTileItemCountComboBox_SelectionChanged">
+                                        <ComboBoxItem HorizontalAlignment="Stretch">5</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">6</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">7</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                    <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Hour Interval</TextBlock>
+                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="LiveTileHourIntervalComboBox_Loaded" SelectionChanged="LiveTileHourIntervalComboBox_SelectionChanged">
+                                        <ComboBoxItem HorizontalAlignment="Stretch">1</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">2</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">3</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">4</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">5</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">6</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                    <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
+                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="LiveTileTempComboBox_Loaded" SelectionChanged="LiveTileTempComboBox_SelectionChanged">
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Real</ComboBoxItem>
+                                        <ComboBoxItem HorizontalAlignment="Stretch">Feels Like</ComboBoxItem>
                                     </ComboBox>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Margin="15,0,0,0">
-                                <CheckBox Content="Alternate Temp" Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="AltTempCheckbox_Loaded"/>
-                                <CheckBox Content="Wind Speed"     Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="WindSpeedCheckbox_Loaded"/>
-                                <CheckBox Content="Visibility"     Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="VisibilityCheckbox_Loaded"/>
-                                <CheckBox Content="Barometer"      Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="BarometerCheckbox_Loaded"/>
-                                <CheckBox Content="Humidity"       Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="HumidityCheckbox_Loaded"/>
-                                <CheckBox Content="Dew Point"      Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="DewPointCheckbox_Loaded"/>
+                                <CheckBox Content="Show Hourly Forecast" Loaded="ShowHourlyLiveTile_Loaded" Checked="ShowHourlyLiveTile_Checked" Unchecked="ShowHourlyLiveTile_Checked"/>
+                                <CheckBox Content="Show Daily Forecast"  Loaded="ShowDailyLiveTile_Loaded" Checked="ShowDailyLiveTile_Checked" Unchecked="ShowDailyLiveTile_Checked"/>
                             </StackPanel>
-                        </Grid>
-                        <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="CurrentEditDone_Click"/>
-                    </Grid>
-                    <StackPanel Margin="20">
-                        <Grid HorizontalAlignment="Center" Name="CurrentHeaderGrid">
-                            <Button BorderThickness="0" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="CurrentEdit_Click">
-                                <TextBlock Grid.Row="0" FontSize="30" Text="{x:Bind CurrentForecast.LocationString, Mode=OneWay}"/>
-                            </Button>
-                        </Grid>
-                        <Grid HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="1" Margin="15,0" Height="85" Width="85" Source="{x:Bind CurrentForecast.Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}" />
-                            <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempVisibility}}">
-                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.Temp, Mode=OneWay}"/>
-                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
-                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay}"/>
-                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
-                            </StackPanel>
-                            <Grid Grid.Column="3" VerticalAlignment="Center">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <StackPanel>
-                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="25" 
-                                               Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource SelectedTempMetricSymbol}}"/>
-                                    <Button Background="Transparent" Height="38" Width="38" BorderThickness="0" Padding="0" Margin="0" Click="ToggleIsCelcius_Click">
-                                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="20" 
-                                                   Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource UnselectedTempMetricSymbol}}" Foreground="DarkGray"/>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </Grid>
-                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Thin" Text="{x:Bind CurrentForecast.Summary, Mode=OneWay}"/>
-                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Margin="0,5,0,10" 
-                                   Text="{x:Bind CurrentForecast.Time, Mode=OneWay, Converter={StaticResource ForecastTimeToUpdatedText}}" />
-                        <Grid HorizontalAlignment="Center" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0" Margin="15,0" Visibility="{x:Bind CurrentForecast.ShowTempAlt, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
-                                            Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}" >
-                                    <TextBlock Grid.Column="0" FontSize="12" Text="Feels Like:"/>
-                                    <TextBlock Grid.Column="0" FontSize="12" Margin="5,0,0,0" 
-                                               Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempText}}"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
-                                            Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempVisibility}}" >
-                                    <TextBlock Grid.Column="0" FontSize="12" Text="Real Temp:"/>
-                                    <TextBlock Grid.Column="0" FontSize="12" Margin="5,0,0,0"                                            
-                                               Text="{x:Bind CurrentForecast.Temp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempText}}"/>
-                                </StackPanel>
-                            </Grid>
-                            <StackPanel Grid.Column="1" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center" 
-                                        Visibility="{x:Bind CurrentForecast.ShowWindSpeed, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
-                                <TextBlock FontSize="12" Text="Wind:"/>
-                                <TextBlock FontSize="11" Margin="5,0,0,0"  Text="&#xEBE6;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center">
-                                    <interactivity:Interaction.Behaviors>
-                                        <behaviors:Rotate
-                                                    Value="{x:Bind CurrentForecast.WindBearing, Mode=OneWay}"
-                                                    CenterX="5.5" 
-                                                    CenterY="5.5" 
-                                                    Duration="0"
-                                                    Delay="0" 
-                                                    AutomaticallyStart="True"/>
-                                    </interactivity:Interaction.Behaviors>
-                                </TextBlock>
-                                <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.WindSpeed, Mode=OneWay, Converter={StaticResource CurrentForecastWindSpeedText}}"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="2" FontSize="12" Margin="15,0" 
-                                       Visibility="{x:Bind CurrentForecast.ShowVisibility, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
-                                       Text="{x:Bind CurrentForecast.Visibility, Mode=OneWay, Converter={StaticResource CurrentForecastVisibilityText}}"/>
-                        </Grid>
-                        <Grid HorizontalAlignment="Center" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" FontSize="12" Margin="15,0" 
-                                       Visibility="{x:Bind CurrentForecast.ShowPressure, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
-                                       Text="{x:Bind CurrentForecast.Pressure, Mode=OneWay, Converter={StaticResource CurrentForecastBarometerText}}"/>
-                            <TextBlock Grid.Column="1" FontSize="12" Margin="15,0" 
-                                       Visibility="{x:Bind CurrentForecast.ShowHumidity, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
-                                       Text="{x:Bind CurrentForecast.Humidity, Mode=OneWay, Converter={StaticResource CurrentForecastHumidityText}}"/>
-                            <TextBlock Grid.Column="2" FontSize="12" Margin="15,0" 
-                                       Visibility="{x:Bind CurrentForecast.ShowDewPoint, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
-                                       Text="{x:Bind CurrentForecast.DewPoint, Mode=OneWay, Converter={StaticResource CurrentForecastDewPointText}}"/>
                         </Grid>
                     </StackPanel>
+                    <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="LiveTileEditDone_Click"/>
                 </Grid>
-            </StackPanel>
-            <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" Grid.ColumnSpan="3" Canvas.ZIndex="999" Visibility="Collapsed" Name="DailyEditGrid">
-                        <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                        <Grid Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Date Format</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyDateBox_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Tue 1</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">1 Tue</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Tuesday 1</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">1 Tuesday</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Jan 1</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">1 Jan</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">January 1</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">1 January</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyIconBox_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 1</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="8" Name="DailyLine1Box" SelectionChanged="DailyComboBox_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">CloudCover</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Temperature</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 2</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" Name="DailyLine2Box" SelectionChanged="DailyComboBox_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">CloudCover</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Week's Forecast Summary</TextBlock>
-                                    <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="WeeklyDescVisibility_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                                
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
-                                    <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyTempType_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                            </StackPanel>
-                        </Grid>
-                        <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="DailyEditDone_Click"/>
-                    </Grid>
-                    <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="PrevDay_Click">
-                        <Grid>
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE973;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                    </Button>
-                    <StackPanel Grid.Column="1" Height="auto">
-                        <Button BorderThickness="0" Margin="0,0,0,5" HorizontalAlignment="Stretch" Background="Transparent" Click="DailyEdit_Click">
-                            <Grid HorizontalAlignment="Stretch" Name="DailyHeaderGrid" Margin="0" Padding="0">
+                <StackPanel Grid.Row="0" Margin="0,32,0,0" HorizontalAlignment="Center" Name="CurrentStackPanel">
+                    <Grid>
+                        <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="CurrentEditGrid">
+                            <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            <Grid Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" FontSize="30" FontWeight="Thin" Text="Daily" />
-                                <TextBlock Grid.Column="1" Margin="10,0,0,5" Foreground="DarkGray" VerticalAlignment="Bottom" TextWrapping="Wrap" 
-                                                Name="WeeklySummaryTextBlock" 
-                                                Text="{x:Bind CurrentForecast.ThisWeekSummary, Mode=OneWay}"/>
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Location Format</TextBlock>
+                                        <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="LocationFormatComboBox_SelectionChanged" Loaded="LocationFormatComboBox_Loaded">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Seattle</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, USA</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, United States</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
+                                        <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentIconComboBox_SelectionChanged" Loaded="CurrentIconComboBox_Loaded">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>-->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
+                                        <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentTempIsRealComboBox_SelectionChanged" Loaded="CurrentTempIsRealComboBox_Loaded">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                    <CheckBox Content="Alternate Temp" Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="AltTempCheckbox_Loaded"/>
+                                    <CheckBox Content="Wind Speed"     Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="WindSpeedCheckbox_Loaded"/>
+                                    <CheckBox Content="Visibility"     Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="VisibilityCheckbox_Loaded"/>
+                                    <CheckBox Content="Barometer"      Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="BarometerCheckbox_Loaded"/>
+                                    <CheckBox Content="Humidity"       Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="HumidityCheckbox_Loaded"/>
+                                    <CheckBox Content="Dew Point"      Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="DewPointCheckbox_Loaded"/>
+                                </StackPanel>
                             </Grid>
-                            <ToolTipService.ToolTip>
-                                <ToolTip>
-                                    <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
+                            <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="CurrentEditDone_Click"/>
+                        </Grid>
+                        <StackPanel Margin="20">
+                            <Grid HorizontalAlignment="Center" Name="CurrentHeaderGrid">
+                                <Button BorderThickness="0" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="CurrentEdit_Click">
+                                    <TextBlock Grid.Row="0" FontSize="30" Text="{x:Bind CurrentForecast.LocationString, Mode=OneWay}"/>
+                                </Button>
+                            </Grid>
+                            <Grid HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="1" Margin="15,0" Height="85" Width="85" Source="{x:Bind CurrentForecast.Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}" />
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempVisibility}}">
+                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.Temp, Mode=OneWay}"/>
+                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
+                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay}"/>
+                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
+                                </StackPanel>
+                                <Grid Grid.Column="3" VerticalAlignment="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="25" 
+                                                   Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource SelectedTempMetricSymbol}}"/>
+                                        <Button Background="Transparent" Height="38" Width="38" BorderThickness="0" Padding="0" Margin="0" Click="ToggleIsCelcius_Click">
+                                            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="20" 
+                                                       Text="{x:Bind CurrentForecast.IsCelcius, Mode=OneWay, Converter={StaticResource UnselectedTempMetricSymbol}}" Foreground="DarkGray"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="30" FontWeight="Thin" Text="{x:Bind CurrentForecast.Summary, Mode=OneWay}"/>
+                            <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Margin="0,5,0,10" 
+                                       Text="{x:Bind CurrentForecast.Time, Mode=OneWay, Converter={StaticResource ForecastTimeToUpdatedText}}" />
+                            <Grid HorizontalAlignment="Center" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Margin="15,0" Visibility="{x:Bind CurrentForecast.ShowTempAlt, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                                Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}" >
+                                        <TextBlock Grid.Column="0" FontSize="12" Text="Feels Like:"/>
+                                        <TextBlock Grid.Column="0" FontSize="12" Margin="5,0,0,0" 
+                                                   Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempText}}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                                Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempVisibility}}" >
+                                        <TextBlock Grid.Column="0" FontSize="12" Text="Real Temp:"/>
+                                        <TextBlock Grid.Column="0" FontSize="12" Margin="5,0,0,0"                                            
+                                                   Text="{x:Bind CurrentForecast.Temp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempText}}"/>
+                                    </StackPanel>
+                                </Grid>
+                                <StackPanel Grid.Column="1" Margin="15,0" Orientation="Horizontal" HorizontalAlignment="Center" 
+                                            Visibility="{x:Bind CurrentForecast.ShowWindSpeed, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
+                                    <TextBlock FontSize="12" Text="Wind:"/>
+                                    <TextBlock FontSize="11" Margin="5,0,0,0"  Text="&#xEBE6;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center">
+                                        <interactivity:Interaction.Behaviors>
+                                            <behaviors:Rotate
+                                                        Value="{x:Bind CurrentForecast.WindBearing, Mode=OneWay}"
+                                                        CenterX="5.5" 
+                                                        CenterY="5.5" 
+                                                        Duration="0"
+                                                        Delay="0" 
+                                                        AutomaticallyStart="True"/>
+                                        </interactivity:Interaction.Behaviors>
+                                    </TextBlock>
+                                    <TextBlock FontSize="12" Margin="5,0,0,0" Text="{x:Bind CurrentForecast.WindSpeed, Mode=OneWay, Converter={StaticResource CurrentForecastWindSpeedText}}"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="2" FontSize="12" Margin="15,0" 
+                                           Visibility="{x:Bind CurrentForecast.ShowVisibility, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
+                                           Text="{x:Bind CurrentForecast.Visibility, Mode=OneWay, Converter={StaticResource CurrentForecastVisibilityText}}"/>
+                            </Grid>
+                            <Grid HorizontalAlignment="Center" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" FontSize="12" Margin="15,0" 
+                                           Visibility="{x:Bind CurrentForecast.ShowPressure, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
+                                           Text="{x:Bind CurrentForecast.Pressure, Mode=OneWay, Converter={StaticResource CurrentForecastBarometerText}}"/>
+                                <TextBlock Grid.Column="1" FontSize="12" Margin="15,0" 
+                                           Visibility="{x:Bind CurrentForecast.ShowHumidity, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
+                                           Text="{x:Bind CurrentForecast.Humidity, Mode=OneWay, Converter={StaticResource CurrentForecastHumidityText}}"/>
+                                <TextBlock Grid.Column="2" FontSize="12" Margin="15,0" 
+                                           Visibility="{x:Bind CurrentForecast.ShowDewPoint, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}"
+                                           Text="{x:Bind CurrentForecast.DewPoint, Mode=OneWay, Converter={StaticResource CurrentForecastDewPointText}}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Grid.ColumnSpan="3" Canvas.ZIndex="999" Visibility="Collapsed" Name="DailyEditGrid">
+                            <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            <Grid Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Date Format</TextBlock>
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyDateBox_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Tue 1</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">1 Tue</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Tuesday 1</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">1 Tuesday</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Jan 1</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">1 Jan</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">January 1</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">1 January</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyIconBox_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 1</TextBlock>
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="8" Name="DailyLine1Box" SelectionChanged="DailyComboBox_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">CloudCover</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Temperature</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 2</TextBlock>
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" Name="DailyLine2Box" SelectionChanged="DailyComboBox_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">CloudCover</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Week's Forecast Summary</TextBlock>
+                                        <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="WeeklyDescVisibility_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
+                                        <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyTempType_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                            <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="DailyEditDone_Click"/>
+                        </Grid>
+                        <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="PrevDay_Click">
+                            <Grid>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE973;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Grid>
                         </Button>
-                        <GridView MaxWidth="935" Height="210" Name="DailyGridView" SizeChanged="WideGridView_SizeChanged"
+                        <StackPanel Grid.Column="1" Height="auto">
+                            <Button BorderThickness="0" Margin="0,0,0,5" HorizontalAlignment="Stretch" Background="Transparent" Click="DailyEdit_Click">
+                                <Grid HorizontalAlignment="Stretch" Name="DailyHeaderGrid" Margin="0" Padding="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" FontSize="30" FontWeight="Thin" Text="Daily" />
+                                    <TextBlock Grid.Column="1" Margin="10,0,0,5" Foreground="DarkGray" VerticalAlignment="Bottom" TextWrapping="Wrap" 
+                                                    Name="WeeklySummaryTextBlock" 
+                                                    Text="{x:Bind CurrentForecast.ThisWeekSummary, Mode=OneWay}"/>
+                                </Grid>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                            <GridView MaxWidth="935" Height="210" Name="DailyGridView" SizeChanged="WideGridView_SizeChanged"
+                                IsItemClickEnabled="False"
+                                SelectionMode="None" 
+                                ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                ItemsSource="{x:Bind DailyForecasts, Mode=OneWay}">
+                                <GridView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsWrapGrid Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </GridView.ItemsPanel>
+                                <GridView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewModels:DailyForecastItem">
+                                        <Grid Height="165" Width="110" Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock  Grid.Row="0" FontSize="16" Text="{x:Bind Converter={StaticResource DailyForecastDateText}}"/>
+                                            <Image      Grid.Row="1" Margin="0,5" HorizontalAlignment="Center" Height="50" Width="50" 
+                                                        Visibility="{x:Bind Converter={StaticResource DailyForecastIconVisibility}}" 
+                                                        Source="{x:Bind Icon, Converter={StaticResource ForecastIconToImage}}"/>
+                                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{x:Bind Converter={StaticResource DailyForecastTempVisibility}}">
+                                                <TextBlock FontSize="22" VerticalAlignment="Bottom" Text="{x:Bind Converter={StaticResource DailyForecastTempHigh}}"/>
+                                                <TextBlock FontSize="14" VerticalAlignment="Bottom" Margin="5,0,0,1" Text="{x:Bind Converter={StaticResource DailyForecastTempLow}}"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Row="3" FontSize="12" VerticalAlignment="Top" FontWeight="Bold" Margin="0,5"
+                                                       MaxLines="{x:Bind Converter={StaticResource Line1MaxLines}}" 
+                                                       HorizontalAlignment="{x:Bind Converter={StaticResource DailyForecastLineAlignment}}" 
+                                                       TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
+                                                       Text="{x:Bind Converter={StaticResource Line1Text}}" 
+                                                       Visibility="{x:Bind Converter={StaticResource DailyForecastLine1Visibility}}"/>
+                                            <TextBlock Grid.Row="4" FontSize="12" VerticalAlignment="Top" Foreground="DarkGray" 
+                                                       MaxLines="{x:Bind Converter={StaticResource Line2MaxLines}}" 
+                                                       HorizontalAlignment="{x:Bind Converter={StaticResource DailyForecastLineAlignment}}" 
+                                                       TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
+                                                       Text="{x:Bind Converter={StaticResource Line2Text}}"/>
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip>
+                                                    <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary}"/>
+                                                </ToolTip>  
+                                            </ToolTipService.ToolTip>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </StackPanel>
+                        <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="NextDay_Click">
+                            <Grid >
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE974;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Row="2" HorizontalAlignment="Center">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Grid.ColumnSpan="3" Canvas.ZIndex="999" Visibility="Collapsed" Name="HourlyEditGrid">
+                            <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            <Grid Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Time Format</TextBlock>
+                                            <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="2" SelectionChanged="HourlyTimeBox_SelectionChanged">
+                                                <ComboBoxItem HorizontalAlignment="Stretch">8</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">08</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">8 am</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">8 AM</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">8:00 am</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">8:00 AM</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">8:00</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">08:00</ComboBoxItem>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyIconBox_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 1</TextBlock>
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine1Box" 
+                                                  Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Temperature</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 2</TextBlock>
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine2Box" 
+                                                  Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 3</TextBlock>
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine3Box" 
+                                                  Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Today's Forecast Summary</TextBlock>
+                                        <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyDescVisibility_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                        <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
+                                        <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyTempType_SelectionChanged">
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
+                                            <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                            <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="HourlyEditDone_Click"/>
+                        </Grid>
+                        <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="PrevHour_Click">
+                            <Grid>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE973;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Grid>
+                        </Button>
+                        <StackPanel Grid.Column="1" Height="auto">
+                            <Button BorderThickness="0" Margin="0,0,0,5" HorizontalAlignment="Stretch" Background="Transparent" Click="HourlyEdit_Click">
+                                <Grid HorizontalAlignment="Stretch" Name="HourlyHeaderGrid" Margin="0" Padding="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" FontSize="30" FontWeight="Thin" Text="Hourly" />
+                                    <TextBlock Grid.Column="1" Margin="10,0,0,5" Foreground="DarkGray" VerticalAlignment="Bottom" TextWrapping="Wrap" 
+                                                Name="HourlySummaryTextBlock" 
+                                                Text="{x:Bind CurrentForecast.ThisDaySummary, Mode=OneWay}"/>
+                                </Grid>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                            <GridView MaxWidth="935" Height="210" Name="HourlyGridView"
                             IsItemClickEnabled="False"
                             SelectionMode="None" 
                             ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
                             ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                            ItemsSource="{x:Bind DailyForecasts, Mode=OneWay}">
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsWrapGrid Orientation="Vertical"/>
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
-                            <GridView.ItemTemplate>
-                                <DataTemplate x:DataType="viewModels:DailyForecastItem">
-                                    <Grid Height="165" Width="110" Margin="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock  Grid.Row="0" FontSize="16" Text="{x:Bind Converter={StaticResource DailyForecastDateText}}"/>
-                                        <Image      Grid.Row="1" Margin="0,5" HorizontalAlignment="Center" Height="50" Width="50" 
-                                                    Visibility="{x:Bind Converter={StaticResource DailyForecastIconVisibility}}" 
-                                                    Source="{x:Bind Icon, Converter={StaticResource ForecastIconToImage}}"/>
-                                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{x:Bind Converter={StaticResource DailyForecastTempVisibility}}">
-                                            <TextBlock FontSize="22" VerticalAlignment="Bottom" Text="{x:Bind Converter={StaticResource DailyForecastTempHigh}}"/>
-                                            <TextBlock FontSize="14" VerticalAlignment="Bottom" Margin="5,0,0,1" Text="{x:Bind Converter={StaticResource DailyForecastTempLow}}"/>
-                                        </StackPanel>
-                                        <TextBlock Grid.Row="3" FontSize="12" VerticalAlignment="Top" FontWeight="Bold" Margin="0,5"
-                                                   MaxLines="{x:Bind Converter={StaticResource Line1MaxLines}}" 
-                                                   HorizontalAlignment="{x:Bind Converter={StaticResource DailyForecastLineAlignment}}" 
-                                                   TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
-                                                   Text="{x:Bind Converter={StaticResource Line1Text}}" 
-                                                   Visibility="{x:Bind Converter={StaticResource DailyForecastLine1Visibility}}"/>
-                                        <TextBlock Grid.Row="4" FontSize="12" VerticalAlignment="Top" Foreground="DarkGray" 
-                                                   MaxLines="{x:Bind Converter={StaticResource Line2MaxLines}}" 
-                                                   HorizontalAlignment="{x:Bind Converter={StaticResource DailyForecastLineAlignment}}" 
-                                                   TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
-                                                   Text="{x:Bind Converter={StaticResource Line2Text}}"/>
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip>
-                                                <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary}"/>
-                                            </ToolTip>  
-                                        </ToolTipService.ToolTip>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </StackPanel>
-                    <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="NextDay_Click">
-                        <Grid >
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE974;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                    </Button>
-                </Grid>
-            </StackPanel>
-            <StackPanel Grid.Row="2" HorizontalAlignment="Center">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" Grid.ColumnSpan="3" Canvas.ZIndex="999" Visibility="Collapsed" Name="HourlyEditGrid">
-                        <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                        <Grid Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Time Format</TextBlock>
-                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="2" SelectionChanged="HourlyTimeBox_SelectionChanged">
-                                            <ComboBoxItem HorizontalAlignment="Stretch">8</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">08</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">8 am</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">8 AM</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">8:00 am</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">8:00 AM</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">8:00</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">08:00</ComboBoxItem>
-                                        </ComboBox>
-                                    </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyIconBox_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 1</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine1Box" 
-                                              Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Temperature</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 2</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine2Box" 
-                                              Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 3</TextBlock>
-                                    <ComboBox Width="180" HorizontalAlignment="Stretch" Name="HourlyLine3Box" 
-                                              Loaded="HourlyLineBox_Loaded" SelectionChanged="HourlyComboBox_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">UvIndex</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Wind Speed</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Max Wind</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Visibility</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Today's Forecast Summary</TextBlock>
-                                    <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyDescVisibility_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                    <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
-                                    <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyTempType_SelectionChanged">
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
-                                        <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
-                                    </ComboBox>
-                                </StackPanel>
-                            </StackPanel>
-                        </Grid>
-                        <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="HourlyEditDone_Click"/>
-                    </Grid>
-                    <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="PrevHour_Click">
-                        <Grid>
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE973;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                    </Button>
-                    <StackPanel Grid.Column="1" Height="auto">
-                        <Button BorderThickness="0" Margin="0,0,0,5" HorizontalAlignment="Stretch" Background="Transparent" Click="HourlyEdit_Click">
-                            <Grid HorizontalAlignment="Stretch" Name="HourlyHeaderGrid" Margin="0" Padding="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" FontSize="30" FontWeight="Thin" Text="Hourly" />
-                                <TextBlock Grid.Column="1" Margin="10,0,0,5" Foreground="DarkGray" VerticalAlignment="Bottom" TextWrapping="Wrap" 
-                                            Name="HourlySummaryTextBlock" 
-                                            Text="{x:Bind CurrentForecast.ThisDaySummary, Mode=OneWay}"/>
+                            ItemsSource="{x:Bind HourlyForecasts, Mode=OneWay}">
+                                <GridView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsWrapGrid Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </GridView.ItemsPanel>
+                                <GridView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewModels:HourlyForecastItem">
+                                        <Grid Height="165" Width="110" Margin="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition />
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock  Grid.Row="0" FontSize="16" Text="{x:Bind Converter={StaticResource HourlyForecastTimeText}}"/>
+                                            <Image      Grid.Row="1" Margin="0,5" HorizontalAlignment="Center" Height="50" Width="50" 
+                                                        Visibility="{x:Bind Converter={StaticResource HourlyForecastIconVisibility}}" 
+                                                        Source="{x:Bind Icon, Converter={StaticResource ForecastIconToImage}}"/>
+                                            <TextBlock Grid.Row="2" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                       Text="{x:Bind Converter={StaticResource HourlyCurrentTemp}}"
+                                                       Visibility="{x:Bind Converter={StaticResource HourlyForecastTempVisibility}}"/>
+                                            <TextBlock Grid.Row="3" FontSize="12" VerticalAlignment="Top" FontWeight="Bold" Margin="0,5"
+                                                       MaxLines="{x:Bind Converter={StaticResource HourlyLine1MaxLines}}" 
+                                                       HorizontalAlignment="Center"
+                                                       TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
+                                                       Text="{x:Bind Converter={StaticResource HourlyLine1Text}}" 
+                                                       Visibility="{x:Bind Converter={StaticResource HourlyForecastLine1Visibility}}"/>
+                                            <TextBlock Grid.Row="4" FontSize="12" VerticalAlignment="Top" Foreground="DarkGray" 
+                                                       MaxLines="{x:Bind Converter={StaticResource HourlyLine2MaxLines}}" 
+                                                       HorizontalAlignment="Center" 
+                                                       TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
+                                                       Text="{x:Bind Converter={StaticResource HourlyLine2Text}}"/>
+                                            <TextBlock Grid.Row="5" FontSize="12" VerticalAlignment="Top" Foreground="DarkGray" FontWeight="Bold"
+                                                       MaxLines="{x:Bind Converter={StaticResource HourlyLine3MaxLines}}" 
+                                                       HorizontalAlignment="Center" 
+                                                       TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
+                                                       Text="{x:Bind Converter={StaticResource HourlyLine3Text}}"/>
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip>
+                                                    <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary}"/>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </StackPanel>
+                        <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="NextHour_Click">
+                            <Grid >
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE974;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Grid>
-                            <ToolTipService.ToolTip>
-                                <ToolTip>
-                                    <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
                         </Button>
-                        <GridView MaxWidth="935" Height="210" Name="HourlyGridView"
-                        IsItemClickEnabled="False"
-                        SelectionMode="None" 
-                        ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                        ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                        ItemsSource="{x:Bind HourlyForecasts, Mode=OneWay}">
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsWrapGrid Orientation="Vertical"/>
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
-                            <GridView.ItemTemplate>
-                                <DataTemplate x:DataType="viewModels:HourlyForecastItem">
-                                    <Grid Height="165" Width="110" Margin="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition />
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock  Grid.Row="0" FontSize="16" Text="{x:Bind Converter={StaticResource HourlyForecastTimeText}}"/>
-                                        <Image      Grid.Row="1" Margin="0,5" HorizontalAlignment="Center" Height="50" Width="50" 
-                                                    Visibility="{x:Bind Converter={StaticResource HourlyForecastIconVisibility}}" 
-                                                    Source="{x:Bind Icon, Converter={StaticResource ForecastIconToImage}}"/>
-                                        <TextBlock Grid.Row="2" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                   Text="{x:Bind Converter={StaticResource HourlyCurrentTemp}}"
-                                                   Visibility="{x:Bind Converter={StaticResource HourlyForecastTempVisibility}}"/>
-                                        <TextBlock Grid.Row="3" FontSize="12" VerticalAlignment="Top" FontWeight="Bold" Margin="0,5"
-                                                   MaxLines="{x:Bind Converter={StaticResource HourlyLine1MaxLines}}" 
-                                                   HorizontalAlignment="Center"
-                                                   TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
-                                                   Text="{x:Bind Converter={StaticResource HourlyLine1Text}}" 
-                                                   Visibility="{x:Bind Converter={StaticResource HourlyForecastLine1Visibility}}"/>
-                                        <TextBlock Grid.Row="4" FontSize="12" VerticalAlignment="Top" Foreground="DarkGray" 
-                                                   MaxLines="{x:Bind Converter={StaticResource HourlyLine2MaxLines}}" 
-                                                   HorizontalAlignment="Center" 
-                                                   TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
-                                                   Text="{x:Bind Converter={StaticResource HourlyLine2Text}}"/>
-                                        <TextBlock Grid.Row="5" FontSize="12" VerticalAlignment="Top" Foreground="DarkGray" FontWeight="Bold"
-                                                   MaxLines="{x:Bind Converter={StaticResource HourlyLine3MaxLines}}" 
-                                                   HorizontalAlignment="Center" 
-                                                   TextTrimming="CharacterEllipsis" TextWrapping="Wrap" 
-                                                   Text="{x:Bind Converter={StaticResource HourlyLine3Text}}"/>
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip>
-                                                <TextBlock TextWrapping="Wrap" Text="{x:Bind Summary}"/>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </StackPanel>
-                    <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Height="45" Width="45" Click="NextHour_Click">
-                        <Grid >
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE974;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3A;" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Row="3" HorizontalAlignment="Center" Name="DetailsStackPanel">
+                    <TextBlock FontSize="30" FontWeight="Thin" Text="Details" Margin="0,10"/>
+                    <controls:WrapPanel>
+                        <Grid Margin="10" Height="200" Width="200">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" FontWeight="Bold" Text="Sunrise"/>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <Grid>
+                                    <TextBlock FontSize="50" Margin="2,0,0,0" HorizontalAlignment="Center" Text="&#xED39;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                                    <TextBlock FontSize="10" Margin="0,0,0,16" HorizontalAlignment="Center" Text="&#xE935;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                                </Grid>
+                                <TextBlock Margin="10,0" VerticalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.Sunrise, Mode=OneWay, Converter={StaticResource ForecastTimeText}}"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="2" FontWeight="Bold" Text="Sunset"/>
+                            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                <Grid>
+                                    <TextBlock FontSize="50" Margin="2,0,0,0" HorizontalAlignment="Center" Text="&#xED3A;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                                    <TextBlock FontSize="10" Margin="0,0,0,11" HorizontalAlignment="Center" Text="&#xE936;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
+                                </Grid>
+                                <TextBlock Margin="10,0" VerticalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.Sunset, Mode=OneWay, Converter={StaticResource ForecastTimeText}}"/>
+                            </StackPanel>
                         </Grid>
-                    </Button>
-                </Grid>
-            </StackPanel>
-            <StackPanel Grid.Row="3" HorizontalAlignment="Center" Name="DetailsStackPanel">
-                <TextBlock FontSize="30" FontWeight="Thin" Text="Details" Margin="0,10"/>
-                <controls:WrapPanel>
-                    <Grid Margin="10" Height="200" Width="200">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" FontWeight="Bold" Text="Sunrise"/>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal">
-                            <Grid>
-                                <TextBlock FontSize="50" Margin="2,0,0,0" HorizontalAlignment="Center" Text="&#xED39;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
-                                <TextBlock FontSize="10" Margin="0,0,0,16" HorizontalAlignment="Center" Text="&#xE935;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
-                            </Grid>
-                            <TextBlock Margin="10,0" VerticalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.Sunrise, Mode=OneWay, Converter={StaticResource ForecastTimeText}}"/>
-                        </StackPanel>
-                        <TextBlock Grid.Row="2" FontWeight="Bold" Text="Sunset"/>
-                        <StackPanel Grid.Row="3" Orientation="Horizontal">
-                            <Grid>
-                                <TextBlock FontSize="50" Margin="2,0,0,0" HorizontalAlignment="Center" Text="&#xED3A;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
-                                <TextBlock FontSize="10" Margin="0,0,0,11" HorizontalAlignment="Center" Text="&#xE936;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" />
-                            </Grid>
-                            <TextBlock Margin="10,0" VerticalAlignment="Center" FontSize="20" Text="{x:Bind CurrentForecast.Sunset, Mode=OneWay, Converter={StaticResource ForecastTimeText}}"/>
-                        </StackPanel>
-                    </Grid>
-                    <Grid Margin="10"  Height="150" Width="150">
-                        <StackPanel Grid.Row="1">
-                            <TextBlock FontWeight="Bold" Text="Percipitation" />
-                            <Grid>
-                                <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
-                                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                        Value="{x:Bind TodayForecast.PercipProbability, Mode=OneWay}"
-                                                        Minimum="0"
-                                                        Maximum="1"
-                                                        Thickness="6"
-                                                        Outline="Gray"/>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.PercipProbability, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-                    <Grid Margin="10"  Height="150" Width="150">
-                        <StackPanel>
-                            <TextBlock FontWeight="Bold" Text="Humidity" />
-                            <Grid>
-                                <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
-                                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                        Value="{x:Bind TodayForecast.Humidity, Mode=OneWay}"
-                                                        Minimum="0"
-                                                        Maximum="1"
-                                                        Thickness="6"
-                                                        Outline="Gray"/>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.Humidity, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-                    <Grid Margin="10"  Height="150" Width="150">
-                        <StackPanel>
-                            <TextBlock FontWeight="Bold" Text="UV Index" />
-                            <Grid>
-                                <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
-                                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                        Value="{x:Bind TodayForecast.UvIndex, Mode=OneWay}"
-                                                        Minimum="0"
-                                                        Maximum="10"
-                                                        Thickness="6"
-                                                        Outline="Gray"/>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.UvIndex, Mode=OneWay}"/>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-                    <Grid Margin="10"  Height="150" Width="150">
-                        <StackPanel Grid.Row="1">
-                            <TextBlock FontWeight="Bold" Text="Cloud Cover" />
-                            <Grid>
-                                <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
-                                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                        Value="{x:Bind TodayForecast.CloudCover, Mode=OneWay}"
-                                                        Minimum="0"
-                                                        Maximum="1"
-                                                        Thickness="6"
-                                                        Outline="Gray"/>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.CloudCover, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-                    <Grid Margin="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                    </Grid>
-                </controls:WrapPanel>
-            </StackPanel>
+                        <Grid Margin="10"  Height="150" Width="150">
+                            <StackPanel Grid.Row="1">
+                                <TextBlock FontWeight="Bold" Text="Percipitation" />
+                                <Grid>
+                                    <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                            Value="{x:Bind TodayForecast.PercipProbability, Mode=OneWay}"
+                                                            Minimum="0"
+                                                            Maximum="1"
+                                                            Thickness="6"
+                                                            Outline="Gray"/>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.PercipProbability, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="10"  Height="150" Width="150">
+                            <StackPanel>
+                                <TextBlock FontWeight="Bold" Text="Humidity" />
+                                <Grid>
+                                    <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                            Value="{x:Bind TodayForecast.Humidity, Mode=OneWay}"
+                                                            Minimum="0"
+                                                            Maximum="1"
+                                                            Thickness="6"
+                                                            Outline="Gray"/>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.Humidity, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="10"  Height="150" Width="150">
+                            <StackPanel>
+                                <TextBlock FontWeight="Bold" Text="UV Index" />
+                                <Grid>
+                                    <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                            Value="{x:Bind TodayForecast.UvIndex, Mode=OneWay}"
+                                                            Minimum="0"
+                                                            Maximum="10"
+                                                            Thickness="6"
+                                                            Outline="Gray"/>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.UvIndex, Mode=OneWay}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="10"  Height="150" Width="150">
+                            <StackPanel Grid.Row="1">
+                                <TextBlock FontWeight="Bold" Text="Cloud Cover" />
+                                <Grid>
+                                    <controls:RadialProgressBar Margin="10"  Height="90" Width="90"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                            Value="{x:Bind TodayForecast.CloudCover, Mode=OneWay}"
+                                                            Minimum="0"
+                                                            Maximum="1"
+                                                            Thickness="6"
+                                                            Outline="Gray"/>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Text="{x:Bind TodayForecast.CloudCover, Mode=OneWay, Converter={StaticResource PercipProbabilityText}}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                        </Grid>
+                    </controls:WrapPanel>
+                </StackPanel>
+            </Grid>
         </Grid>
     </ScrollViewer>
 </Page>
