@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -37,6 +39,63 @@ namespace Meteoroi
             this.Suspending += OnSuspending;
         }
 
+        public static bool IsBackgroundTaskRegistered(String name)
+        {
+            try
+            {
+                foreach (var cur in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (cur.Value.Name == name)
+                        return true;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        public async static Task RegisterBackgroundTask(String taskEntryPoint, String name, IBackgroundTrigger trigger = null, IBackgroundCondition condition = null)
+        {
+            try
+            {
+                foreach (var cur in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (cur.Value.Name == name)
+                    {
+                        cur.Value.Unregister(true);
+                    }
+                }
+                var allowed = await BackgroundExecutionManager.RequestAccessAsync();
+                switch (allowed)
+                {
+                    case BackgroundAccessStatus.AlwaysAllowed: break;
+                    case BackgroundAccessStatus.AllowedSubjectToSystemPolicy: break;
+
+                    case BackgroundAccessStatus.DeniedBySystemPolicy: break;
+                    case BackgroundAccessStatus.DeniedByUser: break;
+
+                    case BackgroundAccessStatus.Unspecified: break;
+                }
+
+                BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder
+                {
+                    Name = name,
+                    CancelOnConditionLoss = false,
+                    TaskEntryPoint = taskEntryPoint,
+                };
+                if (trigger == null)
+                    taskBuilder.SetTrigger(new TimeTrigger(60, false));
+                else
+                    taskBuilder.SetTrigger(trigger);
+                if (condition != null)
+                    //    taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+                    //else
+                    taskBuilder.AddCondition(condition);
+                var reg = taskBuilder.Register();
+            }
+            catch { }
+
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -45,6 +104,8 @@ namespace Meteoroi
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             ExtendAcrylicIntoTitleBar();
+            if (!IsBackgroundTaskRegistered("DataRefresher"))
+                RegisterBackgroundTask("BackgroundTasks.DataRefresher", "DataRefresher", new TimeTrigger(60, false));
             Frame rootFrame = Window.Current.Content as Frame;
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

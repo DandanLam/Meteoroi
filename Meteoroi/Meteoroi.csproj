@@ -235,6 +235,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
+      <Project>{10352796-8651-41d1-a5e6-499827afbde2}</Project>
+      <Name>BackgroundTasks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NotificationService\NotificationService.csproj">
       <Project>{f1d061bd-2298-4265-aa84-fcf74f700b42}</Project>
       <Name>NotificationService</Name>

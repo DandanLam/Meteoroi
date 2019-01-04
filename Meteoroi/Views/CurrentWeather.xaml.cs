@@ -53,7 +53,7 @@ namespace Meteoroi.Views
         }
         async Task UpdateForecastItems(int minFreshness = 10)
         {
-            if (DateTime.Now.Subtract(new TimeSpan(0, minFreshness, 0)) < weatherData.Currently.Data.Time || weatherData == null)
+            if (weatherData == null || DateTime.Now.Subtract(new TimeSpan(0, minFreshness, 0)) < weatherData.Currently.Data.Time)
             {
                 DarkSkyService weatherService = new DarkSkyService();
                 weatherData = await weatherService.GetWeatherData(minFreshness);
@@ -68,8 +68,8 @@ namespace Meteoroi.Views
         {
             while (true)
             {
-                await Task.Delay(new TimeSpan(0, 1, 0));
                 await UpdateForecastItems();
+                await Task.Delay(new TimeSpan(0, 1, 0));
             }
         }
 
