@@ -573,27 +573,27 @@ namespace Meteoroi.Views
             switch ((sender as ComboBox).SelectedIndex)
             {
                 case 0:
-                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.HIDDEN;
-                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.HIDDEN;
+                    CurrentForecast.RegionFormat = Settings.LocationDisplayType.HIDDEN;
+                    CurrentForecast.CountryFormat = Settings.LocationDisplayType.HIDDEN;
                     break;
                 case 1:
-                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.ABBREV;
-                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.HIDDEN;
+                    CurrentForecast.RegionFormat = Settings.LocationDisplayType.ABBREV;
+                    CurrentForecast.CountryFormat = Settings.LocationDisplayType.HIDDEN;
                     break;
                 case 2:
-                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.ABBREV;
-                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.ABBREV;
+                    CurrentForecast.RegionFormat = Settings.LocationDisplayType.ABBREV;
+                    CurrentForecast.CountryFormat = Settings.LocationDisplayType.ABBREV;
                     break;
                 case 3:
-                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.ABBREV;
-                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.FULL;
+                    CurrentForecast.RegionFormat = Settings.LocationDisplayType.ABBREV;
+                    CurrentForecast.CountryFormat = Settings.LocationDisplayType.FULL;
                     break;
                 case 4:
-                    Settings.ShowCurrentRegion = Settings.LocationDisplayType.FULL;
-                    Settings.ShowCurrentCountry = Settings.LocationDisplayType.ABBREV;
+                    CurrentForecast.RegionFormat = Settings.LocationDisplayType.FULL;
+                    CurrentForecast.CountryFormat = Settings.LocationDisplayType.ABBREV;
                     break;
             }
-            CurrentForecast.LocationString = Guid.NewGuid().ToString();
+            //CurrentForecast.LocationString = Guid.NewGuid().ToString();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -641,8 +641,8 @@ namespace Meteoroi.Views
             var combobox = sender as ComboBox;
             if (combobox == null)
                 return;
-            Settings.ShowCurrentRealTemp = combobox.SelectedIndex == 0 ? true : false;
-            CurrentForecast.IsMainRealTemp = Settings.ShowCurrentRealTemp;
+            CurrentForecast.IsMainRealTemp = combobox.SelectedIndex == 0 ? true : false;
+            Settings.ShowCurrentRealTemp = Settings.ShowCurrentRealTemp;
         }
 
         private void CurrentTempIsRealComboBox_Loaded(object sender, RoutedEventArgs e)

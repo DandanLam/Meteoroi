@@ -43,19 +43,15 @@ namespace WeatherService
 
         private BasicGeoposition TryGetBasicGeopositionFromSettings()
         {
-            if (Settings.IsKeyPresent(GEOLOCATION_STRING))
+            var fromSettings = Settings.MyGeolocationString;
+            if (!string.IsNullOrEmpty(fromSettings))
             {
-                var stringValue = Settings.GetStringValue(GEOLOCATION_STRING);
-                if (!string.IsNullOrEmpty(stringValue))
+                fromSettings.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                return new BasicGeoposition()
                 {
-                    stringValue.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                    return new BasicGeoposition()
-                    {
-                        Latitude = stringValue[0],
-                        Longitude = stringValue[1],
-                    };
-                }
-                Settings.RemoveValue(GEOLOCATION_STRING);
+                    Latitude = fromSettings[0],
+                    Longitude = fromSettings[1],
+                };
             }
             return new BasicGeoposition();
         }

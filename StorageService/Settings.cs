@@ -25,6 +25,7 @@ namespace StorageService
         private const string HOURLY_LINE_2_KEY = "HOURLY_LINE_2";
         private const string HOURLY_SUMMARY_KEY = "HOURLY_SUMMARY";
         private const string HOURLY_SHOW_REAL_TEMP_KEY = "HOURLY_SHOW_REAL_TEMP";
+        private const string MY_GEOLOCATION_KEY = "MY_GEOLOCATION";
 
         private const string SHOW_CURRENT_REGION_KEY = "SHOW_CURRENT_REGION";
         private const string SHOW_CURRENT_COUNTRY_KEY = "SHOW_CURRENT_COUNTRY";
@@ -49,14 +50,7 @@ namespace StorageService
         {
             get
             {
-                try
-                {
-                    if (IsKeyPresent(IS_METRIC_KEY) && GetBoolValue(IS_METRIC_KEY))
-                        return true;
-                    else
-                        return false;
-                }
-                catch { return false; }
+                return GetBoolValue(IS_METRIC_KEY, true);
             }
             set
             {
@@ -67,14 +61,7 @@ namespace StorageService
         {
             get
             {
-                try
-                {
-                    if (IsKeyPresent(IS_CELCIUS_KEY) && GetBoolValue(IS_CELCIUS_KEY))
-                        return true;
-                    else
-                        return false;
-                }
-                catch { return false; }
+                return GetBoolValue(IS_CELCIUS_KEY, true);
             }
             set
             {
@@ -87,20 +74,16 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_REGION_KEY))
+                switch (GetIntValue(SHOW_CURRENT_REGION_KEY, 0))
                 {
-                    switch (GetIntValue(SHOW_CURRENT_REGION_KEY))
-                    {
-                        default:
-                        case 0:
-                            return LocationDisplayType.FULL;
-                        //case 1:
-                        //    return LocationDisplayType.ABBREV;
-                        case 2:
-                            return LocationDisplayType.HIDDEN;
-                    }
+                    default:
+                    case 0:
+                        return LocationDisplayType.FULL;
+                    //case 1:
+                    //    return LocationDisplayType.ABBREV;
+                    case 2:
+                        return LocationDisplayType.HIDDEN;
                 }
-                return LocationDisplayType.HIDDEN;
             }
             set
             {
@@ -123,19 +106,16 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_COUNTRY_KEY))
+                switch (GetIntValue(SHOW_CURRENT_COUNTRY_KEY, 2))
                 {
-                    switch (GetIntValue(SHOW_CURRENT_COUNTRY_KEY))
-                    {
-                        case 0:
-                            return LocationDisplayType.FULL;
-                        case 1:
-                            return LocationDisplayType.ABBREV;
-                        case 2:
-                            return LocationDisplayType.HIDDEN;
-                    }
+                    case 0:
+                        return LocationDisplayType.FULL;
+                    case 1:
+                        return LocationDisplayType.ABBREV;
+                    default:
+                    case 2:
+                        return LocationDisplayType.HIDDEN;
                 }
-                return LocationDisplayType.HIDDEN;
             }
             set
             {
@@ -157,10 +137,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_ICON_KEY))
-                    return GetBoolValue(SHOW_CURRENT_ICON_KEY);
-                else
-                    return true;
+                return GetBoolValue(SHOW_CURRENT_ICON_KEY, true);
             }
             set
             {
@@ -171,10 +148,7 @@ namespace StorageService
         {
             get
             {
-               if (IsKeyPresent(SHOW_CURRENT_REAL_TEMP_KEY))
-                    return GetBoolValue(SHOW_CURRENT_REAL_TEMP_KEY);
-                else
-                    return true;
+                return GetBoolValue(SHOW_CURRENT_REAL_TEMP_KEY, true);
             }
             set
             {
@@ -185,10 +159,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_ALT_TEMP_KEY))
-                    return GetBoolValue(SHOW_CURRENT_ALT_TEMP_KEY);
-                else
-                    return true;
+                return GetBoolValue(SHOW_CURRENT_ALT_TEMP_KEY, true);
             }
             set
             {
@@ -199,10 +170,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_WINDSPEED_KEY))
-                    return GetBoolValue(SHOW_CURRENT_WINDSPEED_KEY);
-                else
-                    return true;
+                return GetBoolValue(SHOW_CURRENT_WINDSPEED_KEY, true);
             }
             set
             {
@@ -213,10 +181,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_VISIBILITY_KEY))
-                    return GetBoolValue(SHOW_CURRENT_VISIBILITY_KEY);
-                else
-                    return true;
+                return GetBoolValue(SHOW_CURRENT_VISIBILITY_KEY, true);
             }
             set
             {
@@ -227,10 +192,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_PRESSURE_KEY))
-                    return GetBoolValue(SHOW_CURRENT_PRESSURE_KEY);
-                else
-                    return true;
+                return GetBoolValue(SHOW_CURRENT_PRESSURE_KEY, true);
             }
             set
             {
@@ -241,10 +203,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_HUMIDITY_KEY))
-                    return GetBoolValue(SHOW_CURRENT_HUMIDITY_KEY);
-                else
-                    return true;
+                return GetBoolValue(SHOW_CURRENT_HUMIDITY_KEY, true);
             }
             set
             {
@@ -255,10 +214,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(SHOW_CURRENT_DEWPOINT_KEY))
-                    return GetBoolValue(SHOW_CURRENT_DEWPOINT_KEY);
-                else
-                    return true;
+                return GetBoolValue(SHOW_CURRENT_DEWPOINT_KEY, true);
             }
             set
             {
@@ -266,14 +222,23 @@ namespace StorageService
             }
         }
 
+        public static string MyGeolocationString
+        {
+            get
+            {
+                return GetStringValue(MY_GEOLOCATION_KEY, null);
+            }
+            set
+            {
+                SetStringValue(MY_GEOLOCATION_KEY, value);
+            }
+        }
+
         public static string DateFormat
         {
             get
             {
-                if (IsKeyPresent(DATE_FORMAT_KEY))
-                    return GetStringValue(DATE_FORMAT_KEY);
-                else
-                    return "ddd d";
+                return GetStringValue(DATE_FORMAT_KEY, "ddd d");
             }
             set
             {
@@ -284,10 +249,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(DAILY_ICON_KEY))
-                    return GetBoolValue(DAILY_ICON_KEY);
-                else
-                    return true;
+                return GetBoolValue(DAILY_ICON_KEY, true);
             }
             set
             {
@@ -298,10 +260,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(HOURLY_ICON_KEY))
-                    return GetBoolValue(HOURLY_ICON_KEY);
-                else
-                    return true;
+                return GetBoolValue(HOURLY_ICON_KEY, true);
             }
             set
             {
@@ -312,10 +271,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(DAILY_LINE_1_KEY))
-                    return GetIntValue(DAILY_LINE_1_KEY);
-                else
-                    return 8;
+                return GetIntValue(DAILY_LINE_1_KEY, 8);
             }
             set
             {
@@ -326,10 +282,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(DAILY_LINE_2_KEY))
-                    return GetIntValue(DAILY_LINE_2_KEY);
-                else
-                    return 0;
+                return GetIntValue(DAILY_LINE_2_KEY, 0);
             }
             set
             {
@@ -340,10 +293,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(DAILY_SUMMARY_KEY))
-                    return GetBoolValue(DAILY_SUMMARY_KEY);
-                else
-                    return true;
+                return GetBoolValue(DAILY_SUMMARY_KEY, true);
             }
             set
             {
@@ -354,10 +304,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(DAILY_SHOW_REAL_TEMP_KEY))
-                    return GetBoolValue(DAILY_SHOW_REAL_TEMP_KEY);
-                else
-                    return true;
+                return GetBoolValue(DAILY_SHOW_REAL_TEMP_KEY, true);
             }
             set
             {
@@ -369,10 +316,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(TIME_FORMAT_KEY))
-                    return GetStringValue(TIME_FORMAT_KEY);
-                else
-                    return "h tt";
+                return GetStringValue(TIME_FORMAT_KEY, "h tt");
             }
             set
             {
@@ -383,10 +327,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(TIME_FORMAT_LOWERCASE_KEY))
-                    return GetBoolValue(TIME_FORMAT_LOWERCASE_KEY);
-                else
-                    return true;
+                return GetBoolValue(TIME_FORMAT_LOWERCASE_KEY, true);
             }
             set
             {
@@ -397,13 +338,7 @@ namespace StorageService
         {
             get
             {
-                try
-                {
-                    if (IsKeyPresent(HOURLY_LINE_1_KEY))
-                        return GetIntValue(HOURLY_LINE_1_KEY);
-                }
-                catch { }
-                return 7;
+                return GetIntValue(HOURLY_LINE_1_KEY, 7);
             }
             set
             {
@@ -414,13 +349,7 @@ namespace StorageService
         {
             get
             {
-                try
-                {
-                    if (IsKeyPresent(HOURLY_LINE_2_KEY))
-                        return GetIntValue(HOURLY_LINE_2_KEY);
-                }
-                catch { }
-                return 4;
+                return GetIntValue(HOURLY_LINE_2_KEY, 4);
             }
             set
             {
@@ -431,13 +360,7 @@ namespace StorageService
         {
             get
             {
-                try
-                {
-                    if (IsKeyPresent(DAILY_LINE_3_KEY))
-                        return GetIntValue(DAILY_LINE_3_KEY);
-                }
-                catch { }
-                return 0;
+                return GetIntValue(DAILY_LINE_3_KEY, 0);
             }
             set
             {
@@ -448,10 +371,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(HOURLY_SUMMARY_KEY))
-                    return GetBoolValue(HOURLY_SUMMARY_KEY);
-                else
-                    return true;
+                return GetBoolValue(HOURLY_SUMMARY_KEY, true);
             }
             set
             {
@@ -462,10 +382,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(HOURLY_SHOW_REAL_TEMP_KEY))
-                    return GetBoolValue(HOURLY_SHOW_REAL_TEMP_KEY);
-                else
-                    return true;
+                return GetBoolValue(HOURLY_SHOW_REAL_TEMP_KEY, true);
             }
             set
             {
@@ -477,10 +394,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(LIVETILE_TEMP_IS_REAL_KEY))
-                    return GetBoolValue(LIVETILE_TEMP_IS_REAL_KEY);
-                else
-                    return true;
+                return GetBoolValue(LIVETILE_TEMP_IS_REAL_KEY, true);
             }
             set
             {
@@ -492,10 +406,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(LIVETILE_MED_ITEM_COUNT_KEY))
-                    return GetIntValue(LIVETILE_MED_ITEM_COUNT_KEY);
-                else
-                    return 2;
+                return GetIntValue(LIVETILE_MED_ITEM_COUNT_KEY, 2);
             }
             set
             {
@@ -506,10 +417,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(LIVETILE_SHOW_HOUR_KEY))
-                    return GetBoolValue(LIVETILE_SHOW_HOUR_KEY);
-                else
-                    return true;
+                return GetBoolValue(LIVETILE_SHOW_HOUR_KEY, true);
             }
             set
             {
@@ -520,10 +428,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(LIVETILE_SHOW_DAY_KEY))
-                    return GetBoolValue(LIVETILE_SHOW_DAY_KEY);
-                else
-                    return true;
+                return GetBoolValue(LIVETILE_SHOW_DAY_KEY, true);
             }
             set
             {
@@ -534,10 +439,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(LIVETILE_WIDE_ITEM_COUNT_KEY))
-                    return GetIntValue(LIVETILE_WIDE_ITEM_COUNT_KEY);
-                else
-                    return 5;
+                return GetIntValue(LIVETILE_WIDE_ITEM_COUNT_KEY, 5);
             }
             set
             {
@@ -548,10 +450,7 @@ namespace StorageService
         {
             get
             {
-                if (IsKeyPresent(LIVETILE_HOUR_INTERVAL_KEY))
-                    return GetIntValue(LIVETILE_HOUR_INTERVAL_KEY);
-                else
-                    return 1;
+                return GetIntValue(LIVETILE_HOUR_INTERVAL_KEY, 1);
             }
             set
             {
@@ -563,40 +462,60 @@ namespace StorageService
         {
             return ApplicationData.Current.LocalSettings.Values.ContainsKey(key);
         }
-
-        public static bool GetBoolValue(string key, bool defaultValue = false)
+        private static bool RemovedForNoPro(string key)
+        {
+            if (!StoreService.IsProUnlocked())
+            {
+                RemoveValue(key);
+                return true;
+            }
+            return false;
+        }
+        public static bool GetBoolValue(string key, bool defaultValue)
         {
             try
             {
-                return (bool)ApplicationData.Current.LocalSettings.Values[key];
+                if (IsKeyPresent(key) && !RemovedForNoPro(key))
+                {
+                    return (bool)ApplicationData.Current.LocalSettings.Values[key];
+                }
+                return defaultValue;
             }
             catch
             {
-                throw new InvalidCastException();
+                return defaultValue;
             }
         }
 
-        public static string GetStringValue(string key)
+        public static string GetStringValue(string key, string defaultValue)
         {
             try
             {
-                return ApplicationData.Current.LocalSettings.Values[key] as string;
+                if (IsKeyPresent(key) && !RemovedForNoPro(key))
+                {
+                    return ApplicationData.Current.LocalSettings.Values[key] as string;
+                }
+                return defaultValue;
             }
             catch
             {
-                throw new Exception();
+                return defaultValue;
             }
         }
 
-        public static int GetIntValue(string key)
+        public static int GetIntValue(string key, int defaultValue)
         {
             try
             {
-                return (int)ApplicationData.Current.LocalSettings.Values[key];
+                if (IsKeyPresent(key) && !RemovedForNoPro(key))
+                {
+                    return (int)ApplicationData.Current.LocalSettings.Values[key];
+                }
+                return defaultValue;
             }
             catch
             {
-                throw new InvalidCastException();
+                return defaultValue;
             }
         }
 

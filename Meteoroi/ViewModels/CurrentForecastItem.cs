@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WeatherService;
 using Windows.Services.Maps;
+using static StorageService.Settings;
 
 namespace Meteoroi.ViewModels
 {
@@ -19,6 +20,27 @@ namespace Meteoroi.ViewModels
                 LocationString = Guid.NewGuid().ToString();
             }
         }
+        private LocationDisplayType _RegionFormat;
+        public LocationDisplayType RegionFormat
+        {
+            get { return _RegionFormat; }
+            set {
+                Settings.ShowCurrentRegion = value;
+                SetProperty(_RegionFormat, value, () => _RegionFormat = value);
+                LocationString = Guid.NewGuid().ToString();
+            }
+        }
+        private LocationDisplayType _CountryFormat;
+        public LocationDisplayType CountryFormat
+        {
+            get { return _CountryFormat; }
+            set
+            {
+                Settings.ShowCurrentCountry = value;
+                SetProperty(_CountryFormat, value, () => _CountryFormat = value);
+                LocationString = Guid.NewGuid().ToString();
+            }
+        }
         private string _LocationString;
         public string LocationString
         {
@@ -28,17 +50,17 @@ namespace Meteoroi.ViewModels
                     return "";
                 var sb = new StringBuilder();
                 sb.Append(Location.Address.Town);
-                if (Settings.ShowCurrentRegion != Settings.LocationDisplayType.HIDDEN)
+                if (RegionFormat != LocationDisplayType.HIDDEN)
                 {
                     sb.Append(", ");
                     sb.Append(Location.Address.Region);
                 }
-                if (Settings.ShowCurrentCountry == Settings.LocationDisplayType.FULL)
+                if (CountryFormat == LocationDisplayType.FULL)
                 {
                     sb.Append(", ");
                     sb.Append(Location.Address.Country);
                 }
-                else if (Settings.ShowCurrentCountry == Settings.LocationDisplayType.ABBREV)
+                else if (CountryFormat == LocationDisplayType.ABBREV)
                 {
                     sb.Append(", ");
                     sb.Append(Location.Address.CountryCode);
@@ -101,7 +123,7 @@ namespace Meteoroi.ViewModels
         private bool _IsMainRealTemp = Settings.ShowCurrentRealTemp;
         public bool IsMainRealTemp
         {
-            get { return Settings.ShowCurrentRealTemp; }
+            get { return _IsMainRealTemp; }
             set { SetProperty(_IsMainRealTemp, value, () => _IsMainRealTemp = value);
                 Settings.ShowCurrentRealTemp = value;
             }

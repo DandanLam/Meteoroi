@@ -1,4 +1,5 @@
 ﻿using Meteoroi.Views;
+using StorageService;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -109,6 +110,8 @@ namespace Meteoroi
                 uint minsToDelay = 16;
                 try { minsToDelay = (uint)(61 - DateTime.Now.Minute); }
                 catch { }
+                if (minsToDelay < 15)
+                    minsToDelay += 60;
                 RegisterBackgroundTask("BackgroundTasks.DeferredStart", "DeferredStart", new TimeTrigger(minsToDelay, true));
             }
             Frame rootFrame = Window.Current.Content as Frame;
