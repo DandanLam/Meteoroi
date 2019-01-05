@@ -104,8 +104,13 @@ namespace Meteoroi
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             ExtendAcrylicIntoTitleBar();
-            if (!IsBackgroundTaskRegistered("DataRefresher"))
-                RegisterBackgroundTask("BackgroundTasks.DataRefresher", "DataRefresher", new TimeTrigger(60, false));
+            if (!IsBackgroundTaskRegistered("DataRefresher") && !IsBackgroundTaskRegistered("DeferredStart"))
+            {
+                uint minsToDelay = 16;
+                try { minsToDelay = (uint)(61 - DateTime.Now.Minute); }
+                catch { }
+                RegisterBackgroundTask("BackgroundTasks.DeferredStart", "DeferredStart", new TimeTrigger(minsToDelay, true));
+            }
             Frame rootFrame = Window.Current.Content as Frame;
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
