@@ -207,11 +207,11 @@
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="1" Margin="15,0" Height="85" Width="85" Source="{x:Bind CurrentForecast.Icon, Mode=OneWay, Converter={StaticResource ForecastIconToImage}}" />
                                 <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastAltTempVisibility}}">
-                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.Temp, Mode=OneWay}"/>
+                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.Temp, Mode=OneWay}" />
                                     <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{x:Bind CurrentForecast.IsMainRealTemp, Mode=OneWay, Converter={StaticResource CurrentForecastRegTempVisibility}}">
-                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay}"/>
+                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="{x:Bind CurrentForecast.ApparentTemp, Mode=OneWay}" />
                                     <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="100" Text="°"/>
                                 </StackPanel>
                                 <Grid Grid.Column="3" VerticalAlignment="Center">
@@ -309,7 +309,7 @@
                                 <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Date Format</TextBlock>
-                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyDateBox_SelectionChanged">
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="DailyDateBox_Loaded" SelectionChanged="DailyDateBox_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Tue 1</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">1 Tue</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Tuesday 1</ComboBoxItem>
@@ -322,14 +322,15 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
-                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyIconBox_SelectionChanged">
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="DailyIconBox_Loaded" SelectionChanged="DailyIconBox_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
                                         </ComboBox>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 1</TextBlock>
-                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="8" Name="DailyLine1Box" SelectionChanged="DailyComboBox_SelectionChanged">
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Name="DailyLine1Box"
+                                                  Loaded="DailyLineBox_Loaded" SelectionChanged="DailyComboBox_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
@@ -344,7 +345,8 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Line 2</TextBlock>
-                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" Name="DailyLine2Box" SelectionChanged="DailyComboBox_SelectionChanged">
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Name="DailyLine2Box"
+                                                  Loaded="DailyLineBox_Loaded" SelectionChanged="DailyComboBox_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Weather Description</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Humidity</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Percipitation %</ComboBoxItem>
@@ -360,7 +362,7 @@
                                 <StackPanel Grid.Column="1">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Week's Forecast Summary</TextBlock>
-                                        <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="WeeklyDescVisibility_SelectionChanged">
+                                        <ComboBox Width="200" HorizontalAlignment="Stretch" Loaded="WeeklyDescVisibility_Loaded" SelectionChanged="WeeklyDescVisibility_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
                                         </ComboBox>
@@ -368,7 +370,7 @@
                                 
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
-                                        <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="DailyTempType_SelectionChanged">
+                                        <ComboBox Width="200" HorizontalAlignment="Stretch" Loaded="DailyTempType_Loaded" SelectionChanged="DailyTempType_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
                                         </ComboBox>
@@ -478,7 +480,7 @@
                                 <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Time Format</TextBlock>
-                                            <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="2" SelectionChanged="HourlyTimeBox_SelectionChanged">
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="HourlyTimeBox_Loaded" SelectionChanged="HourlyTimeBox_SelectionChanged">
                                                 <ComboBoxItem HorizontalAlignment="Stretch">8</ComboBoxItem>
                                                 <ComboBoxItem HorizontalAlignment="Stretch">08</ComboBoxItem>
                                                 <ComboBoxItem HorizontalAlignment="Stretch">8 am</ComboBoxItem>
@@ -491,7 +493,7 @@
                                         </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="100" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
-                                        <ComboBox Width="180" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyIconBox_SelectionChanged">
+                                        <ComboBox Width="180" HorizontalAlignment="Stretch" Loaded="HourlyIconBox_Loaded" SelectionChanged="HourlyIconBox_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
                                         </ComboBox>
@@ -543,14 +545,14 @@
                                 <StackPanel Grid.Column="1">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Today's Forecast Summary</TextBlock>
-                                        <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyDescVisibility_SelectionChanged">
+                                        <ComboBox Width="200" HorizontalAlignment="Stretch" Loaded="HourlyDescVisibility_Loaded" SelectionChanged="HourlyDescVisibility_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
                                         </ComboBox>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
                                         <TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
-                                        <ComboBox Width="200" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="HourlyTempType_SelectionChanged">
+                                        <ComboBox Width="200" HorizontalAlignment="Stretch" Loaded="HourlyTempType_Loaded" SelectionChanged="HourlyTempType_SelectionChanged">
                                             <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
                                             <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
                                         </ComboBox>

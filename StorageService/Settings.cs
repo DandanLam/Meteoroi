@@ -23,6 +23,7 @@ namespace StorageService
         private const string TIME_FORMAT_LOWERCASE_KEY = "TIME_FORMAT_LOWERCASE_";
         private const string HOURLY_LINE_1_KEY = "HOURLY_LINE_1";
         private const string HOURLY_LINE_2_KEY = "HOURLY_LINE_2";
+        private const string HOURLY_LINE_3_KEY = "HOURLY_LINE_3";
         private const string HOURLY_SUMMARY_KEY = "HOURLY_SUMMARY";
         private const string HOURLY_SHOW_REAL_TEMP_KEY = "HOURLY_SHOW_REAL_TEMP";
         private const string MY_GEOLOCATION_KEY = "MY_GEOLOCATION";
@@ -50,7 +51,7 @@ namespace StorageService
         {
             get
             {
-                return GetBoolValue(IS_METRIC_KEY, true);
+                return GetBoolValue(IS_METRIC_KEY, false);
             }
             set
             {
@@ -61,7 +62,7 @@ namespace StorageService
         {
             get
             {
-                return GetBoolValue(IS_CELCIUS_KEY, true);
+                return GetBoolValue(IS_CELCIUS_KEY, false);
             }
             set
             {
@@ -360,11 +361,11 @@ namespace StorageService
         {
             get
             {
-                return GetIntValue(DAILY_LINE_3_KEY, 0);
+                return GetIntValue(HOURLY_LINE_3_KEY, 0);
             }
             set
             {
-                SetIntValue(DAILY_LINE_3_KEY, value);
+                SetIntValue(HOURLY_LINE_3_KEY, value);
             }
         }
         public static bool HourlyShowSummary
@@ -375,7 +376,7 @@ namespace StorageService
             }
             set
             {
-                GetBoolValue(HOURLY_SUMMARY_KEY, value);
+                SetBoolValue(HOURLY_SUMMARY_KEY, value);
             }
         }
         public static bool HourlyShowRealTemp
@@ -386,7 +387,7 @@ namespace StorageService
             }
             set
             {
-                GetBoolValue(HOURLY_SHOW_REAL_TEMP_KEY, value);
+                SetBoolValue(HOURLY_SHOW_REAL_TEMP_KEY, value);
             }
         }
 

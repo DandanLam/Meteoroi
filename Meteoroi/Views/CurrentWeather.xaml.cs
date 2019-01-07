@@ -78,29 +78,7 @@ namespace Meteoroi.Views
             if (weatherData == null)
                 return;
             var newItem = new CurrentForecastItem(weatherData.Currently);
-            CurrentForecast.Location = weatherData.Location;
-            CurrentForecast.Temp = newItem.Temp;
-            CurrentForecast.ApparentTemp = newItem.ApparentTemp;
-            CurrentForecast.Icon = newItem.Icon;
-            CurrentForecast.Summary = newItem.Summary;
-            CurrentForecast.Time = newItem.Time;
-            CurrentForecast.Sunrise = newItem.Sunrise;
-            CurrentForecast.Sunset = newItem.Sunset;
-
-            CurrentForecast.Humidity = newItem.Humidity;
-            CurrentForecast.Ozone = newItem.Ozone;
-            CurrentForecast.DewPoint = newItem.DewPoint;
-            CurrentForecast.Pressure = newItem.Pressure;
-            CurrentForecast.UvIndex = newItem.UvIndex;
-            CurrentForecast.UvIndexTime = newItem.UvIndexTime;
-            CurrentForecast.Visibility = newItem.Visibility;
-            CurrentForecast.WindSpeed = newItem.WindSpeed;
-            CurrentForecast.Gust = newItem.Gust;
-            CurrentForecast.WindBearing = newItem.WindBearing;
-            CurrentForecast.GustTime = newItem.GustTime;
-
-            CurrentForecast.IsMetric = Settings.IsMetric;
-            CurrentForecast.IsCelcius = Settings.IsCelcius;
+            CurrentForecast.CopyFromForecast(newItem);
         }
 
         void UpdateDailyForecast(WeatherData weatherData)
@@ -324,6 +302,44 @@ namespace Meteoroi.Views
             HideGrid(DailyEditGrid);
         }
 
+        private void DailyDateBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+
+            int idx = 0;
+            switch (DailyForecastItem.DateForemat)
+            {
+                case "ddd d":
+                    idx = 0;
+                    break;
+                case "d ddd":
+                    idx = 1;
+                    break;
+                case "dddd d":
+                    idx = 2;
+                    break;
+                case "d dddd":
+                    idx = 3;
+                    break;
+                case "MMM d":
+                    idx = 4;
+                    break;
+                case "d MMM":
+                    idx = 5;
+                    break;
+                case "MMMM d":
+                    idx = 6;
+                    break;
+                case "d MMMM":
+                    idx = 7;
+                    break;
+            }
+
+            changedComboBox.SelectedIndex = idx;
+        }
+
         private void DailyDateBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var changedComboBox = sender as ComboBox;
@@ -359,6 +375,15 @@ namespace Meteoroi.Views
             UpdateDailyForecast(weatherData);
         }
 
+        private void DailyIconBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+            changedComboBox.SelectedIndex = DailyForecastItem.ShowIcon ? 0 : 1;
+            UpdateDailyForecast(weatherData);
+        }
+
         private void DailyIconBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var changedComboBox = sender as ComboBox;
@@ -366,6 +391,14 @@ namespace Meteoroi.Views
                 return;
             DailyForecastItem.ShowIcon = changedComboBox.SelectedIndex == 0 ? true : false;
             UpdateDailyForecast(weatherData);
+        }
+
+        private void WeeklyDescVisibility_Loaded(object sender, RoutedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null || WeeklySummaryTextBlock == null)
+                return;
+            changedComboBox.SelectedIndex = Settings.DailyShowSummary ? 0 : 1;
         }
 
         private void WeeklyDescVisibility_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -376,8 +409,17 @@ namespace Meteoroi.Views
             try
             {
                 WeeklySummaryTextBlock.Visibility = changedComboBox.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+                Settings.DailyShowSummary = changedComboBox.SelectedIndex == 0 ? true : false;
             }
             catch { }
+        }
+
+        private void DailyTempType_Loaded(object sender, RoutedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null || WeeklySummaryTextBlock == null)
+                return;
+            changedComboBox.SelectedIndex  = DailyForecastItem.RealTemp ? 0 : 1;
         }
 
         private void DailyTempType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -393,6 +435,15 @@ namespace Meteoroi.Views
             catch { }
         }
 
+        private void HourlyDescVisibility_Loaded(object sender, RoutedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null || WeeklySummaryTextBlock == null)
+                return;
+
+            changedComboBox.SelectedIndex = Settings.HourlyShowSummary ? 0 : 1;
+        }
+
         private void HourlyDescVisibility_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var changedComboBox = sender as ComboBox;
@@ -401,14 +452,24 @@ namespace Meteoroi.Views
             try
             {
                 HourlySummaryTextBlock.Visibility = changedComboBox.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+                Settings.HourlyShowSummary = changedComboBox.SelectedIndex == 0 ? true : false;
             }
             catch { }
+        }
+
+        private void HourlyTempType_Loaded(object sender, RoutedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null || HourlySummaryTextBlock == null)
+                return;
+
+            changedComboBox.SelectedIndex = HourlyForecastItem.RealTemp ? 0 : 1;
         }
 
         private void HourlyTempType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var changedComboBox = sender as ComboBox;
-            if (changedComboBox == null || WeeklySummaryTextBlock == null)
+            if (changedComboBox == null || HourlySummaryTextBlock == null)
                 return;
             try
             {
@@ -426,6 +487,14 @@ namespace Meteoroi.Views
         private void HourlyEdit_Click(object sender, RoutedEventArgs e)
         {
             ShowGrid(HourlyEditGrid);
+        }
+
+        private void HourlyIconBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+            changedComboBox.SelectedIndex = HourlyForecastItem.ShowIcon ? 0 : 1;
         }
 
         private void HourlyIconBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -473,6 +542,38 @@ namespace Meteoroi.Views
                 UpdateHourlyForecast(weatherData);
             }
             catch { }
+        }
+
+        private void HourlyTimeBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var changedComboBox = sender as ComboBox;
+            if (changedComboBox == null)
+                return;
+
+            int idx = 0;
+            switch (HourlyForecastItem.TimeFormat)
+            {
+                case "H":
+                    idx = 0;
+                    break;
+                case "HH":
+                    idx = 1;
+                    break;
+                case "h tt":
+                    idx = HourlyForecastItem.TimeFormatToLower ? 2 : 3;
+                    break;
+                case "h:00 tt":
+                    idx = HourlyForecastItem.TimeFormatToLower ? 4 : 5;
+                    break;
+                case "H:00":
+                    idx = 6;
+                    break;
+                case "HH:00":
+                    idx = 7;
+                    break;
+            }
+
+            changedComboBox.SelectedIndex = idx;
         }
 
         private void HourlyTimeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -716,6 +817,22 @@ namespace Meteoroi.Views
                     break;
                 case "HourlyLine3Box":
                     combobox.SelectedIndex = Settings.HourlyLine3;
+                    break;
+            }
+        }
+
+        private void DailyLineBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var combobox = sender as ComboBox;
+            if (combobox == null)
+                return;
+            switch (combobox.Name)
+            {
+                case "DailyLine1Box":
+                    combobox.SelectedIndex = Settings.DailyLine1;
+                    break;
+                case "DailyLine2Box":
+                    combobox.SelectedIndex = Settings.DailyLine2;
                     break;
             }
         }

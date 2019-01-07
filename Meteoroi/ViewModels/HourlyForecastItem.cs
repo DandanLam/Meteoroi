@@ -21,34 +21,57 @@ namespace Meteoroi.ViewModels
         public double Visibility { get; set; }
         public Wind Wind { get; set; }
 
-        public static string TimeFormat { get; set; }
+        private static string _TimeFormat = Settings.TimeFormat;
+        public static string TimeFormat
+        {
+            get { return _TimeFormat; }
+            set { _TimeFormat = value;
+                Settings.TimeFormat = value;
+            }
+        }
         public static bool TimeFormatToLower { get; set; }
-        private static bool _RealTemp = true;
+        private static bool _RealTemp = Settings.HourlyShowRealTemp;
         public static bool RealTemp
         {
             get { return _RealTemp; }
-            set { _RealTemp = value; }
+            set
+            {
+                _RealTemp = value;
+                Settings.HourlyShowRealTemp = value;
+            }
         }
-        private static bool _ShowIcon = true;
+        private static bool _ShowIcon = Settings.ShowHourlyIcon;
         public static bool ShowIcon
         {
             get { return _ShowIcon; }
-            set { _ShowIcon = value; }
+            set { _ShowIcon = value;
+                Settings.ShowHourlyIcon = value;
+            }
         }
+
+        private static int _Line1 = Settings.HourlyLine1;
         public static int Line1
         {
-            get { return Settings.HourlyLine1; }
-            set { Settings.HourlyLine1 = value; }
+            get { return _Line1; }
+            set { _Line1 = value;
+                Settings.HourlyLine1 = value;
+            }
         }
+        private static int _Line2 = Settings.HourlyLine2;
         public static int Line2
         {
-            get { return Settings.HourlyLine2; }
-            set { Settings.HourlyLine2 = value; }
+            get { return _Line2; }
+            set { _Line2 = value;
+                Settings.HourlyLine2 = value;
+            }
         }
+        private static int _Line3 = Settings.HourlyLine3;
         public static int Line3
         {
-            get { return Settings.HourlyLine3; }
-            set { Settings.HourlyLine3 = value; }
+            get { return _Line3; }
+            set { _Line3 = value;
+                Settings.HourlyLine3 = value;
+            }
         }
 
         public HourlyForecastItem(Data forecast) : base(forecast)

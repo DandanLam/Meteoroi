@@ -69,6 +69,7 @@ namespace Meteoroi.ViewModels
             }
             set { SetProperty(_LocationString, value, () => _LocationString = value); }
         }
+
         private double _Temp;
         public double Temp
         {
@@ -79,7 +80,9 @@ namespace Meteoroi.ViewModels
                 else
                     return Math.Round(_Temp, 0);
             }
-            set { SetProperty(_Temp, value, () => _Temp = value); }
+            set {
+                SetProperty(_Temp, value, () => _Temp = value);
+            }
         }
         private double _ApparentTemp;
         public double ApparentTemp
@@ -93,26 +96,26 @@ namespace Meteoroi.ViewModels
             }
             set { SetProperty(_ApparentTemp, value, () => _ApparentTemp = value); }
         }
-        private bool _IsCelcius;
+        private bool _IsCelcius = Settings.IsCelcius;
         public bool IsCelcius
         {
             get { return _IsCelcius; }
             set {
-                SetProperty(_IsCelcius, value, () => _IsCelcius = value);
                 Settings.IsCelcius = value;
+                SetProperty(_IsCelcius, value, () => _IsCelcius = value);
                 Temp = _Temp + .0000001;
                 ApparentTemp = _ApparentTemp + .0000001;
                 DewPoint = _DewPoint + .0000001;
             }
         }
-        private bool _IsMetric;
+        private bool _IsMetric = Settings.IsMetric;
         public bool IsMetric
         {
             get { return _IsMetric; }
             set
             {
-                SetProperty(_IsMetric, value, () => _IsMetric = value);
                 Settings.IsMetric = value;
+                SetProperty(_IsMetric, value, () => _IsMetric = value);
                 Pressure = _Pressure + .0000001;
                 Visibility = _Visibility + .0000001;
                 WindSpeed = _WindSpeed + .0000001;
@@ -350,6 +353,30 @@ namespace Meteoroi.ViewModels
             UvIndexTime = forecast.Data.UvIndexTime;
             Visibility = forecast.Data.Visibility;
             Ozone = forecast.Data.Ozone;
+        }
+
+        public void CopyFromForecast(CurrentForecastItem copyFrom)
+        {
+            Location = copyFrom.Location;
+            Temp = copyFrom.IsCelcius ? (copyFrom.Temp *  9 / 5) + 32 : copyFrom.Temp;
+            ApparentTemp = copyFrom.IsCelcius ? (copyFrom.ApparentTemp * 9 / 5) + 32 : copyFrom.ApparentTemp;
+            Icon = copyFrom.Icon;
+            Summary = copyFrom.Summary;
+            Time = copyFrom.Time;
+            Sunrise = copyFrom.Sunrise;
+            Sunset = copyFrom.Sunset;
+
+            Humidity = copyFrom.Humidity;
+            Ozone = copyFrom.Ozone;
+            DewPoint = copyFrom.DewPoint;
+            Pressure = copyFrom.Pressure;
+            UvIndex = copyFrom.UvIndex;
+            UvIndexTime = copyFrom.UvIndexTime;
+            Visibility = copyFrom.Visibility;
+            WindSpeed = copyFrom.WindSpeed;
+            Gust = copyFrom.Gust;
+            WindBearing = copyFrom.WindBearing;
+            GustTime = copyFrom.GustTime;
         }
     }
 }

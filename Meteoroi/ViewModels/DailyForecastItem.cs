@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StorageService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,30 +25,54 @@ namespace Meteoroi.ViewModels
         public double Visibility { get; set; }
         public Wind Wind { get; set; }
 
-        public static string DateForemat { get; set; }
-        private static bool _RealTemp = true;
+        private static string _DateForemat = Settings.DateFormat;
+        public static string DateForemat
+        {
+            get { return _DateForemat; }
+            set
+            {
+                _DateForemat = value;
+                Settings.DateFormat = value;
+            }
+        }
+        private static bool _RealTemp = Settings.DailyShowRealTemp;
         public static bool RealTemp
         {
             get { return _RealTemp; }
-            set { _RealTemp = value; }
+            set { _RealTemp = value; 
+                Settings.DailyShowRealTemp = value;
+            }
         }
-        private static bool _ShowIcon = true;
+        private static bool _ShowIcon = Settings.ShowDailyIcon;
         public static bool ShowIcon
         {
             get { return _ShowIcon; }
-            set { _ShowIcon = value; }
+            set { _ShowIcon = value;
+                Settings.ShowDailyIcon = value;
+            }
         }
-        private static int _Line1 = 8;
+        private static int _Line1 = Settings.DailyLine1;
         public static int Line1
         {
-            get { return _Line1; }
-            set { _Line1 = value; }
+            get {
+                if (StoreService.IsProUnlocked())
+                    return Settings.DailyLine1;
+                return _Line1; }
+            set { _Line1 = value;
+                Settings.DailyLine1 = value;
+            }
         }
-        private static int _Line2 = 0;
+        private static int _Line2 = Settings.DailyLine2;
         public static int Line2
         {
-            get { return _Line2; }
-            set { _Line2 = value; }
+            get {
+                if (StoreService.IsProUnlocked())
+                    return Settings.DailyLine2;
+                return _Line2; }
+            set {
+                _Line2 = value;
+                Settings.DailyLine2 = value;
+            }
         }
 
         public DailyForecastItem(Data forecast) : base(forecast)
