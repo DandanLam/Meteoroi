@@ -78,6 +78,7 @@ namespace Meteoroi.Views
             if (weatherData == null)
                 return;
             var newItem = new CurrentForecastItem(weatherData.Currently);
+            newItem.Location = weatherData.Location;
             CurrentForecast.CopyFromForecast(newItem);
         }
 
@@ -976,5 +977,6 @@ namespace Meteoroi.Views
             }
             catch { }
         }
+
     }
 }
