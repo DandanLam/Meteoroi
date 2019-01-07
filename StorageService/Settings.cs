@@ -9,6 +9,7 @@ namespace StorageService
 {
     public class Settings
     {
+        private const string SHOW_TUTORIAL_OVERLAY_KEY = "SHOW_TUTORIAL_OVERLAY";
         private const string IS_METRIC_KEY = "IS_METRIC";
         private const string IS_CELCIUS_KEY = "IS_CELCIUS";
         private const string DATE_FORMAT_KEY = "DATE_FORMAT";
@@ -47,6 +48,23 @@ namespace StorageService
         private const string LIVETILE_HOUR_INTERVAL_KEY      = "LIVETILE_HOUR_INTERVAL";
         private const string LIVETILE_TEMP_IS_REAL_KEY = "LIVETILE_TEMP_IS_REAL";
 
+        public static bool ShowTutorialOverlay
+        {
+            get
+            {
+                try
+                {
+                    if (ApplicationData.Current.LocalSettings.Values.ContainsKey(SHOW_TUTORIAL_OVERLAY_KEY))
+                        return (bool)ApplicationData.Current.LocalSettings.Values[SHOW_TUTORIAL_OVERLAY_KEY];
+                }
+                catch { }
+                return true;
+            }
+            set
+            {
+                SetBoolValue(SHOW_TUTORIAL_OVERLAY_KEY, value);
+            }
+        }
         public static bool IsMetric
         {
             get

@@ -82,14 +82,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" Width="45" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Margin="20,0" BorderThickness="0" Click="LiveTileEdit_Click">
-                    <TextBlock Text="&#xECA5;" FontFamily="Segoe MDL2 Assets" FontSize="25"/>
-                    <ToolTipService.ToolTip>
-                        <ToolTip>
-                            <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
-                </Button>
+                
                 <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="LiveTileEditGrid">
                     <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                     <StackPanel Margin="0,10,0,0">
@@ -144,6 +137,14 @@
                 </Grid>
                 <StackPanel Grid.Row="0" Margin="0,32,0,0" HorizontalAlignment="Center" Name="CurrentStackPanel">
                     <Grid>
+                        <Button Width="45" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Margin="0,0,0,0" BorderThickness="0" Click="LiveTileEdit_Click">
+                            <TextBlock Text="&#xECA5;" FontFamily="Segoe MDL2 Assets" FontSize="25"/>
+                            <ToolTipService.ToolTip>
+                                <ToolTip>
+                                    <TextBlock TextWrapping="Wrap" Text="Click to customize"/>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </Button>
                         <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="CurrentEditGrid">
                             <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             <Grid Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -151,31 +152,33 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                        <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Location Format</TextBlock>
-                                        <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="LocationFormatComboBox_SelectionChanged" Loaded="LocationFormatComboBox_Loaded">
-                                            <ComboBoxItem HorizontalAlignment="Stretch">Seattle</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, USA</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, United States</ComboBoxItem>
-                                        </ComboBox>
+                                <Grid Grid.Column="0">
+                                    <StackPanel HorizontalAlignment="Stretch">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Location Format</TextBlock>
+                                            <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="LocationFormatComboBox_SelectionChanged" Loaded="LocationFormatComboBox_Loaded">
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Seattle</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, USA</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Seattle, WA, United States</ComboBoxItem>
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
+                                            <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentIconComboBox_SelectionChanged" Loaded="CurrentIconComboBox_Loaded">
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
+                                            </ComboBox>
+                                        </StackPanel>-->
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
+                                            <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentTempIsRealComboBox_SelectionChanged" Loaded="CurrentTempIsRealComboBox_Loaded">
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
+                                            </ComboBox>
+                                        </StackPanel>
                                     </StackPanel>
-                                    <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                        <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Weather Icon</TextBlock>
-                                        <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentIconComboBox_SelectionChanged" Loaded="CurrentIconComboBox_Loaded">
-                                            <ComboBoxItem HorizontalAlignment="Stretch">Show</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">Hide</ComboBoxItem>
-                                        </ComboBox>
-                                    </StackPanel>-->
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
-                                        <TextBlock Width="120" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Temperature</TextBlock>
-                                        <ComboBox Width="220" HorizontalAlignment="Stretch" SelectionChanged="CurrentTempIsRealComboBox_SelectionChanged" Loaded="CurrentTempIsRealComboBox_Loaded">
-                                            <ComboBoxItem HorizontalAlignment="Stretch">Real Temperature</ComboBoxItem>
-                                            <ComboBoxItem HorizontalAlignment="Stretch">Feels Like Temperature</ComboBoxItem>
-                                        </ComboBox>
-                                    </StackPanel>
-                                </StackPanel>
+                                </Grid>
                                 <StackPanel Grid.Column="1" Margin="15,0,0,0">
                                     <CheckBox Content="Alternate Temp" Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="AltTempCheckbox_Loaded"/>
                                     <CheckBox Content="Wind Speed"     Unchecked="CurrnetCheckBox_Checked" Checked="CurrnetCheckBox_Checked" Loaded="WindSpeedCheckbox_Loaded"/>
@@ -748,6 +751,10 @@
                         </Grid>
                     </controls:WrapPanel>
                 </StackPanel>
+                <Grid Grid.Row="0" Grid.RowSpan="4" Canvas.ZIndex="999" Visibility="Collapsed" Name="TutorialGrid" Width="{Binding Source=HourlyEditGrid, Path=ActualWidth}" Tapped="TutorialGrid_Tapped" >
+                    <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <Image Margin="-75,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="None" Source="/Assets/Tutorial/Overlay-1.png" />
+                </Grid>
             </Grid>
         </Grid>
     </ScrollViewer>

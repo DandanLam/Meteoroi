@@ -152,6 +152,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\Tutorial\BRADHITC.TTF" />
     <None Include="Meteoroi_StoreKey.pfx" />
     <None Include="Meteoroi_TemporaryKey.pfx" />
   </ItemGroup>
@@ -193,6 +194,16 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Tutorial\DownArrow_TextRight.png" />
+    <Content Include="Assets\Tutorial\DownArrow_TextUp.png" />
+    <Content Include="Assets\Tutorial\LeftArrow_TextAbove.png" />
+    <Content Include="Assets\Tutorial\LeftArrow_TextBelow.png" />
+    <Content Include="Assets\Tutorial\LeftRightArrow.png" />
+    <Content Include="Assets\Tutorial\Overlay-1.png" />
+    <Content Include="Assets\Tutorial\RightArrow_TextAbove.png" />
+    <Content Include="Assets\Tutorial\RightArrow_TextBelow.png" />
+    <Content Include="Assets\Tutorial\UpArrow_TextDown.png" />
+    <Content Include="Assets\Tutorial\UpDownArrow.png" />
     <Content Include="Assets\WeatherIcons\CLEAR_DAY.png" />
     <Content Include="Assets\WeatherIcons\CLEAR_NIGHT.png" />
     <Content Include="Assets\WeatherIcons\CLOUDY.png" />

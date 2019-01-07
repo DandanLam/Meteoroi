@@ -49,6 +49,11 @@ namespace Meteoroi.Views
             }
             await SplashImg.Fade(value: 0f, duration: 500, delay: 0).StartAsync();
             SplashImg.Visibility = Visibility.Collapsed;
+            if (Settings.ShowTutorialOverlay)
+            {
+                ShowGrid(TutorialGrid);
+                Settings.ShowTutorialOverlay = false;
+            }
             ShowGrid(MainGrid);
         }
         async Task UpdateForecastItems(int minFreshness = 10)
@@ -978,5 +983,10 @@ namespace Meteoroi.Views
             catch { }
         }
 
+        private void TutorialGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            try { HideGrid(TutorialGrid); }
+            catch { }
+        }
     }
 }
