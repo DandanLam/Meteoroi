@@ -902,7 +902,8 @@ namespace Meteoroi.Views
             if (combobox == null || PageIsLoading)
                 return;
 
-            try { Settings.MedTileItemCount = int.Parse((combobox.SelectedItem as ComboBoxItem).Content as string);
+            try {
+                Settings.MedTileItemCount = int.Parse((combobox.SelectedItem as ComboBoxItem).Content as string);
                 LiveTiles.SetLiveTile(weatherData);
             }
             catch { }

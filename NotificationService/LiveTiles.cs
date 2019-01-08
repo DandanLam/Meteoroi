@@ -23,6 +23,9 @@ namespace NotificationService
         {
             TileUpdateManager.CreateTileUpdaterForApplication().Clear();
             TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
+            if (!Settings.ShowHourTile && !Settings.ShowDayTile)
+                return;
+
             var tileContent = new List<TileContent>();
 
             var MedTiles = new List<TileBinding>();
@@ -59,22 +62,40 @@ namespace NotificationService
                 //WideTiles.Add(GetWideTileBindingForDays(weatherData));
             }
 
-            tileContent.Add(new TileContent()
-            {
-                Visual = new TileVisual()
+            if (MedTiles.Count > 0 && WideTiles.Count > 0)
+                tileContent.Add(new TileContent()
                 {
-                    TileMedium = MedTiles[0],
-                    TileWide   = WideTiles[0],
-                }
-            });
-            tileContent.Add(new TileContent()
-            {
-                Visual = new TileVisual()
+                    Visual = new TileVisual()
+                    {
+                        TileMedium = MedTiles[0],
+                        TileWide   = WideTiles[0],
+                    }
+                });
+            if (MedTiles.Count > 1 && WideTiles.Count > 1)
+                tileContent.Add(new TileContent()
                 {
-                    TileMedium = MedTiles[1],
-                    TileWide   = WideTiles[1],
-                }
-            });
+                    Visual = new TileVisual()
+                    {
+                        TileMedium = MedTiles[1],
+                        TileWide = WideTiles[1],
+                    }
+                });
+            else if (MedTiles.Count > 1)
+                tileContent.Add(new TileContent()
+                {
+                    Visual = new TileVisual()
+                    {
+                        TileMedium = MedTiles[1],
+                    }
+                });
+            else 
+                tileContent.Add(new TileContent()
+                {
+                    Visual = new TileVisual()
+                    {
+                        TileWide = WideTiles[1],
+                    }
+                });
             foreach (var tile in tileContent)
             {
                 var tileNotification = new TileNotification(tile.GetXml());
