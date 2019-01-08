@@ -11,6 +11,7 @@
     xmlns:converters="using:Meteoroi.Converters"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:msAdvertising="using:Microsoft.Advertising.WinRT.UI"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded">
     <Page.Resources>
@@ -329,6 +330,16 @@
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <msAdvertising:AdControl Visibility="Collapsed" Margin="5"
+                                Grid.Row="0" Canvas.ZIndex="-2"
+                                Name="MicrosoftAdControl"    
+                                Width="728"
+                                Height="90"
+                                HorizontalAlignment="Center"
+                                ApplicationId="9nblggh5130s"
+                                AdUnitId="1100037871" 
+                                Loaded="MicrosoftAd_Loaded"
+                        />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>

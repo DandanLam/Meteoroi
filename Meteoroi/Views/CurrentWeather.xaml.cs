@@ -210,7 +210,7 @@ namespace Meteoroi.Views
             try
             {
                 var changedGridView = sender as GridView;
-                if (changedGridView == null || Math.Round(changedGridView.ActualWidth, 0) == Math.Round(DetailsStackPanel.ActualWidth, 0))
+                if (PageIsLoading || changedGridView == null || Math.Round(changedGridView.ActualWidth, 0) == Math.Round(DetailsStackPanel.ActualWidth, 0))
                     return;
                 
                 DetailsStackPanel.Width = changedGridView.ActualWidth;
@@ -218,6 +218,22 @@ namespace Meteoroi.Views
                 HourlyHeaderGrid.Width = changedGridView.ActualWidth - 20;
                 CurrentHeaderGrid.Width = changedGridView.ActualWidth - 20;
                 CurrentStackPanel.Width = changedGridView.ActualWidth + 90;
+
+                if (changedGridView.ActualWidth >= 728)
+                {
+                    MicrosoftAdControl.Width = 728;
+                    MicrosoftAdControl.Height = 90;
+                }
+                else if (changedGridView.ActualWidth >= 480)
+                {
+                    MicrosoftAdControl.Width = 480;
+                    MicrosoftAdControl.Height = 80;
+                }
+                else if (changedGridView.ActualWidth >= 300)
+                {
+                    MicrosoftAdControl.Width = 300;
+                    MicrosoftAdControl.Height = 50;
+                }
             }
             catch { }
         }
@@ -1044,6 +1060,19 @@ namespace Meteoroi.Views
                 return;
 
             clicked.Text = string.Concat("(ends in ", StoreService.PromoDaysRemaining(), " days)");
+        }
+
+        private void MicrosoftAd_Loaded(object sender, RoutedEventArgs e)
+        {
+            var adControl = sender as Microsoft.Advertising.WinRT.UI.AdControl;
+            if (adControl == null)
+                return;
+
+            if ((!StoreService.IsProUnlocked() && !StoreService.TrialAvailable()) || 
+                (StoreService.TrialAvailable() && StoreService.PromoDaysRemaining() < 13))
+            {
+                adControl.Visibility = Visibility.Visible;
+            }
         }
     }
 }
