@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WeatherService;
+using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -987,6 +988,62 @@ namespace Meteoroi.Views
         {
             try { HideGrid(TutorialGrid); }
             catch { }
+        }
+
+        private async void Upgrade_Click(object sender, RoutedEventArgs e)
+        {
+            var success = await StoreService.PurchaseAddOn(true);
+            if (success)
+                UpgradeButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void Upgrade_Loaded(object sender, RoutedEventArgs e)
+        {
+            var clicked = sender as Button;
+            if (clicked == null)
+                return;
+
+            if (StoreService.WasPurchaseMade())
+                clicked.Visibility = Visibility.Collapsed;
+        }
+
+        private void Trial_Click(object sender, RoutedEventArgs e)
+        {
+            var clicked = sender as HyperlinkButton;
+            if (clicked == null)
+                return;
+
+            if (StoreService.TrialAvailable())
+                StoreService.ActivateTrial();
+
+            ContentDialog alreadyPro = new ContentDialog()
+            {
+                Title = "Trial Started",
+                Content = "Trial ends in 14 days.",
+                PrimaryButtonText = "OK",
+            };
+            alreadyPro.ShowAsync();
+
+            clicked.Visibility = Visibility.Collapsed;
+        }
+
+        private void Trial_Loaded(object sender, RoutedEventArgs e)
+        {
+            var clicked = sender as HyperlinkButton;
+            if (clicked == null)
+                return;
+
+            if (StoreService.IsProUnlocked() || !StoreService.TrialAvailable())
+                clicked.Visibility = Visibility.Collapsed;
+        }
+
+        private void TrialDaysRemaining_Loaded(object sender, RoutedEventArgs e)
+        {
+            var clicked = sender as TextBlock;
+            if (clicked == null)
+                return;
+
+            clicked.Text = string.Concat("(ends in ", StoreService.PromoDaysRemaining(), " days)");
         }
     }
 }

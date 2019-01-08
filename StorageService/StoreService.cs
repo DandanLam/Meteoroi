@@ -11,7 +11,14 @@ namespace StorageService
     public class StoreService
     {
         public const string IAP_KEY = "WeatherBalloon_Sale";
+        public const string IAP_KEY2 = "WeatherBalloon_Full";
+        public const string IAP_KEY3 = "Draco_Pro";
+        public const string IAP_KEY4 = "Draco_VaporPack";
+        public const string IAP_KEY5 = "Draco_EverythingPack";
+        public const string IAP_KEY6 = "Draco_LiquidPack";
+        public const string IAP_KEY7 = "Draco_AdvPack"; 
         public const string TRIAL_ENABLED_ON_KEY = "Trial_Enabled_On";
+        public const string INSTALL_DATE_KEY= "INSTALL_DATE";
 
         public static bool IsProUnlocked()
         {
@@ -21,7 +28,41 @@ namespace StorageService
                 return false;
         }
 
-        private static bool IsTrialActive()
+        public static int PromoDaysRemaining()
+        {
+            DateTimeOffset installDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            if (IsKeyPresent(INSTALL_DATE_KEY))
+            {
+                installDate = installDate.AddDays((int)ApplicationData.Current.LocalSettings.Values[INSTALL_DATE_KEY]);
+            }
+            else
+            {
+                Settings.SetIntValue(INSTALL_DATE_KEY, (int)(DateTimeOffset.UtcNow - installDate).Days);
+                installDate = DateTimeOffset.UtcNow;
+            }
+
+            var timeDelta = installDate.AddDays(14) - DateTimeOffset.UtcNow;
+            return timeDelta.Days;
+        }
+
+        public static int TrialDaysRemaining()
+        {
+            var timeDelta = TrialActivatedOn().AddDays(14) - DateTimeOffset.UtcNow;
+            return timeDelta.Days;
+        }
+
+        public static DateTimeOffset TrialActivatedOn()
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            if (IsKeyPresent(TRIAL_ENABLED_ON_KEY))
+            {
+                return epoch.AddDays((int)ApplicationData.Current.LocalSettings.Values[TRIAL_ENABLED_ON_KEY]);
+            }
+            else
+                return epoch;
+        }
+
+        public static bool IsTrialActive()
         {
             if (IsKeyPresent(TRIAL_ENABLED_ON_KEY))
             {
@@ -30,7 +71,6 @@ namespace StorageService
                 {
                     return true;
                 }
-
             }
             return false;
         }
@@ -52,20 +92,51 @@ namespace StorageService
             }
         }
 
-        private static bool WasPurchaseMade()
+        public static bool WasPurchaseMade()
         {
             if (IsKeyPresent(IAP_KEY))
                 return true;
 
-            //LicenseInformation licenseInformation = licenseInformation = CurrentApp.LicenseInformation;
-            LicenseInformation licenseInformation = CurrentAppSimulator.LicenseInformation;
-            if (licenseInformation.ProductLicenses[IAP_KEY].IsActive || licenseInformation.ProductLicenses["WeatherBalloon_Full"].IsActive)
+            var keyList = new List<string> { IAP_KEY, IAP_KEY2, IAP_KEY3, IAP_KEY4, IAP_KEY5, IAP_KEY6, IAP_KEY7 };
+            bool keyFound = false;
+            LicenseInformation licenseInformation = licenseInformation = CurrentApp.LicenseInformation;
+            //LicenseInformation licenseInformation = CurrentAppSimulator.LicenseInformation;
+            foreach (var key in keyList)
+            {
+                if (licenseInformation.ProductLicenses[IAP_KEY].IsActive)
+                {
+                    keyFound = true;
+                    break;
+                }
+            }
+
+            if (keyFound)
             {
                 Settings.SetBoolValue(IAP_KEY, true);
                 return true;
             }
             else
                 return false;
+        }
+
+        public static async Task<bool> PurchaseAddOn(bool isSaleItem)
+        {
+            if (IsKeyPresent(IAP_KEY))
+                return true;
+
+            LicenseInformation licenseInformation = licenseInformation = CurrentApp.LicenseInformation;
+            //LicenseInformation licenseInformation = CurrentAppSimulator.LicenseInformation;
+            if (licenseInformation != null)
+            {
+                var productId = isSaleItem ? IAP_KEY : IAP_KEY2;
+                if (!licenseInformation.ProductLicenses[productId].IsActive)
+                {
+                    await CurrentApp.RequestProductPurchaseAsync(productId);
+                    return licenseInformation.ProductLicenses[productId].IsActive ? true : false;
+
+                }
+            }
+            return false;
         }
 
         private static bool IsKeyPresent(string key)
