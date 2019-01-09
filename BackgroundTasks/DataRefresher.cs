@@ -1,4 +1,5 @@
 ﻿using NotificationService;
+using StorageService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace BackgroundTasks
                 DarkSkyService weatherService = new DarkSkyService();
                 var weatherData = (DateTime.Now.Hour > 17 && DateTime.Now.Hour < 5) ? await weatherService.GetWeatherData(119) : await weatherService.GetWeatherData(59);
                 LiveTiles.SetLiveTile(weatherData);
+
+                if (StoreService.IsTrialActive() && StoreService.TrialDaysRemaining() <= 1 && DateTime.Now.Hour == 8)
+                    Toasts.CreateNotification("Pro Trial Expires Soon!", "Upgrade if you enjoyed the benefits so far", "ms-appx:///Assets/Logo.png");
+                if (StoreService.PromoDaysRemaining() <= 1 && DateTime.Now.Hour == 8)
+                    Toasts.CreateNotification("New User Promo Expires Soon!", "Upgrade today to get 20%!", "ms-appx:///Assets/Logo.png");
             }
             catch { }
             _deferral.Complete();
