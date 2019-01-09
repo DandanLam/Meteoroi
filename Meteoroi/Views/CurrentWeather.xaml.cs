@@ -13,6 +13,7 @@ using WeatherService;
 using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -158,6 +159,13 @@ namespace Meteoroi.Views
             DailyGridView.ScrollIntoView(DailyForecasts.First());
             CurrentDailyInView = CalcNext(DailyForecasts.Count, CurrentDailyInView, visibleBlocks);
             DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
+
+            var clickedBtn = sender as Button;
+            if (clickedBtn == null)
+                return;
+            if (CurrentDailyInView == 0)
+                clickedBtn.Foreground = new SolidColorBrush(Colors.DarkGray);
+            NextDayBtn.Foreground = new SolidColorBrush(Colors.White);
         }
 
         private void NextDay_Click(object sender, RoutedEventArgs e)
@@ -166,6 +174,13 @@ namespace Meteoroi.Views
             DailyGridView.ScrollIntoView(DailyForecasts.Last());
             CurrentDailyInView = CalcNext(DailyForecasts.Count, CurrentDailyInView, visibleBlocks);
             DailyGridView.ScrollIntoView(DailyForecasts[CurrentDailyInView]);
+
+            var clickedBtn = sender as Button;
+            if (clickedBtn == null)
+                return;
+            if (CurrentDailyInView == DailyForecasts.Count - 1)
+                clickedBtn.Foreground = new SolidColorBrush(Colors.DarkGray);
+            PrevDayBtn.Foreground = new SolidColorBrush(Colors.White);
         }
 
         private void PrevHour_Click(object sender, RoutedEventArgs e)
@@ -174,6 +189,13 @@ namespace Meteoroi.Views
             HourlyGridView.ScrollIntoView(HourlyForecasts.First());
             CurrentHourlyInView = CalcNext(HourlyForecasts.Count, CurrentHourlyInView, visibleBlocks);
             HourlyGridView.ScrollIntoView(HourlyForecasts[CurrentHourlyInView]);
+
+            var clickedBtn = sender as Button;
+            if (clickedBtn == null)
+                return;
+            if (CurrentDailyInView == 0)
+                clickedBtn.Foreground = new SolidColorBrush(Colors.DarkGray);
+            NextHourBtn.Foreground = new SolidColorBrush(Colors.White);
         }
 
         private void NextHour_Click(object sender, RoutedEventArgs e)
@@ -182,6 +204,13 @@ namespace Meteoroi.Views
             HourlyGridView.ScrollIntoView(HourlyForecasts.Last());
             CurrentHourlyInView = CalcNext(HourlyForecasts.Count, CurrentHourlyInView, visibleBlocks);
             HourlyGridView.ScrollIntoView(HourlyForecasts[CurrentHourlyInView]);
+
+            var clickedBtn = sender as Button;
+            if (clickedBtn == null)
+                return;
+            if (CurrentDailyInView == DailyForecasts.Count - 1)
+                clickedBtn.Foreground = new SolidColorBrush(Colors.DarkGray);
+            PrevHourBtn.Foreground = new SolidColorBrush(Colors.White);
         }
 
         private int CalcNext(int CollectionTotal, int currentVisible, int adjustCurrentVisible )
