@@ -135,6 +135,13 @@
                                         <TextBlock TextWrapping="Wrap" Text="Locations"/>
                                     </ToolTip>
                                 </ToolTipService.ToolTip>
+                                <Button.Flyout>
+                                    <Flyout Placement="Right">
+                                        <StackPanel>
+                                            <TextBlock Foreground="DeepSkyBlue" FontSize="20" HorizontalAlignment="Center">Coming Soon!</TextBlock>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
                             </Button>
                             <Button Width="45" Height="45" Background="Transparent" BorderThickness="0" Loaded="NotificationsButton_Loaded" Click="NotificationsButton_Click" Name="NotificationsButton">
                                 <TextBlock Name="NotificationBtnText" FontFamily="Segoe MDL2 Assets" FontSize="25"/>
