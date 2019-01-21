@@ -10,13 +10,8 @@ namespace StorageService
 {
     public class StoreService
     {
-        public const string IAP_KEY = "WeatherBalloon_Sale";
-        public const string IAP_KEY2 = "WeatherBalloon_Full";
-        public const string IAP_KEY3 = "Draco_Pro";
-        public const string IAP_KEY4 = "Draco_VaporPack";
-        public const string IAP_KEY5 = "Draco_EverythingPack";
-        public const string IAP_KEY6 = "Draco_LiquidPack";
-        public const string IAP_KEY7 = "Draco_AdvPack"; 
+        public const string IAP_KEY  = "WeatherBalloon_Pro_Sale";
+        public const string IAP_KEY2 = "WeatherBalloon_Pro";
         public const string TRIAL_ENABLED_ON_KEY = "Trial_Enabled_On";
         public const string INSTALL_DATE_KEY= "INSTALL_DATE";
 
@@ -97,7 +92,7 @@ namespace StorageService
             if (IsKeyPresent(IAP_KEY))
                 return true;
 
-            var keyList = new List<string> { IAP_KEY, IAP_KEY2, IAP_KEY3, IAP_KEY4, IAP_KEY5, IAP_KEY6, IAP_KEY7 };
+            var keyList = new List<string> { IAP_KEY, IAP_KEY2 };
             bool keyFound = false;
             LicenseInformation licenseInformation = licenseInformation = CurrentApp.LicenseInformation;
             //LicenseInformation licenseInformation = CurrentAppSimulator.LicenseInformation;
