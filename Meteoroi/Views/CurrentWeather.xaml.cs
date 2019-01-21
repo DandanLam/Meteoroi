@@ -1104,5 +1104,382 @@ namespace Meteoroi.Views
                 adControl.Visibility = Visibility.Visible;
             }
         }
+
+        private void Locations_Click(object sender, RoutedEventArgs e)
+        {
+            
+
+        }
+
+        private async Task SaveProFeaturesDialog()
+        {
+            try
+            {
+                ContentDialog dialog = new ContentDialog
+                {
+                    Title = "Please Note",
+                    Content = "Non-Pro users may only enable/disable notifications",
+                    PrimaryButtonText = "Upgrade to Pro",
+                };
+                try { dialog.CloseButtonText = "Ok"; }
+                catch { }
+                if (StoreService.TrialAvailable())
+                    dialog.SecondaryButtonText= "Try for Free";
+
+                ContentDialogResult response = await dialog.ShowAsync();
+                switch (response)
+                {
+                    case ContentDialogResult.Primary:
+                        var success = await StoreService.PurchaseAddOn(StoreService.PromoDaysRemaining() > 0);
+                        ContentDialog dialog1 = new ContentDialog()
+                        {
+                            PrimaryButtonText = "Ok"
+                        };
+                        dialog1.Title = success ? "Thanks for upgrading to Pro!" : "Oh no! Something went wrong. Please try again later.";
+                        await dialog1.ShowAsync();
+                        break;
+                    case ContentDialogResult.Secondary:
+                        StoreService.ActivateTrial();
+                        dialog = new ContentDialog()
+                        {
+                            Title = "Thanks for trying Weather Balloon Pro!",
+                            Content = "This trial will expire in 14 days",
+                            PrimaryButtonText = "Ok"
+                        };
+                        await dialog.ShowAsync();
+                        break;
+                }
+            }
+            catch { }
+        }
+
+        private void NotificationsButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            NotificationBtnText.Text = NotificationSettings.NotificationsEnabled ? "" : "";
+        }
+
+        private void NotificationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowGrid(NotificationsEditGrid);
+        }
+
+        private async void NotificationsEditDone_Click(object sender, RoutedEventArgs e)
+        {
+            await SaveProFeaturesDialog();
+            HideGrid(NotificationsEditGrid);
+        }
+
+
+        private void NotifyIfCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+
+            checkbox.IsChecked = NotificationSettings.NotificationsEnabled;
+        }
+
+        private void NotifyIfCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+
+            try { NotificationSettings.NotificationsEnabled = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void HighTempCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+
+            checkbox.IsChecked = NotificationSettings.HighTempThresholdIsEnabled;
+        }
+
+        private void HighTempCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+
+            try { NotificationSettings.HighTempThresholdIsEnabled = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void HighTempTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null)
+                return;
+
+            textbox.Text = string.Concat(NotificationSettings.HighTempThreshold, "°");
+        }
+
+        private void HighTempTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null || PageIsLoading)
+                return;
+
+            NotificationSettings.HighTempThreshold = NotificationSettings.TryParseInt(NotificationSettings.HighTempThreshold, textbox.Text);
+        }
+
+        private void LowTempCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+
+            checkbox.IsChecked = NotificationSettings.LowTempThresholdIsEnabled;
+        }
+
+        private void LowTempCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+
+            try { NotificationSettings.LowTempThresholdIsEnabled = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void LowTempTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null)
+                return;
+
+            textbox.Text = string.Concat(NotificationSettings.LowTempThreshold, "°");
+        }
+
+        private void LowTempTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null || PageIsLoading)
+                return;
+
+            NotificationSettings.LowTempThreshold = NotificationSettings.TryParseInt(NotificationSettings.LowTempThreshold, textbox.Text);
+        }
+
+        private void HighFeelsLikeTempCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+
+            checkbox.IsChecked = NotificationSettings.HighFeelsLikeTempThresholdIsEnabled;
+        }
+
+        private void HighFeelsLikeTempCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+
+            try { NotificationSettings.HighFeelsLikeTempThresholdIsEnabled = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void HighFeelsLikeTempTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null)
+                return;
+
+            textbox.Text = string.Concat(NotificationSettings.HighFeelsLikeTempThreshold, "°");
+        }
+
+        private void HighFeelsLikeTempTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null || PageIsLoading)
+                return;
+
+            NotificationSettings.HighFeelsLikeTempThreshold = NotificationSettings.TryParseInt(NotificationSettings.HighFeelsLikeTempThreshold, textbox.Text);
+        }
+
+        private void LowFeelsLikeTempCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+
+            checkbox.IsChecked = NotificationSettings.LowFeelsLikeTempThresholdIsEnabled;
+        }
+
+        private void LowFeelsLikeTempCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+
+            try { NotificationSettings.LowFeelsLikeTempThresholdIsEnabled = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void LowFeelsLikeTempTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null)
+                return;
+
+            textbox.Text = string.Concat(NotificationSettings.LowFeelsLikeTempThreshold, "°");
+        }
+
+        private void LowFeelsLikeTempTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null || PageIsLoading)
+                return;
+
+            NotificationSettings.LowFeelsLikeTempThreshold = NotificationSettings.TryParseInt(NotificationSettings.LowFeelsLikeTempThreshold, textbox.Text);
+        }
+
+        private void PercipProbCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+
+            checkbox.IsChecked = NotificationSettings.PercipitationThresholdIsEnabled;
+        }
+
+        private void PercipProbCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+
+            try { NotificationSettings.PercipitationThresholdIsEnabled = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void PercipProbTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null)
+                return;
+
+            textbox.Text = string.Concat(NotificationSettings.PercipitationThreshold, "%");
+        }
+
+        private void PercipProbTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null || PageIsLoading)
+                return;
+
+            NotificationSettings.PercipitationThreshold = NotificationSettings.TryParseInt(NotificationSettings.PercipitationThreshold, textbox.Text);
+        }
+
+        private void UvIndexCheckbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null)
+                return;
+
+            checkbox.IsChecked = NotificationSettings.UvIndexThresholdIsEnabled;
+        }
+
+        private void UvIndexCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            if (checkbox == null || PageIsLoading)
+                return;
+
+            try { NotificationSettings.UvIndexThresholdIsEnabled = (bool)checkbox.IsChecked; }
+            catch { }
+        }
+
+        private void UvIndexTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null)
+                return;
+
+            textbox.Text = NotificationSettings.UvIndexThreshold.ToString();
+        }
+
+        private void UvIndexTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            if (textbox == null || PageIsLoading)
+                return;
+
+            NotificationSettings.UvIndexThreshold = NotificationSettings.TryParseInt(NotificationSettings.UvIndexThreshold, textbox.Text);
+        }
+
+        private void ConditionTypeTriggerComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            if (comboBox == null)
+                return;
+
+            var comboIdx = 1;
+            switch (NotificationSettings.ConditionTypeTrigger)
+            {
+                case NotificationSettings.WeatherType.CLEAR:
+                    comboIdx = 0;
+                    break;
+                default:
+                case NotificationSettings.WeatherType.RAIN:
+                    comboIdx = 1;
+                    break;
+                case NotificationSettings.WeatherType.FOG:
+                    comboIdx = 2;
+                    break;
+                case NotificationSettings.WeatherType.PARTLY_CLOUDY:
+                    comboIdx = 3;
+                    break;
+                case NotificationSettings.WeatherType.CLOUDY:
+                    comboIdx = 4;
+                    break;
+                case NotificationSettings.WeatherType.SNOW:
+                    comboIdx = 5;
+                    break;
+                case NotificationSettings.WeatherType.SLEET:
+                    comboIdx = 6;
+                    break;
+            }
+            comboBox.SelectedIndex = comboIdx;
+        }
+
+        private void ConditionTypeTriggerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            if (comboBox == null || PageIsLoading)
+                return;
+
+            var selectedType = NotificationSettings.WeatherType.RAIN;
+            switch (comboBox.SelectedIndex)
+            {
+                case 0:
+                    selectedType = NotificationSettings.WeatherType.CLEAR;
+                    break;
+                default:
+                case 1:
+                    selectedType = NotificationSettings.WeatherType.RAIN;
+                    break;
+                case 2:
+                    selectedType = NotificationSettings.WeatherType.FOG;
+                    break;
+                case 3:
+                    selectedType = NotificationSettings.WeatherType.PARTLY_CLOUDY;
+                    break;
+                case 4:
+                    selectedType = NotificationSettings.WeatherType.CLOUDY;
+                    break;
+                case 5:
+                    selectedType = NotificationSettings.WeatherType.SNOW;
+                    break;
+                case 6:
+                    selectedType = NotificationSettings.WeatherType.SLEET;
+                    break;
+            }
+            NotificationSettings.ConditionTypeTrigger = selectedType;
+        }
+
     }
 }

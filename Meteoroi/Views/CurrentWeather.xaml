@@ -127,6 +127,102 @@
                                 </Button.Flyout>
                             </Button>
                         </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <Button Width="45" Height="45" Background="Transparent" BorderThickness="0" Click="Locations_Click">
+                                <TextBlock Text="&#xE909;" FontFamily="Segoe MDL2 Assets" FontSize="25"/>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock TextWrapping="Wrap" Text="Locations"/>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                            <Button Width="45" Height="45" Background="Transparent" BorderThickness="0" Loaded="NotificationsButton_Loaded" Click="NotificationsButton_Click" Name="NotificationsButton">
+                                <TextBlock Name="NotificationBtnText" FontFamily="Segoe MDL2 Assets" FontSize="25"/>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock TextWrapping="Wrap" Text="Notifications + Alerts"/>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                        </StackPanel>
+                        <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="NotificationsEditGrid">
+                            <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            <StackPanel Margin="0,10,0,0">
+                                <TextBlock HorizontalAlignment="Center" FontSize="25" Text="Notification Settings" />
+                                <Grid Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <CheckBox Width="165" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,9,2"
+                                                      Loaded="NotifyIfCheckbox_Loaded" Checked="NotifyIfCheckbox_Checked" Unchecked="NotifyIfCheckbox_Checked"
+                                                      Content="Notify if "/>
+                                            <!--<TextBlock Width="180" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2"> </TextBlock>-->
+                                            <ComboBox Width="180" HorizontalAlignment="Stretch" >
+                                                <ComboBoxItem HorizontalAlignment="Stretch">any conditions met</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">all conditions met</ComboBoxItem>
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <CheckBox Width="280" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2"
+                                                      Loaded="HighTempCheckbox_Loaded" Checked="HighTempCheckbox_Checked" Unchecked="HighTempCheckbox_Checked"
+                                                      Content="High temp greater than"/>
+                                            <TextBox Loaded="HighTempTextBox_Loaded" TextChanged="HighTempTextBox_TextChanged"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <CheckBox Width="280" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2"
+                                                      Loaded="LowTempCheckbox_Loaded" Checked="LowTempCheckbox_Checked" Unchecked="LowTempCheckbox_Checked"
+                                                      Content="Low temp less than"/>
+                                            <TextBox Loaded="LowTempTextBox_Loaded" TextChanged="LowTempTextBox_TextChanged"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <CheckBox Width="280" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2"
+                                                      Loaded="HighFeelsLikeTempCheckbox_Loaded" Checked="HighFeelsLikeTempCheckbox_Checked" Unchecked="HighFeelsLikeTempCheckbox_Checked"
+                                                      Content="High feels like less than"/>
+                                            <TextBox Loaded="HighFeelsLikeTempTextBox_Loaded" TextChanged="HighFeelsLikeTempTextBox_TextChanged"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <CheckBox Width="280" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2"
+                                                      Loaded="LowFeelsLikeTempCheckbox_Loaded" Checked="LowFeelsLikeTempCheckbox_Checked" Unchecked="LowFeelsLikeTempCheckbox_Checked"
+                                                      Content="High feels like less than"/>
+                                            <TextBox Loaded="LowFeelsLikeTempTextBox_Loaded" TextChanged="LowFeelsLikeTempTextBox_TextChanged"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <CheckBox Width="280" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2"
+                                                      Loaded="PercipProbCheckbox_Loaded" Checked="PercipProbCheckbox_Checked" Unchecked="PercipProbCheckbox_Checked"
+                                                      Content="Percipitation probability greater than"/>
+                                            <TextBox Loaded="PercipProbTextBox_Loaded" TextChanged="PercipProbTextBox_TextChanged"/>
+                                        </StackPanel>
+                                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <CheckBox Width="280" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2"
+                                                      Loaded="UvIndexCheckbox_Loaded" Checked="UvIndexCheckbox_Checked" Unchecked="UvIndexCheckbox_Checked"
+                                                      Content="UV Index greater than "/>
+                                            <TextBox Loaded="UvIndexTextBox_Loaded" TextChanged="UvIndexTextBox_TextChanged"/>
+                                            <TextBox Text="3"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="2">
+                                            <CheckBox Width="280" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,2">Conditions</CheckBox>
+                                            <ComboBox Width="280" HorizontalAlignment="Stretch" Loaded="ConditionTypeTriggerComboBox_Loaded" SelectionChanged="ConditionTypeTriggerComboBox_SelectionChanged">
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Clear</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Rain</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Fog</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Partly Cloudy</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Cloudy</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Snow</ComboBoxItem>
+                                                <ComboBoxItem HorizontalAlignment="Stretch">Sleet</ComboBoxItem>
+                                            </ComboBox>
+                                        </StackPanel>-->
+                                    </StackPanel>
+                                    <!--<StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                        <CheckBox Content="Show Hourly Forecast" Loaded="ShowHourlyLiveTile_Loaded" Checked="ShowHourlyLiveTile_Checked" Unchecked="ShowHourlyLiveTile_Checked"/>
+                                        <CheckBox Content="Show Daily Forecast"  Loaded="ShowDailyLiveTile_Loaded" Checked="ShowDailyLiveTile_Checked" Unchecked="ShowDailyLiveTile_Checked"/>
+                                    </StackPanel>-->
+                                </Grid>
+                            </StackPanel>
+                            <Button Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderThickness="0" Content="Done" Click="NotificationsEditDone_Click"/>
+                        </Grid>
                         <Grid Canvas.ZIndex="999" Visibility="Collapsed" Name="LiveTileEditGrid">
                             <Rectangle Canvas.ZIndex="-1" Fill="Black" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             <StackPanel Margin="0,10,0,0">
