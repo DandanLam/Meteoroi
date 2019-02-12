@@ -1,6 +1,14 @@
-# Weather Balloon: A Hightly Customizable UWP Weather App
+# Weather Balloon for Windows 10
 
-This is a Universal Windows Platform (UWP) weather app that integrates with the DarkSky API for forecast data and is [published to the store](https://www.microsoft.com/store/apps/9NZPK6B93791). 
+Weather Baloon is a Universal Windows Platform (UWP) app that integrates with the DarkSky API for forecast data and is [published to the Microsoft Store](https://www.microsoft.com/store/apps/9NZPK6B93791). 
+
+### Requirements to run locally
+
+* [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/?utm_medium=microsoft&utm_source=docs.microsoft.com&utm_campaign=button+cta&utm_content=download+vs2017): You will need to install the Universal Windows Platform Development Suite + Windows 10 SDK 14393 + Windows 10 SDK 17763
+
+* [WindowsCommunityToolkit](https://github.com/windows-toolkit/WindowsCommunityToolkit): Packages can also be installed via NuGet (Microsoft.Toolkit.Uwp).
+
+* [Enable Windows Developer Mode](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development)
 
 The app's responsibilities are grouped into several categories.
 <!--
