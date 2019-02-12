@@ -1,4 +1,4 @@
-# Meteoroi: A Hightly Customizable UWP Weather App
+# Weather Balloon: A Hightly Customizable UWP Weather App
 
 This is a Universal Windows Platform (UWP) weather app that integrates with the DarkSky API for forecast data. 
 
