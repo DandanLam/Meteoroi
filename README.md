@@ -1,6 +1,6 @@
 # Weather Balloon: A Hightly Customizable UWP Weather App
 
-This is a Universal Windows Platform (UWP) weather app that integrates with the DarkSky API for forecast data. 
+This is a Universal Windows Platform (UWP) weather app that integrates with the DarkSky API for forecast data and is [published to the store](https://www.microsoft.com/store/apps/9NZPK6B93791). 
 
 The app's responsibilities are grouped into several categories.
 <!--
