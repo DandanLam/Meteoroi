@@ -26,7 +26,7 @@ The app's responsibilities are grouped into several categories.
 
 For handling forecast related tasks (i.e. retrieving data from APIs and parsing data)
 
-* [DarkSkyService](/WeatherService/WeatherData.cs): Gets forecast information from [DarkSky.net](https://darksky.net) API.
+* [DarkSkyService](/WeatherService/DarkSkyService.cs): Gets forecast information from [DarkSky.net](https://darksky.net) API.
 
 * [WeatherData](/WeatherService/WeatherData.cs): Object created from parsed JSON.
 
